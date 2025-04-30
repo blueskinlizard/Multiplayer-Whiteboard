@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Whiteboard = $Result.DefaultSelection<Prisma.$WhiteboardPayload>
 /**
+ * Model WhiteboardShare
+ * 
+ */
+export type WhiteboardShare = $Result.DefaultSelection<Prisma.$WhiteboardSharePayload>
+/**
  * Model Drawing
  * 
  */
@@ -173,6 +178,16 @@ export class PrismaClient<
     * ```
     */
   get whiteboard(): Prisma.WhiteboardDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.whiteboardShare`: Exposes CRUD operations for the **WhiteboardShare** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WhiteboardShares
+    * const whiteboardShares = await prisma.whiteboardShare.findMany()
+    * ```
+    */
+  get whiteboardShare(): Prisma.WhiteboardShareDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.drawing`: Exposes CRUD operations for the **Drawing** model.
@@ -625,6 +640,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Whiteboard: 'Whiteboard',
+    WhiteboardShare: 'WhiteboardShare',
     Drawing: 'Drawing'
   };
 
@@ -644,7 +660,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "whiteboard" | "drawing"
+      modelProps: "user" | "whiteboard" | "whiteboardShare" | "drawing"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -793,6 +809,80 @@ export namespace Prisma {
           count: {
             args: Prisma.WhiteboardCountArgs<ExtArgs>
             result: $Utils.Optional<WhiteboardCountAggregateOutputType> | number
+          }
+        }
+      }
+      WhiteboardShare: {
+        payload: Prisma.$WhiteboardSharePayload<ExtArgs>
+        fields: Prisma.WhiteboardShareFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WhiteboardShareFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WhiteboardShareFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>
+          }
+          findFirst: {
+            args: Prisma.WhiteboardShareFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WhiteboardShareFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>
+          }
+          findMany: {
+            args: Prisma.WhiteboardShareFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>[]
+          }
+          create: {
+            args: Prisma.WhiteboardShareCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>
+          }
+          createMany: {
+            args: Prisma.WhiteboardShareCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WhiteboardShareCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>[]
+          }
+          delete: {
+            args: Prisma.WhiteboardShareDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>
+          }
+          update: {
+            args: Prisma.WhiteboardShareUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>
+          }
+          deleteMany: {
+            args: Prisma.WhiteboardShareDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WhiteboardShareUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WhiteboardShareUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>[]
+          }
+          upsert: {
+            args: Prisma.WhiteboardShareUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardSharePayload>
+          }
+          aggregate: {
+            args: Prisma.WhiteboardShareAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWhiteboardShare>
+          }
+          groupBy: {
+            args: Prisma.WhiteboardShareGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WhiteboardShareGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WhiteboardShareCountArgs<ExtArgs>
+            result: $Utils.Optional<WhiteboardShareCountAggregateOutputType> | number
           }
         }
       }
@@ -956,6 +1046,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     whiteboard?: WhiteboardOmit
+    whiteboardShare?: WhiteboardShareOmit
     drawing?: DrawingOmit
   }
 
@@ -1051,11 +1142,15 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    WhiteBoard: number
+    Whiteboard: number
+    SharedWhiteboard: number
+    ReceivedWhiteboard: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    WhiteBoard?: boolean | UserCountOutputTypeCountWhiteBoardArgs
+    Whiteboard?: boolean | UserCountOutputTypeCountWhiteboardArgs
+    SharedWhiteboard?: boolean | UserCountOutputTypeCountSharedWhiteboardArgs
+    ReceivedWhiteboard?: boolean | UserCountOutputTypeCountReceivedWhiteboardArgs
   }
 
   // Custom InputTypes
@@ -1072,8 +1167,22 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountWhiteBoardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountWhiteboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WhiteboardWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSharedWhiteboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhiteboardShareWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReceivedWhiteboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhiteboardShareWhereInput
   }
 
 
@@ -1082,13 +1191,13 @@ export namespace Prisma {
    */
 
   export type WhiteboardCountOutputType = {
-    Users: number
-    Drawing: number
+    Shares: number
+    Drawings: number
   }
 
   export type WhiteboardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Users?: boolean | WhiteboardCountOutputTypeCountUsersArgs
-    Drawing?: boolean | WhiteboardCountOutputTypeCountDrawingArgs
+    Shares?: boolean | WhiteboardCountOutputTypeCountSharesArgs
+    Drawings?: boolean | WhiteboardCountOutputTypeCountDrawingsArgs
   }
 
   // Custom InputTypes
@@ -1105,46 +1214,15 @@ export namespace Prisma {
   /**
    * WhiteboardCountOutputType without action
    */
-  export type WhiteboardCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+  export type WhiteboardCountOutputTypeCountSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhiteboardShareWhereInput
   }
 
   /**
    * WhiteboardCountOutputType without action
    */
-  export type WhiteboardCountOutputTypeCountDrawingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type WhiteboardCountOutputTypeCountDrawingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DrawingWhereInput
-  }
-
-
-  /**
-   * Count Type DrawingCountOutputType
-   */
-
-  export type DrawingCountOutputType = {
-    WhiteBoard: number
-  }
-
-  export type DrawingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    WhiteBoard?: boolean | DrawingCountOutputTypeCountWhiteBoardArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * DrawingCountOutputType without action
-   */
-  export type DrawingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DrawingCountOutputType
-     */
-    select?: DrawingCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * DrawingCountOutputType without action
-   */
-  export type DrawingCountOutputTypeCountWhiteBoardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WhiteboardWhereInput
   }
 
 
@@ -1300,7 +1378,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     password?: boolean
-    WhiteBoard?: boolean | User$WhiteBoardArgs<ExtArgs>
+    Whiteboard?: boolean | User$WhiteboardArgs<ExtArgs>
+    SharedWhiteboard?: boolean | User$SharedWhiteboardArgs<ExtArgs>
+    ReceivedWhiteboard?: boolean | User$ReceivedWhiteboardArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1324,7 +1404,9 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "password", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    WhiteBoard?: boolean | User$WhiteBoardArgs<ExtArgs>
+    Whiteboard?: boolean | User$WhiteboardArgs<ExtArgs>
+    SharedWhiteboard?: boolean | User$SharedWhiteboardArgs<ExtArgs>
+    ReceivedWhiteboard?: boolean | User$ReceivedWhiteboardArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1333,7 +1415,9 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      WhiteBoard: Prisma.$WhiteboardPayload<ExtArgs>[]
+      Whiteboard: Prisma.$WhiteboardPayload<ExtArgs>[]
+      SharedWhiteboard: Prisma.$WhiteboardSharePayload<ExtArgs>[]
+      ReceivedWhiteboard: Prisma.$WhiteboardSharePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1733,7 +1817,9 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    WhiteBoard<T extends User$WhiteBoardArgs<ExtArgs> = {}>(args?: Subset<T, User$WhiteBoardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Whiteboard<T extends User$WhiteboardArgs<ExtArgs> = {}>(args?: Subset<T, User$WhiteboardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    SharedWhiteboard<T extends User$SharedWhiteboardArgs<ExtArgs> = {}>(args?: Subset<T, User$SharedWhiteboardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ReceivedWhiteboard<T extends User$ReceivedWhiteboardArgs<ExtArgs> = {}>(args?: Subset<T, User$ReceivedWhiteboardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2154,9 +2240,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.WhiteBoard
+   * User.Whiteboard
    */
-  export type User$WhiteBoardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$WhiteboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Whiteboard
      */
@@ -2175,6 +2261,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WhiteboardScalarFieldEnum | WhiteboardScalarFieldEnum[]
+  }
+
+  /**
+   * User.SharedWhiteboard
+   */
+  export type User$SharedWhiteboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    where?: WhiteboardShareWhereInput
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    cursor?: WhiteboardShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WhiteboardShareScalarFieldEnum | WhiteboardShareScalarFieldEnum[]
+  }
+
+  /**
+   * User.ReceivedWhiteboard
+   */
+  export type User$ReceivedWhiteboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    where?: WhiteboardShareWhereInput
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    cursor?: WhiteboardShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WhiteboardShareScalarFieldEnum | WhiteboardShareScalarFieldEnum[]
   }
 
   /**
@@ -2209,16 +2343,19 @@ export namespace Prisma {
   export type WhiteboardMinAggregateOutputType = {
     id: string | null
     name: string | null
+    OwnerID: string | null
   }
 
   export type WhiteboardMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    OwnerID: string | null
   }
 
   export type WhiteboardCountAggregateOutputType = {
     id: number
     name: number
+    OwnerID: number
     _all: number
   }
 
@@ -2226,16 +2363,19 @@ export namespace Prisma {
   export type WhiteboardMinAggregateInputType = {
     id?: true
     name?: true
+    OwnerID?: true
   }
 
   export type WhiteboardMaxAggregateInputType = {
     id?: true
     name?: true
+    OwnerID?: true
   }
 
   export type WhiteboardCountAggregateInputType = {
     id?: true
     name?: true
+    OwnerID?: true
     _all?: true
   }
 
@@ -2314,6 +2454,7 @@ export namespace Prisma {
   export type WhiteboardGroupByOutputType = {
     id: string
     name: string
+    OwnerID: string
     _count: WhiteboardCountAggregateOutputType | null
     _min: WhiteboardMinAggregateOutputType | null
     _max: WhiteboardMaxAggregateOutputType | null
@@ -2336,44 +2477,58 @@ export namespace Prisma {
   export type WhiteboardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    Users?: boolean | Whiteboard$UsersArgs<ExtArgs>
-    Drawing?: boolean | Whiteboard$DrawingArgs<ExtArgs>
+    OwnerID?: boolean
+    Owner?: boolean | UserDefaultArgs<ExtArgs>
+    Shares?: boolean | Whiteboard$SharesArgs<ExtArgs>
+    Drawings?: boolean | Whiteboard$DrawingsArgs<ExtArgs>
     _count?: boolean | WhiteboardCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whiteboard"]>
 
   export type WhiteboardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    OwnerID?: boolean
+    Owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whiteboard"]>
 
   export type WhiteboardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    OwnerID?: boolean
+    Owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whiteboard"]>
 
   export type WhiteboardSelectScalar = {
     id?: boolean
     name?: boolean
+    OwnerID?: boolean
   }
 
-  export type WhiteboardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["whiteboard"]>
+  export type WhiteboardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "OwnerID", ExtArgs["result"]["whiteboard"]>
   export type WhiteboardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Users?: boolean | Whiteboard$UsersArgs<ExtArgs>
-    Drawing?: boolean | Whiteboard$DrawingArgs<ExtArgs>
+    Owner?: boolean | UserDefaultArgs<ExtArgs>
+    Shares?: boolean | Whiteboard$SharesArgs<ExtArgs>
+    Drawings?: boolean | Whiteboard$DrawingsArgs<ExtArgs>
     _count?: boolean | WhiteboardCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type WhiteboardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type WhiteboardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type WhiteboardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WhiteboardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $WhiteboardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Whiteboard"
     objects: {
-      Users: Prisma.$UserPayload<ExtArgs>[]
-      Drawing: Prisma.$DrawingPayload<ExtArgs>[]
+      Owner: Prisma.$UserPayload<ExtArgs>
+      Shares: Prisma.$WhiteboardSharePayload<ExtArgs>[]
+      Drawings: Prisma.$DrawingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      OwnerID: string
     }, ExtArgs["result"]["whiteboard"]>
     composites: {}
   }
@@ -2768,8 +2923,9 @@ export namespace Prisma {
    */
   export interface Prisma__WhiteboardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Users<T extends Whiteboard$UsersArgs<ExtArgs> = {}>(args?: Subset<T, Whiteboard$UsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Drawing<T extends Whiteboard$DrawingArgs<ExtArgs> = {}>(args?: Subset<T, Whiteboard$DrawingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DrawingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Shares<T extends Whiteboard$SharesArgs<ExtArgs> = {}>(args?: Subset<T, Whiteboard$SharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Drawings<T extends Whiteboard$DrawingsArgs<ExtArgs> = {}>(args?: Subset<T, Whiteboard$DrawingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DrawingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2801,6 +2957,7 @@ export namespace Prisma {
   interface WhiteboardFieldRefs {
     readonly id: FieldRef<"Whiteboard", 'String'>
     readonly name: FieldRef<"Whiteboard", 'String'>
+    readonly OwnerID: FieldRef<"Whiteboard", 'String'>
   }
     
 
@@ -3050,6 +3207,10 @@ export namespace Prisma {
      */
     data: WhiteboardCreateManyInput | WhiteboardCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3120,6 +3281,10 @@ export namespace Prisma {
      * Limit how many Whiteboards to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3189,33 +3354,33 @@ export namespace Prisma {
   }
 
   /**
-   * Whiteboard.Users
+   * Whiteboard.Shares
    */
-  export type Whiteboard$UsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Whiteboard$SharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the WhiteboardShare
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: WhiteboardShareSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the WhiteboardShare
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: WhiteboardShareOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    where?: WhiteboardShareWhereInput
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    cursor?: WhiteboardShareWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: WhiteboardShareScalarFieldEnum | WhiteboardShareScalarFieldEnum[]
   }
 
   /**
-   * Whiteboard.Drawing
+   * Whiteboard.Drawings
    */
-  export type Whiteboard$DrawingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Whiteboard$DrawingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Drawing
      */
@@ -3256,6 +3421,1106 @@ export namespace Prisma {
 
 
   /**
+   * Model WhiteboardShare
+   */
+
+  export type AggregateWhiteboardShare = {
+    _count: WhiteboardShareCountAggregateOutputType | null
+    _min: WhiteboardShareMinAggregateOutputType | null
+    _max: WhiteboardShareMaxAggregateOutputType | null
+  }
+
+  export type WhiteboardShareMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    WhiteboardId: string | null
+    SharerId: string | null
+    ReceiverId: string | null
+    EditAcces: boolean | null
+    SharedAt: Date | null
+  }
+
+  export type WhiteboardShareMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    WhiteboardId: string | null
+    SharerId: string | null
+    ReceiverId: string | null
+    EditAcces: boolean | null
+    SharedAt: Date | null
+  }
+
+  export type WhiteboardShareCountAggregateOutputType = {
+    id: number
+    name: number
+    WhiteboardId: number
+    SharerId: number
+    ReceiverId: number
+    EditAcces: number
+    SharedAt: number
+    _all: number
+  }
+
+
+  export type WhiteboardShareMinAggregateInputType = {
+    id?: true
+    name?: true
+    WhiteboardId?: true
+    SharerId?: true
+    ReceiverId?: true
+    EditAcces?: true
+    SharedAt?: true
+  }
+
+  export type WhiteboardShareMaxAggregateInputType = {
+    id?: true
+    name?: true
+    WhiteboardId?: true
+    SharerId?: true
+    ReceiverId?: true
+    EditAcces?: true
+    SharedAt?: true
+  }
+
+  export type WhiteboardShareCountAggregateInputType = {
+    id?: true
+    name?: true
+    WhiteboardId?: true
+    SharerId?: true
+    ReceiverId?: true
+    EditAcces?: true
+    SharedAt?: true
+    _all?: true
+  }
+
+  export type WhiteboardShareAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WhiteboardShare to aggregate.
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhiteboardShares to fetch.
+     */
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WhiteboardShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhiteboardShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhiteboardShares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WhiteboardShares
+    **/
+    _count?: true | WhiteboardShareCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WhiteboardShareMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WhiteboardShareMaxAggregateInputType
+  }
+
+  export type GetWhiteboardShareAggregateType<T extends WhiteboardShareAggregateArgs> = {
+        [P in keyof T & keyof AggregateWhiteboardShare]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWhiteboardShare[P]>
+      : GetScalarType<T[P], AggregateWhiteboardShare[P]>
+  }
+
+
+
+
+  export type WhiteboardShareGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhiteboardShareWhereInput
+    orderBy?: WhiteboardShareOrderByWithAggregationInput | WhiteboardShareOrderByWithAggregationInput[]
+    by: WhiteboardShareScalarFieldEnum[] | WhiteboardShareScalarFieldEnum
+    having?: WhiteboardShareScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WhiteboardShareCountAggregateInputType | true
+    _min?: WhiteboardShareMinAggregateInputType
+    _max?: WhiteboardShareMaxAggregateInputType
+  }
+
+  export type WhiteboardShareGroupByOutputType = {
+    id: string
+    name: string
+    WhiteboardId: string
+    SharerId: string
+    ReceiverId: string
+    EditAcces: boolean
+    SharedAt: Date
+    _count: WhiteboardShareCountAggregateOutputType | null
+    _min: WhiteboardShareMinAggregateOutputType | null
+    _max: WhiteboardShareMaxAggregateOutputType | null
+  }
+
+  type GetWhiteboardShareGroupByPayload<T extends WhiteboardShareGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WhiteboardShareGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WhiteboardShareGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WhiteboardShareGroupByOutputType[P]>
+            : GetScalarType<T[P], WhiteboardShareGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WhiteboardShareSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    WhiteboardId?: boolean
+    SharerId?: boolean
+    ReceiverId?: boolean
+    EditAcces?: boolean
+    SharedAt?: boolean
+    whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+    SharedBy?: boolean | UserDefaultArgs<ExtArgs>
+    SharedWith?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["whiteboardShare"]>
+
+  export type WhiteboardShareSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    WhiteboardId?: boolean
+    SharerId?: boolean
+    ReceiverId?: boolean
+    EditAcces?: boolean
+    SharedAt?: boolean
+    whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+    SharedBy?: boolean | UserDefaultArgs<ExtArgs>
+    SharedWith?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["whiteboardShare"]>
+
+  export type WhiteboardShareSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    WhiteboardId?: boolean
+    SharerId?: boolean
+    ReceiverId?: boolean
+    EditAcces?: boolean
+    SharedAt?: boolean
+    whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+    SharedBy?: boolean | UserDefaultArgs<ExtArgs>
+    SharedWith?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["whiteboardShare"]>
+
+  export type WhiteboardShareSelectScalar = {
+    id?: boolean
+    name?: boolean
+    WhiteboardId?: boolean
+    SharerId?: boolean
+    ReceiverId?: boolean
+    EditAcces?: boolean
+    SharedAt?: boolean
+  }
+
+  export type WhiteboardShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "WhiteboardId" | "SharerId" | "ReceiverId" | "EditAcces" | "SharedAt", ExtArgs["result"]["whiteboardShare"]>
+  export type WhiteboardShareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+    SharedBy?: boolean | UserDefaultArgs<ExtArgs>
+    SharedWith?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WhiteboardShareIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+    SharedBy?: boolean | UserDefaultArgs<ExtArgs>
+    SharedWith?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WhiteboardShareIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+    SharedBy?: boolean | UserDefaultArgs<ExtArgs>
+    SharedWith?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $WhiteboardSharePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WhiteboardShare"
+    objects: {
+      whiteboard: Prisma.$WhiteboardPayload<ExtArgs>
+      SharedBy: Prisma.$UserPayload<ExtArgs>
+      SharedWith: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      WhiteboardId: string
+      SharerId: string
+      ReceiverId: string
+      EditAcces: boolean
+      SharedAt: Date
+    }, ExtArgs["result"]["whiteboardShare"]>
+    composites: {}
+  }
+
+  type WhiteboardShareGetPayload<S extends boolean | null | undefined | WhiteboardShareDefaultArgs> = $Result.GetResult<Prisma.$WhiteboardSharePayload, S>
+
+  type WhiteboardShareCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WhiteboardShareFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WhiteboardShareCountAggregateInputType | true
+    }
+
+  export interface WhiteboardShareDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WhiteboardShare'], meta: { name: 'WhiteboardShare' } }
+    /**
+     * Find zero or one WhiteboardShare that matches the filter.
+     * @param {WhiteboardShareFindUniqueArgs} args - Arguments to find a WhiteboardShare
+     * @example
+     * // Get one WhiteboardShare
+     * const whiteboardShare = await prisma.whiteboardShare.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WhiteboardShareFindUniqueArgs>(args: SelectSubset<T, WhiteboardShareFindUniqueArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WhiteboardShare that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WhiteboardShareFindUniqueOrThrowArgs} args - Arguments to find a WhiteboardShare
+     * @example
+     * // Get one WhiteboardShare
+     * const whiteboardShare = await prisma.whiteboardShare.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WhiteboardShareFindUniqueOrThrowArgs>(args: SelectSubset<T, WhiteboardShareFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WhiteboardShare that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareFindFirstArgs} args - Arguments to find a WhiteboardShare
+     * @example
+     * // Get one WhiteboardShare
+     * const whiteboardShare = await prisma.whiteboardShare.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WhiteboardShareFindFirstArgs>(args?: SelectSubset<T, WhiteboardShareFindFirstArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WhiteboardShare that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareFindFirstOrThrowArgs} args - Arguments to find a WhiteboardShare
+     * @example
+     * // Get one WhiteboardShare
+     * const whiteboardShare = await prisma.whiteboardShare.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WhiteboardShareFindFirstOrThrowArgs>(args?: SelectSubset<T, WhiteboardShareFindFirstOrThrowArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WhiteboardShares that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WhiteboardShares
+     * const whiteboardShares = await prisma.whiteboardShare.findMany()
+     * 
+     * // Get first 10 WhiteboardShares
+     * const whiteboardShares = await prisma.whiteboardShare.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const whiteboardShareWithIdOnly = await prisma.whiteboardShare.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WhiteboardShareFindManyArgs>(args?: SelectSubset<T, WhiteboardShareFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WhiteboardShare.
+     * @param {WhiteboardShareCreateArgs} args - Arguments to create a WhiteboardShare.
+     * @example
+     * // Create one WhiteboardShare
+     * const WhiteboardShare = await prisma.whiteboardShare.create({
+     *   data: {
+     *     // ... data to create a WhiteboardShare
+     *   }
+     * })
+     * 
+     */
+    create<T extends WhiteboardShareCreateArgs>(args: SelectSubset<T, WhiteboardShareCreateArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WhiteboardShares.
+     * @param {WhiteboardShareCreateManyArgs} args - Arguments to create many WhiteboardShares.
+     * @example
+     * // Create many WhiteboardShares
+     * const whiteboardShare = await prisma.whiteboardShare.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WhiteboardShareCreateManyArgs>(args?: SelectSubset<T, WhiteboardShareCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WhiteboardShares and returns the data saved in the database.
+     * @param {WhiteboardShareCreateManyAndReturnArgs} args - Arguments to create many WhiteboardShares.
+     * @example
+     * // Create many WhiteboardShares
+     * const whiteboardShare = await prisma.whiteboardShare.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WhiteboardShares and only return the `id`
+     * const whiteboardShareWithIdOnly = await prisma.whiteboardShare.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WhiteboardShareCreateManyAndReturnArgs>(args?: SelectSubset<T, WhiteboardShareCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WhiteboardShare.
+     * @param {WhiteboardShareDeleteArgs} args - Arguments to delete one WhiteboardShare.
+     * @example
+     * // Delete one WhiteboardShare
+     * const WhiteboardShare = await prisma.whiteboardShare.delete({
+     *   where: {
+     *     // ... filter to delete one WhiteboardShare
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WhiteboardShareDeleteArgs>(args: SelectSubset<T, WhiteboardShareDeleteArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WhiteboardShare.
+     * @param {WhiteboardShareUpdateArgs} args - Arguments to update one WhiteboardShare.
+     * @example
+     * // Update one WhiteboardShare
+     * const whiteboardShare = await prisma.whiteboardShare.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WhiteboardShareUpdateArgs>(args: SelectSubset<T, WhiteboardShareUpdateArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WhiteboardShares.
+     * @param {WhiteboardShareDeleteManyArgs} args - Arguments to filter WhiteboardShares to delete.
+     * @example
+     * // Delete a few WhiteboardShares
+     * const { count } = await prisma.whiteboardShare.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WhiteboardShareDeleteManyArgs>(args?: SelectSubset<T, WhiteboardShareDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WhiteboardShares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WhiteboardShares
+     * const whiteboardShare = await prisma.whiteboardShare.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WhiteboardShareUpdateManyArgs>(args: SelectSubset<T, WhiteboardShareUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WhiteboardShares and returns the data updated in the database.
+     * @param {WhiteboardShareUpdateManyAndReturnArgs} args - Arguments to update many WhiteboardShares.
+     * @example
+     * // Update many WhiteboardShares
+     * const whiteboardShare = await prisma.whiteboardShare.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WhiteboardShares and only return the `id`
+     * const whiteboardShareWithIdOnly = await prisma.whiteboardShare.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WhiteboardShareUpdateManyAndReturnArgs>(args: SelectSubset<T, WhiteboardShareUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WhiteboardShare.
+     * @param {WhiteboardShareUpsertArgs} args - Arguments to update or create a WhiteboardShare.
+     * @example
+     * // Update or create a WhiteboardShare
+     * const whiteboardShare = await prisma.whiteboardShare.upsert({
+     *   create: {
+     *     // ... data to create a WhiteboardShare
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WhiteboardShare we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WhiteboardShareUpsertArgs>(args: SelectSubset<T, WhiteboardShareUpsertArgs<ExtArgs>>): Prisma__WhiteboardShareClient<$Result.GetResult<Prisma.$WhiteboardSharePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WhiteboardShares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareCountArgs} args - Arguments to filter WhiteboardShares to count.
+     * @example
+     * // Count the number of WhiteboardShares
+     * const count = await prisma.whiteboardShare.count({
+     *   where: {
+     *     // ... the filter for the WhiteboardShares we want to count
+     *   }
+     * })
+    **/
+    count<T extends WhiteboardShareCountArgs>(
+      args?: Subset<T, WhiteboardShareCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WhiteboardShareCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WhiteboardShare.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WhiteboardShareAggregateArgs>(args: Subset<T, WhiteboardShareAggregateArgs>): Prisma.PrismaPromise<GetWhiteboardShareAggregateType<T>>
+
+    /**
+     * Group by WhiteboardShare.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardShareGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WhiteboardShareGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WhiteboardShareGroupByArgs['orderBy'] }
+        : { orderBy?: WhiteboardShareGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WhiteboardShareGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWhiteboardShareGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WhiteboardShare model
+   */
+  readonly fields: WhiteboardShareFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WhiteboardShare.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WhiteboardShareClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    whiteboard<T extends WhiteboardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WhiteboardDefaultArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    SharedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    SharedWith<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WhiteboardShare model
+   */
+  interface WhiteboardShareFieldRefs {
+    readonly id: FieldRef<"WhiteboardShare", 'String'>
+    readonly name: FieldRef<"WhiteboardShare", 'String'>
+    readonly WhiteboardId: FieldRef<"WhiteboardShare", 'String'>
+    readonly SharerId: FieldRef<"WhiteboardShare", 'String'>
+    readonly ReceiverId: FieldRef<"WhiteboardShare", 'String'>
+    readonly EditAcces: FieldRef<"WhiteboardShare", 'Boolean'>
+    readonly SharedAt: FieldRef<"WhiteboardShare", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WhiteboardShare findUnique
+   */
+  export type WhiteboardShareFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * Filter, which WhiteboardShare to fetch.
+     */
+    where: WhiteboardShareWhereUniqueInput
+  }
+
+  /**
+   * WhiteboardShare findUniqueOrThrow
+   */
+  export type WhiteboardShareFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * Filter, which WhiteboardShare to fetch.
+     */
+    where: WhiteboardShareWhereUniqueInput
+  }
+
+  /**
+   * WhiteboardShare findFirst
+   */
+  export type WhiteboardShareFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * Filter, which WhiteboardShare to fetch.
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhiteboardShares to fetch.
+     */
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WhiteboardShares.
+     */
+    cursor?: WhiteboardShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhiteboardShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhiteboardShares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WhiteboardShares.
+     */
+    distinct?: WhiteboardShareScalarFieldEnum | WhiteboardShareScalarFieldEnum[]
+  }
+
+  /**
+   * WhiteboardShare findFirstOrThrow
+   */
+  export type WhiteboardShareFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * Filter, which WhiteboardShare to fetch.
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhiteboardShares to fetch.
+     */
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WhiteboardShares.
+     */
+    cursor?: WhiteboardShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhiteboardShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhiteboardShares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WhiteboardShares.
+     */
+    distinct?: WhiteboardShareScalarFieldEnum | WhiteboardShareScalarFieldEnum[]
+  }
+
+  /**
+   * WhiteboardShare findMany
+   */
+  export type WhiteboardShareFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * Filter, which WhiteboardShares to fetch.
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WhiteboardShares to fetch.
+     */
+    orderBy?: WhiteboardShareOrderByWithRelationInput | WhiteboardShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WhiteboardShares.
+     */
+    cursor?: WhiteboardShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WhiteboardShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WhiteboardShares.
+     */
+    skip?: number
+    distinct?: WhiteboardShareScalarFieldEnum | WhiteboardShareScalarFieldEnum[]
+  }
+
+  /**
+   * WhiteboardShare create
+   */
+  export type WhiteboardShareCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WhiteboardShare.
+     */
+    data: XOR<WhiteboardShareCreateInput, WhiteboardShareUncheckedCreateInput>
+  }
+
+  /**
+   * WhiteboardShare createMany
+   */
+  export type WhiteboardShareCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WhiteboardShares.
+     */
+    data: WhiteboardShareCreateManyInput | WhiteboardShareCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WhiteboardShare createManyAndReturn
+   */
+  export type WhiteboardShareCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * The data used to create many WhiteboardShares.
+     */
+    data: WhiteboardShareCreateManyInput | WhiteboardShareCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WhiteboardShare update
+   */
+  export type WhiteboardShareUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WhiteboardShare.
+     */
+    data: XOR<WhiteboardShareUpdateInput, WhiteboardShareUncheckedUpdateInput>
+    /**
+     * Choose, which WhiteboardShare to update.
+     */
+    where: WhiteboardShareWhereUniqueInput
+  }
+
+  /**
+   * WhiteboardShare updateMany
+   */
+  export type WhiteboardShareUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WhiteboardShares.
+     */
+    data: XOR<WhiteboardShareUpdateManyMutationInput, WhiteboardShareUncheckedUpdateManyInput>
+    /**
+     * Filter which WhiteboardShares to update
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * Limit how many WhiteboardShares to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WhiteboardShare updateManyAndReturn
+   */
+  export type WhiteboardShareUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * The data used to update WhiteboardShares.
+     */
+    data: XOR<WhiteboardShareUpdateManyMutationInput, WhiteboardShareUncheckedUpdateManyInput>
+    /**
+     * Filter which WhiteboardShares to update
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * Limit how many WhiteboardShares to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WhiteboardShare upsert
+   */
+  export type WhiteboardShareUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WhiteboardShare to update in case it exists.
+     */
+    where: WhiteboardShareWhereUniqueInput
+    /**
+     * In case the WhiteboardShare found by the `where` argument doesn't exist, create a new WhiteboardShare with this data.
+     */
+    create: XOR<WhiteboardShareCreateInput, WhiteboardShareUncheckedCreateInput>
+    /**
+     * In case the WhiteboardShare was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WhiteboardShareUpdateInput, WhiteboardShareUncheckedUpdateInput>
+  }
+
+  /**
+   * WhiteboardShare delete
+   */
+  export type WhiteboardShareDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+    /**
+     * Filter which WhiteboardShare to delete.
+     */
+    where: WhiteboardShareWhereUniqueInput
+  }
+
+  /**
+   * WhiteboardShare deleteMany
+   */
+  export type WhiteboardShareDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WhiteboardShares to delete
+     */
+    where?: WhiteboardShareWhereInput
+    /**
+     * Limit how many WhiteboardShares to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WhiteboardShare without action
+   */
+  export type WhiteboardShareDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhiteboardShare
+     */
+    select?: WhiteboardShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WhiteboardShare
+     */
+    omit?: WhiteboardShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardShareInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Drawing
    */
 
@@ -3268,17 +4533,26 @@ export namespace Prisma {
   export type DrawingMinAggregateOutputType = {
     id: string | null
     name: string | null
+    WhiteboardId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DrawingMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    WhiteboardId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DrawingCountAggregateOutputType = {
     id: number
     name: number
     DrawingData: number
+    WhiteboardId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3286,17 +4560,26 @@ export namespace Prisma {
   export type DrawingMinAggregateInputType = {
     id?: true
     name?: true
+    WhiteboardId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DrawingMaxAggregateInputType = {
     id?: true
     name?: true
+    WhiteboardId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DrawingCountAggregateInputType = {
     id?: true
     name?: true
     DrawingData?: true
+    WhiteboardId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3376,6 +4659,9 @@ export namespace Prisma {
     id: string
     name: string
     DrawingData: JsonValue
+    WhiteboardId: string
+    createdAt: Date
+    updatedAt: Date
     _count: DrawingCountAggregateOutputType | null
     _min: DrawingMinAggregateOutputType | null
     _max: DrawingMaxAggregateOutputType | null
@@ -3399,45 +4685,64 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     DrawingData?: boolean
-    WhiteBoard?: boolean | Drawing$WhiteBoardArgs<ExtArgs>
-    _count?: boolean | DrawingCountOutputTypeDefaultArgs<ExtArgs>
+    WhiteboardId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["drawing"]>
 
   export type DrawingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     DrawingData?: boolean
+    WhiteboardId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["drawing"]>
 
   export type DrawingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     DrawingData?: boolean
+    WhiteboardId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["drawing"]>
 
   export type DrawingSelectScalar = {
     id?: boolean
     name?: boolean
     DrawingData?: boolean
+    WhiteboardId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type DrawingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "DrawingData", ExtArgs["result"]["drawing"]>
+  export type DrawingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "DrawingData" | "WhiteboardId" | "createdAt" | "updatedAt", ExtArgs["result"]["drawing"]>
   export type DrawingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    WhiteBoard?: boolean | Drawing$WhiteBoardArgs<ExtArgs>
-    _count?: boolean | DrawingCountOutputTypeDefaultArgs<ExtArgs>
+    Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
   }
-  export type DrawingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type DrawingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type DrawingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+  }
+  export type DrawingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
+  }
 
   export type $DrawingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Drawing"
     objects: {
-      WhiteBoard: Prisma.$WhiteboardPayload<ExtArgs>[]
+      Whiteboard: Prisma.$WhiteboardPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       DrawingData: Prisma.JsonValue
+      WhiteboardId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["drawing"]>
     composites: {}
   }
@@ -3832,7 +5137,7 @@ export namespace Prisma {
    */
   export interface Prisma__DrawingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    WhiteBoard<T extends Drawing$WhiteBoardArgs<ExtArgs> = {}>(args?: Subset<T, Drawing$WhiteBoardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Whiteboard<T extends WhiteboardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WhiteboardDefaultArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3865,6 +5170,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Drawing", 'String'>
     readonly name: FieldRef<"Drawing", 'String'>
     readonly DrawingData: FieldRef<"Drawing", 'Json'>
+    readonly WhiteboardId: FieldRef<"Drawing", 'String'>
+    readonly createdAt: FieldRef<"Drawing", 'DateTime'>
+    readonly updatedAt: FieldRef<"Drawing", 'DateTime'>
   }
     
 
@@ -4114,6 +5422,10 @@ export namespace Prisma {
      */
     data: DrawingCreateManyInput | DrawingCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DrawingIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4184,6 +5496,10 @@ export namespace Prisma {
      * Limit how many Drawings to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DrawingIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4253,30 +5569,6 @@ export namespace Prisma {
   }
 
   /**
-   * Drawing.WhiteBoard
-   */
-  export type Drawing$WhiteBoardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Whiteboard
-     */
-    select?: WhiteboardSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Whiteboard
-     */
-    omit?: WhiteboardOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WhiteboardInclude<ExtArgs> | null
-    where?: WhiteboardWhereInput
-    orderBy?: WhiteboardOrderByWithRelationInput | WhiteboardOrderByWithRelationInput[]
-    cursor?: WhiteboardWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WhiteboardScalarFieldEnum | WhiteboardScalarFieldEnum[]
-  }
-
-  /**
    * Drawing without action
    */
   export type DrawingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4320,16 +5612,33 @@ export namespace Prisma {
 
   export const WhiteboardScalarFieldEnum: {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    OwnerID: 'OwnerID'
   };
 
   export type WhiteboardScalarFieldEnum = (typeof WhiteboardScalarFieldEnum)[keyof typeof WhiteboardScalarFieldEnum]
 
 
+  export const WhiteboardShareScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    WhiteboardId: 'WhiteboardId',
+    SharerId: 'SharerId',
+    ReceiverId: 'ReceiverId',
+    EditAcces: 'EditAcces',
+    SharedAt: 'SharedAt'
+  };
+
+  export type WhiteboardShareScalarFieldEnum = (typeof WhiteboardShareScalarFieldEnum)[keyof typeof WhiteboardShareScalarFieldEnum]
+
+
   export const DrawingScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    DrawingData: 'DrawingData'
+    DrawingData: 'DrawingData',
+    WhiteboardId: 'WhiteboardId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type DrawingScalarFieldEnum = (typeof DrawingScalarFieldEnum)[keyof typeof DrawingScalarFieldEnum]
@@ -4387,6 +5696,27 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -4424,14 +5754,18 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
-    WhiteBoard?: WhiteboardListRelationFilter
+    Whiteboard?: WhiteboardListRelationFilter
+    SharedWhiteboard?: WhiteboardShareListRelationFilter
+    ReceivedWhiteboard?: WhiteboardShareListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     password?: SortOrder
-    WhiteBoard?: WhiteboardOrderByRelationAggregateInput
+    Whiteboard?: WhiteboardOrderByRelationAggregateInput
+    SharedWhiteboard?: WhiteboardShareOrderByRelationAggregateInput
+    ReceivedWhiteboard?: WhiteboardShareOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4441,7 +5775,9 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
-    WhiteBoard?: WhiteboardListRelationFilter
+    Whiteboard?: WhiteboardListRelationFilter
+    SharedWhiteboard?: WhiteboardShareListRelationFilter
+    ReceivedWhiteboard?: WhiteboardShareListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -4468,15 +5804,19 @@ export namespace Prisma {
     NOT?: WhiteboardWhereInput | WhiteboardWhereInput[]
     id?: StringFilter<"Whiteboard"> | string
     name?: StringFilter<"Whiteboard"> | string
-    Users?: UserListRelationFilter
-    Drawing?: DrawingListRelationFilter
+    OwnerID?: StringFilter<"Whiteboard"> | string
+    Owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Shares?: WhiteboardShareListRelationFilter
+    Drawings?: DrawingListRelationFilter
   }
 
   export type WhiteboardOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    Users?: UserOrderByRelationAggregateInput
-    Drawing?: DrawingOrderByRelationAggregateInput
+    OwnerID?: SortOrder
+    Owner?: UserOrderByWithRelationInput
+    Shares?: WhiteboardShareOrderByRelationAggregateInput
+    Drawings?: DrawingOrderByRelationAggregateInput
   }
 
   export type WhiteboardWhereUniqueInput = Prisma.AtLeast<{
@@ -4485,13 +5825,16 @@ export namespace Prisma {
     OR?: WhiteboardWhereInput[]
     NOT?: WhiteboardWhereInput | WhiteboardWhereInput[]
     name?: StringFilter<"Whiteboard"> | string
-    Users?: UserListRelationFilter
-    Drawing?: DrawingListRelationFilter
+    OwnerID?: StringFilter<"Whiteboard"> | string
+    Owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Shares?: WhiteboardShareListRelationFilter
+    Drawings?: DrawingListRelationFilter
   }, "id">
 
   export type WhiteboardOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    OwnerID?: SortOrder
     _count?: WhiteboardCountOrderByAggregateInput
     _max?: WhiteboardMaxOrderByAggregateInput
     _min?: WhiteboardMinOrderByAggregateInput
@@ -4503,6 +5846,78 @@ export namespace Prisma {
     NOT?: WhiteboardScalarWhereWithAggregatesInput | WhiteboardScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Whiteboard"> | string
     name?: StringWithAggregatesFilter<"Whiteboard"> | string
+    OwnerID?: StringWithAggregatesFilter<"Whiteboard"> | string
+  }
+
+  export type WhiteboardShareWhereInput = {
+    AND?: WhiteboardShareWhereInput | WhiteboardShareWhereInput[]
+    OR?: WhiteboardShareWhereInput[]
+    NOT?: WhiteboardShareWhereInput | WhiteboardShareWhereInput[]
+    id?: StringFilter<"WhiteboardShare"> | string
+    name?: StringFilter<"WhiteboardShare"> | string
+    WhiteboardId?: StringFilter<"WhiteboardShare"> | string
+    SharerId?: StringFilter<"WhiteboardShare"> | string
+    ReceiverId?: StringFilter<"WhiteboardShare"> | string
+    EditAcces?: BoolFilter<"WhiteboardShare"> | boolean
+    SharedAt?: DateTimeFilter<"WhiteboardShare"> | Date | string
+    whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
+    SharedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    SharedWith?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type WhiteboardShareOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    WhiteboardId?: SortOrder
+    SharerId?: SortOrder
+    ReceiverId?: SortOrder
+    EditAcces?: SortOrder
+    SharedAt?: SortOrder
+    whiteboard?: WhiteboardOrderByWithRelationInput
+    SharedBy?: UserOrderByWithRelationInput
+    SharedWith?: UserOrderByWithRelationInput
+  }
+
+  export type WhiteboardShareWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WhiteboardShareWhereInput | WhiteboardShareWhereInput[]
+    OR?: WhiteboardShareWhereInput[]
+    NOT?: WhiteboardShareWhereInput | WhiteboardShareWhereInput[]
+    name?: StringFilter<"WhiteboardShare"> | string
+    WhiteboardId?: StringFilter<"WhiteboardShare"> | string
+    SharerId?: StringFilter<"WhiteboardShare"> | string
+    ReceiverId?: StringFilter<"WhiteboardShare"> | string
+    EditAcces?: BoolFilter<"WhiteboardShare"> | boolean
+    SharedAt?: DateTimeFilter<"WhiteboardShare"> | Date | string
+    whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
+    SharedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    SharedWith?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type WhiteboardShareOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    WhiteboardId?: SortOrder
+    SharerId?: SortOrder
+    ReceiverId?: SortOrder
+    EditAcces?: SortOrder
+    SharedAt?: SortOrder
+    _count?: WhiteboardShareCountOrderByAggregateInput
+    _max?: WhiteboardShareMaxOrderByAggregateInput
+    _min?: WhiteboardShareMinOrderByAggregateInput
+  }
+
+  export type WhiteboardShareScalarWhereWithAggregatesInput = {
+    AND?: WhiteboardShareScalarWhereWithAggregatesInput | WhiteboardShareScalarWhereWithAggregatesInput[]
+    OR?: WhiteboardShareScalarWhereWithAggregatesInput[]
+    NOT?: WhiteboardShareScalarWhereWithAggregatesInput | WhiteboardShareScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WhiteboardShare"> | string
+    name?: StringWithAggregatesFilter<"WhiteboardShare"> | string
+    WhiteboardId?: StringWithAggregatesFilter<"WhiteboardShare"> | string
+    SharerId?: StringWithAggregatesFilter<"WhiteboardShare"> | string
+    ReceiverId?: StringWithAggregatesFilter<"WhiteboardShare"> | string
+    EditAcces?: BoolWithAggregatesFilter<"WhiteboardShare"> | boolean
+    SharedAt?: DateTimeWithAggregatesFilter<"WhiteboardShare"> | Date | string
   }
 
   export type DrawingWhereInput = {
@@ -4512,14 +5927,20 @@ export namespace Prisma {
     id?: StringFilter<"Drawing"> | string
     name?: StringFilter<"Drawing"> | string
     DrawingData?: JsonFilter<"Drawing">
-    WhiteBoard?: WhiteboardListRelationFilter
+    WhiteboardId?: StringFilter<"Drawing"> | string
+    createdAt?: DateTimeFilter<"Drawing"> | Date | string
+    updatedAt?: DateTimeFilter<"Drawing"> | Date | string
+    Whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
   }
 
   export type DrawingOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     DrawingData?: SortOrder
-    WhiteBoard?: WhiteboardOrderByRelationAggregateInput
+    WhiteboardId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    Whiteboard?: WhiteboardOrderByWithRelationInput
   }
 
   export type DrawingWhereUniqueInput = Prisma.AtLeast<{
@@ -4529,13 +5950,19 @@ export namespace Prisma {
     NOT?: DrawingWhereInput | DrawingWhereInput[]
     name?: StringFilter<"Drawing"> | string
     DrawingData?: JsonFilter<"Drawing">
-    WhiteBoard?: WhiteboardListRelationFilter
+    WhiteboardId?: StringFilter<"Drawing"> | string
+    createdAt?: DateTimeFilter<"Drawing"> | Date | string
+    updatedAt?: DateTimeFilter<"Drawing"> | Date | string
+    Whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
   }, "id">
 
   export type DrawingOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     DrawingData?: SortOrder
+    WhiteboardId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: DrawingCountOrderByAggregateInput
     _max?: DrawingMaxOrderByAggregateInput
     _min?: DrawingMinOrderByAggregateInput
@@ -4548,34 +5975,45 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Drawing"> | string
     name?: StringWithAggregatesFilter<"Drawing"> | string
     DrawingData?: JsonWithAggregatesFilter<"Drawing">
+    WhiteboardId?: StringWithAggregatesFilter<"Drawing"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Drawing"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Drawing"> | Date | string
   }
 
   export type UserCreateInput = {
     id?: string
     name: string
     password: string
-    WhiteBoard?: WhiteboardCreateNestedManyWithoutUsersInput
+    Whiteboard?: WhiteboardCreateNestedManyWithoutOwnerInput
+    SharedWhiteboard?: WhiteboardShareCreateNestedManyWithoutSharedByInput
+    ReceivedWhiteboard?: WhiteboardShareCreateNestedManyWithoutSharedWithInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     name: string
     password: string
-    WhiteBoard?: WhiteboardUncheckedCreateNestedManyWithoutUsersInput
+    Whiteboard?: WhiteboardUncheckedCreateNestedManyWithoutOwnerInput
+    SharedWhiteboard?: WhiteboardShareUncheckedCreateNestedManyWithoutSharedByInput
+    ReceivedWhiteboard?: WhiteboardShareUncheckedCreateNestedManyWithoutSharedWithInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    WhiteBoard?: WhiteboardUpdateManyWithoutUsersNestedInput
+    Whiteboard?: WhiteboardUpdateManyWithoutOwnerNestedInput
+    SharedWhiteboard?: WhiteboardShareUpdateManyWithoutSharedByNestedInput
+    ReceivedWhiteboard?: WhiteboardShareUpdateManyWithoutSharedWithNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    WhiteBoard?: WhiteboardUncheckedUpdateManyWithoutUsersNestedInput
+    Whiteboard?: WhiteboardUncheckedUpdateManyWithoutOwnerNestedInput
+    SharedWhiteboard?: WhiteboardShareUncheckedUpdateManyWithoutSharedByNestedInput
+    ReceivedWhiteboard?: WhiteboardShareUncheckedUpdateManyWithoutSharedWithNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4599,34 +6037,39 @@ export namespace Prisma {
   export type WhiteboardCreateInput = {
     id?: string
     name: string
-    Users?: UserCreateNestedManyWithoutWhiteBoardInput
-    Drawing?: DrawingCreateNestedManyWithoutWhiteBoardInput
+    Owner: UserCreateNestedOneWithoutWhiteboardInput
+    Shares?: WhiteboardShareCreateNestedManyWithoutWhiteboardInput
+    Drawings?: DrawingCreateNestedManyWithoutWhiteboardInput
   }
 
   export type WhiteboardUncheckedCreateInput = {
     id?: string
     name: string
-    Users?: UserUncheckedCreateNestedManyWithoutWhiteBoardInput
-    Drawing?: DrawingUncheckedCreateNestedManyWithoutWhiteBoardInput
+    OwnerID: string
+    Shares?: WhiteboardShareUncheckedCreateNestedManyWithoutWhiteboardInput
+    Drawings?: DrawingUncheckedCreateNestedManyWithoutWhiteboardInput
   }
 
   export type WhiteboardUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    Users?: UserUpdateManyWithoutWhiteBoardNestedInput
-    Drawing?: DrawingUpdateManyWithoutWhiteBoardNestedInput
+    Owner?: UserUpdateOneRequiredWithoutWhiteboardNestedInput
+    Shares?: WhiteboardShareUpdateManyWithoutWhiteboardNestedInput
+    Drawings?: DrawingUpdateManyWithoutWhiteboardNestedInput
   }
 
   export type WhiteboardUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    Users?: UserUncheckedUpdateManyWithoutWhiteBoardNestedInput
-    Drawing?: DrawingUncheckedUpdateManyWithoutWhiteBoardNestedInput
+    OwnerID?: StringFieldUpdateOperationsInput | string
+    Shares?: WhiteboardShareUncheckedUpdateManyWithoutWhiteboardNestedInput
+    Drawings?: DrawingUncheckedUpdateManyWithoutWhiteboardNestedInput
   }
 
   export type WhiteboardCreateManyInput = {
     id?: string
     name: string
+    OwnerID: string
   }
 
   export type WhiteboardUpdateManyMutationInput = {
@@ -4637,52 +6080,136 @@ export namespace Prisma {
   export type WhiteboardUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    OwnerID?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WhiteboardShareCreateInput = {
+    id?: string
+    name: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+    whiteboard: WhiteboardCreateNestedOneWithoutSharesInput
+    SharedBy: UserCreateNestedOneWithoutSharedWhiteboardInput
+    SharedWith: UserCreateNestedOneWithoutReceivedWhiteboardInput
+  }
+
+  export type WhiteboardShareUncheckedCreateInput = {
+    id?: string
+    name: string
+    WhiteboardId: string
+    SharerId: string
+    ReceiverId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardShareUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whiteboard?: WhiteboardUpdateOneRequiredWithoutSharesNestedInput
+    SharedBy?: UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput
+    SharedWith?: UserUpdateOneRequiredWithoutReceivedWhiteboardNestedInput
+  }
+
+  export type WhiteboardShareUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    SharerId?: StringFieldUpdateOperationsInput | string
+    ReceiverId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareCreateManyInput = {
+    id?: string
+    name: string
+    WhiteboardId: string
+    SharerId: string
+    ReceiverId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardShareUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    SharerId?: StringFieldUpdateOperationsInput | string
+    ReceiverId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DrawingCreateInput = {
     id?: string
     name: string
     DrawingData: JsonNullValueInput | InputJsonValue
-    WhiteBoard?: WhiteboardCreateNestedManyWithoutDrawingInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Whiteboard: WhiteboardCreateNestedOneWithoutDrawingsInput
   }
 
   export type DrawingUncheckedCreateInput = {
     id?: string
     name: string
     DrawingData: JsonNullValueInput | InputJsonValue
-    WhiteBoard?: WhiteboardUncheckedCreateNestedManyWithoutDrawingInput
+    WhiteboardId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DrawingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
-    WhiteBoard?: WhiteboardUpdateManyWithoutDrawingNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Whiteboard?: WhiteboardUpdateOneRequiredWithoutDrawingsNestedInput
   }
 
   export type DrawingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
-    WhiteBoard?: WhiteboardUncheckedUpdateManyWithoutDrawingNestedInput
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DrawingCreateManyInput = {
     id?: string
     name: string
     DrawingData: JsonNullValueInput | InputJsonValue
+    WhiteboardId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DrawingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DrawingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4706,7 +6233,17 @@ export namespace Prisma {
     none?: WhiteboardWhereInput
   }
 
+  export type WhiteboardShareListRelationFilter = {
+    every?: WhiteboardShareWhereInput
+    some?: WhiteboardShareWhereInput
+    none?: WhiteboardShareWhereInput
+  }
+
   export type WhiteboardOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WhiteboardShareOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -4746,20 +6283,15 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type DrawingListRelationFilter = {
     every?: DrawingWhereInput
     some?: DrawingWhereInput
     none?: DrawingWhereInput
-  }
-
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type DrawingOrderByRelationAggregateInput = {
@@ -4769,16 +6301,92 @@ export namespace Prisma {
   export type WhiteboardCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    OwnerID?: SortOrder
   }
 
   export type WhiteboardMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    OwnerID?: SortOrder
   }
 
   export type WhiteboardMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    OwnerID?: SortOrder
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type WhiteboardScalarRelationFilter = {
+    is?: WhiteboardWhereInput
+    isNot?: WhiteboardWhereInput
+  }
+
+  export type WhiteboardShareCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    WhiteboardId?: SortOrder
+    SharerId?: SortOrder
+    ReceiverId?: SortOrder
+    EditAcces?: SortOrder
+    SharedAt?: SortOrder
+  }
+
+  export type WhiteboardShareMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    WhiteboardId?: SortOrder
+    SharerId?: SortOrder
+    ReceiverId?: SortOrder
+    EditAcces?: SortOrder
+    SharedAt?: SortOrder
+  }
+
+  export type WhiteboardShareMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    WhiteboardId?: SortOrder
+    SharerId?: SortOrder
+    ReceiverId?: SortOrder
+    EditAcces?: SortOrder
+    SharedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -4808,16 +6416,25 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     DrawingData?: SortOrder
+    WhiteboardId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DrawingMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    WhiteboardId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DrawingMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    WhiteboardId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -4846,160 +6463,296 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type WhiteboardCreateNestedManyWithoutUsersInput = {
-    create?: XOR<WhiteboardCreateWithoutUsersInput, WhiteboardUncheckedCreateWithoutUsersInput> | WhiteboardCreateWithoutUsersInput[] | WhiteboardUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutUsersInput | WhiteboardCreateOrConnectWithoutUsersInput[]
+  export type WhiteboardCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<WhiteboardCreateWithoutOwnerInput, WhiteboardUncheckedCreateWithoutOwnerInput> | WhiteboardCreateWithoutOwnerInput[] | WhiteboardUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutOwnerInput | WhiteboardCreateOrConnectWithoutOwnerInput[]
+    createMany?: WhiteboardCreateManyOwnerInputEnvelope
     connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
   }
 
-  export type WhiteboardUncheckedCreateNestedManyWithoutUsersInput = {
-    create?: XOR<WhiteboardCreateWithoutUsersInput, WhiteboardUncheckedCreateWithoutUsersInput> | WhiteboardCreateWithoutUsersInput[] | WhiteboardUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutUsersInput | WhiteboardCreateOrConnectWithoutUsersInput[]
+  export type WhiteboardShareCreateNestedManyWithoutSharedByInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedByInput, WhiteboardShareUncheckedCreateWithoutSharedByInput> | WhiteboardShareCreateWithoutSharedByInput[] | WhiteboardShareUncheckedCreateWithoutSharedByInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedByInput | WhiteboardShareCreateOrConnectWithoutSharedByInput[]
+    createMany?: WhiteboardShareCreateManySharedByInputEnvelope
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+  }
+
+  export type WhiteboardShareCreateNestedManyWithoutSharedWithInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedWithInput, WhiteboardShareUncheckedCreateWithoutSharedWithInput> | WhiteboardShareCreateWithoutSharedWithInput[] | WhiteboardShareUncheckedCreateWithoutSharedWithInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedWithInput | WhiteboardShareCreateOrConnectWithoutSharedWithInput[]
+    createMany?: WhiteboardShareCreateManySharedWithInputEnvelope
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+  }
+
+  export type WhiteboardUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<WhiteboardCreateWithoutOwnerInput, WhiteboardUncheckedCreateWithoutOwnerInput> | WhiteboardCreateWithoutOwnerInput[] | WhiteboardUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutOwnerInput | WhiteboardCreateOrConnectWithoutOwnerInput[]
+    createMany?: WhiteboardCreateManyOwnerInputEnvelope
     connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+  }
+
+  export type WhiteboardShareUncheckedCreateNestedManyWithoutSharedByInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedByInput, WhiteboardShareUncheckedCreateWithoutSharedByInput> | WhiteboardShareCreateWithoutSharedByInput[] | WhiteboardShareUncheckedCreateWithoutSharedByInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedByInput | WhiteboardShareCreateOrConnectWithoutSharedByInput[]
+    createMany?: WhiteboardShareCreateManySharedByInputEnvelope
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+  }
+
+  export type WhiteboardShareUncheckedCreateNestedManyWithoutSharedWithInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedWithInput, WhiteboardShareUncheckedCreateWithoutSharedWithInput> | WhiteboardShareCreateWithoutSharedWithInput[] | WhiteboardShareUncheckedCreateWithoutSharedWithInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedWithInput | WhiteboardShareCreateOrConnectWithoutSharedWithInput[]
+    createMany?: WhiteboardShareCreateManySharedWithInputEnvelope
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type WhiteboardUpdateManyWithoutUsersNestedInput = {
-    create?: XOR<WhiteboardCreateWithoutUsersInput, WhiteboardUncheckedCreateWithoutUsersInput> | WhiteboardCreateWithoutUsersInput[] | WhiteboardUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutUsersInput | WhiteboardCreateOrConnectWithoutUsersInput[]
-    upsert?: WhiteboardUpsertWithWhereUniqueWithoutUsersInput | WhiteboardUpsertWithWhereUniqueWithoutUsersInput[]
+  export type WhiteboardUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<WhiteboardCreateWithoutOwnerInput, WhiteboardUncheckedCreateWithoutOwnerInput> | WhiteboardCreateWithoutOwnerInput[] | WhiteboardUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutOwnerInput | WhiteboardCreateOrConnectWithoutOwnerInput[]
+    upsert?: WhiteboardUpsertWithWhereUniqueWithoutOwnerInput | WhiteboardUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: WhiteboardCreateManyOwnerInputEnvelope
     set?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
     disconnect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
     delete?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
     connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    update?: WhiteboardUpdateWithWhereUniqueWithoutUsersInput | WhiteboardUpdateWithWhereUniqueWithoutUsersInput[]
-    updateMany?: WhiteboardUpdateManyWithWhereWithoutUsersInput | WhiteboardUpdateManyWithWhereWithoutUsersInput[]
+    update?: WhiteboardUpdateWithWhereUniqueWithoutOwnerInput | WhiteboardUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: WhiteboardUpdateManyWithWhereWithoutOwnerInput | WhiteboardUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
   }
 
-  export type WhiteboardUncheckedUpdateManyWithoutUsersNestedInput = {
-    create?: XOR<WhiteboardCreateWithoutUsersInput, WhiteboardUncheckedCreateWithoutUsersInput> | WhiteboardCreateWithoutUsersInput[] | WhiteboardUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutUsersInput | WhiteboardCreateOrConnectWithoutUsersInput[]
-    upsert?: WhiteboardUpsertWithWhereUniqueWithoutUsersInput | WhiteboardUpsertWithWhereUniqueWithoutUsersInput[]
+  export type WhiteboardShareUpdateManyWithoutSharedByNestedInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedByInput, WhiteboardShareUncheckedCreateWithoutSharedByInput> | WhiteboardShareCreateWithoutSharedByInput[] | WhiteboardShareUncheckedCreateWithoutSharedByInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedByInput | WhiteboardShareCreateOrConnectWithoutSharedByInput[]
+    upsert?: WhiteboardShareUpsertWithWhereUniqueWithoutSharedByInput | WhiteboardShareUpsertWithWhereUniqueWithoutSharedByInput[]
+    createMany?: WhiteboardShareCreateManySharedByInputEnvelope
+    set?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    disconnect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    delete?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    update?: WhiteboardShareUpdateWithWhereUniqueWithoutSharedByInput | WhiteboardShareUpdateWithWhereUniqueWithoutSharedByInput[]
+    updateMany?: WhiteboardShareUpdateManyWithWhereWithoutSharedByInput | WhiteboardShareUpdateManyWithWhereWithoutSharedByInput[]
+    deleteMany?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
+  }
+
+  export type WhiteboardShareUpdateManyWithoutSharedWithNestedInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedWithInput, WhiteboardShareUncheckedCreateWithoutSharedWithInput> | WhiteboardShareCreateWithoutSharedWithInput[] | WhiteboardShareUncheckedCreateWithoutSharedWithInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedWithInput | WhiteboardShareCreateOrConnectWithoutSharedWithInput[]
+    upsert?: WhiteboardShareUpsertWithWhereUniqueWithoutSharedWithInput | WhiteboardShareUpsertWithWhereUniqueWithoutSharedWithInput[]
+    createMany?: WhiteboardShareCreateManySharedWithInputEnvelope
+    set?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    disconnect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    delete?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    update?: WhiteboardShareUpdateWithWhereUniqueWithoutSharedWithInput | WhiteboardShareUpdateWithWhereUniqueWithoutSharedWithInput[]
+    updateMany?: WhiteboardShareUpdateManyWithWhereWithoutSharedWithInput | WhiteboardShareUpdateManyWithWhereWithoutSharedWithInput[]
+    deleteMany?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
+  }
+
+  export type WhiteboardUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<WhiteboardCreateWithoutOwnerInput, WhiteboardUncheckedCreateWithoutOwnerInput> | WhiteboardCreateWithoutOwnerInput[] | WhiteboardUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutOwnerInput | WhiteboardCreateOrConnectWithoutOwnerInput[]
+    upsert?: WhiteboardUpsertWithWhereUniqueWithoutOwnerInput | WhiteboardUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: WhiteboardCreateManyOwnerInputEnvelope
     set?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
     disconnect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
     delete?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
     connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    update?: WhiteboardUpdateWithWhereUniqueWithoutUsersInput | WhiteboardUpdateWithWhereUniqueWithoutUsersInput[]
-    updateMany?: WhiteboardUpdateManyWithWhereWithoutUsersInput | WhiteboardUpdateManyWithWhereWithoutUsersInput[]
+    update?: WhiteboardUpdateWithWhereUniqueWithoutOwnerInput | WhiteboardUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: WhiteboardUpdateManyWithWhereWithoutOwnerInput | WhiteboardUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
   }
 
-  export type UserCreateNestedManyWithoutWhiteBoardInput = {
-    create?: XOR<UserCreateWithoutWhiteBoardInput, UserUncheckedCreateWithoutWhiteBoardInput> | UserCreateWithoutWhiteBoardInput[] | UserUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutWhiteBoardInput | UserCreateOrConnectWithoutWhiteBoardInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type WhiteboardShareUncheckedUpdateManyWithoutSharedByNestedInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedByInput, WhiteboardShareUncheckedCreateWithoutSharedByInput> | WhiteboardShareCreateWithoutSharedByInput[] | WhiteboardShareUncheckedCreateWithoutSharedByInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedByInput | WhiteboardShareCreateOrConnectWithoutSharedByInput[]
+    upsert?: WhiteboardShareUpsertWithWhereUniqueWithoutSharedByInput | WhiteboardShareUpsertWithWhereUniqueWithoutSharedByInput[]
+    createMany?: WhiteboardShareCreateManySharedByInputEnvelope
+    set?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    disconnect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    delete?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    update?: WhiteboardShareUpdateWithWhereUniqueWithoutSharedByInput | WhiteboardShareUpdateWithWhereUniqueWithoutSharedByInput[]
+    updateMany?: WhiteboardShareUpdateManyWithWhereWithoutSharedByInput | WhiteboardShareUpdateManyWithWhereWithoutSharedByInput[]
+    deleteMany?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
   }
 
-  export type DrawingCreateNestedManyWithoutWhiteBoardInput = {
-    create?: XOR<DrawingCreateWithoutWhiteBoardInput, DrawingUncheckedCreateWithoutWhiteBoardInput> | DrawingCreateWithoutWhiteBoardInput[] | DrawingUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteBoardInput | DrawingCreateOrConnectWithoutWhiteBoardInput[]
+  export type WhiteboardShareUncheckedUpdateManyWithoutSharedWithNestedInput = {
+    create?: XOR<WhiteboardShareCreateWithoutSharedWithInput, WhiteboardShareUncheckedCreateWithoutSharedWithInput> | WhiteboardShareCreateWithoutSharedWithInput[] | WhiteboardShareUncheckedCreateWithoutSharedWithInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutSharedWithInput | WhiteboardShareCreateOrConnectWithoutSharedWithInput[]
+    upsert?: WhiteboardShareUpsertWithWhereUniqueWithoutSharedWithInput | WhiteboardShareUpsertWithWhereUniqueWithoutSharedWithInput[]
+    createMany?: WhiteboardShareCreateManySharedWithInputEnvelope
+    set?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    disconnect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    delete?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    update?: WhiteboardShareUpdateWithWhereUniqueWithoutSharedWithInput | WhiteboardShareUpdateWithWhereUniqueWithoutSharedWithInput[]
+    updateMany?: WhiteboardShareUpdateManyWithWhereWithoutSharedWithInput | WhiteboardShareUpdateManyWithWhereWithoutSharedWithInput[]
+    deleteMany?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutWhiteboardInput = {
+    create?: XOR<UserCreateWithoutWhiteboardInput, UserUncheckedCreateWithoutWhiteboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWhiteboardInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WhiteboardShareCreateNestedManyWithoutWhiteboardInput = {
+    create?: XOR<WhiteboardShareCreateWithoutWhiteboardInput, WhiteboardShareUncheckedCreateWithoutWhiteboardInput> | WhiteboardShareCreateWithoutWhiteboardInput[] | WhiteboardShareUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutWhiteboardInput | WhiteboardShareCreateOrConnectWithoutWhiteboardInput[]
+    createMany?: WhiteboardShareCreateManyWhiteboardInputEnvelope
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+  }
+
+  export type DrawingCreateNestedManyWithoutWhiteboardInput = {
+    create?: XOR<DrawingCreateWithoutWhiteboardInput, DrawingUncheckedCreateWithoutWhiteboardInput> | DrawingCreateWithoutWhiteboardInput[] | DrawingUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteboardInput | DrawingCreateOrConnectWithoutWhiteboardInput[]
+    createMany?: DrawingCreateManyWhiteboardInputEnvelope
     connect?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutWhiteBoardInput = {
-    create?: XOR<UserCreateWithoutWhiteBoardInput, UserUncheckedCreateWithoutWhiteBoardInput> | UserCreateWithoutWhiteBoardInput[] | UserUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutWhiteBoardInput | UserCreateOrConnectWithoutWhiteBoardInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type WhiteboardShareUncheckedCreateNestedManyWithoutWhiteboardInput = {
+    create?: XOR<WhiteboardShareCreateWithoutWhiteboardInput, WhiteboardShareUncheckedCreateWithoutWhiteboardInput> | WhiteboardShareCreateWithoutWhiteboardInput[] | WhiteboardShareUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutWhiteboardInput | WhiteboardShareCreateOrConnectWithoutWhiteboardInput[]
+    createMany?: WhiteboardShareCreateManyWhiteboardInputEnvelope
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
   }
 
-  export type DrawingUncheckedCreateNestedManyWithoutWhiteBoardInput = {
-    create?: XOR<DrawingCreateWithoutWhiteBoardInput, DrawingUncheckedCreateWithoutWhiteBoardInput> | DrawingCreateWithoutWhiteBoardInput[] | DrawingUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteBoardInput | DrawingCreateOrConnectWithoutWhiteBoardInput[]
+  export type DrawingUncheckedCreateNestedManyWithoutWhiteboardInput = {
+    create?: XOR<DrawingCreateWithoutWhiteboardInput, DrawingUncheckedCreateWithoutWhiteboardInput> | DrawingCreateWithoutWhiteboardInput[] | DrawingUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteboardInput | DrawingCreateOrConnectWithoutWhiteboardInput[]
+    createMany?: DrawingCreateManyWhiteboardInputEnvelope
     connect?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
   }
 
-  export type UserUpdateManyWithoutWhiteBoardNestedInput = {
-    create?: XOR<UserCreateWithoutWhiteBoardInput, UserUncheckedCreateWithoutWhiteBoardInput> | UserCreateWithoutWhiteBoardInput[] | UserUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutWhiteBoardInput | UserCreateOrConnectWithoutWhiteBoardInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutWhiteBoardInput | UserUpsertWithWhereUniqueWithoutWhiteBoardInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutWhiteBoardInput | UserUpdateWithWhereUniqueWithoutWhiteBoardInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutWhiteBoardInput | UserUpdateManyWithWhereWithoutWhiteBoardInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type UserUpdateOneRequiredWithoutWhiteboardNestedInput = {
+    create?: XOR<UserCreateWithoutWhiteboardInput, UserUncheckedCreateWithoutWhiteboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWhiteboardInput
+    upsert?: UserUpsertWithoutWhiteboardInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWhiteboardInput, UserUpdateWithoutWhiteboardInput>, UserUncheckedUpdateWithoutWhiteboardInput>
   }
 
-  export type DrawingUpdateManyWithoutWhiteBoardNestedInput = {
-    create?: XOR<DrawingCreateWithoutWhiteBoardInput, DrawingUncheckedCreateWithoutWhiteBoardInput> | DrawingCreateWithoutWhiteBoardInput[] | DrawingUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteBoardInput | DrawingCreateOrConnectWithoutWhiteBoardInput[]
-    upsert?: DrawingUpsertWithWhereUniqueWithoutWhiteBoardInput | DrawingUpsertWithWhereUniqueWithoutWhiteBoardInput[]
+  export type WhiteboardShareUpdateManyWithoutWhiteboardNestedInput = {
+    create?: XOR<WhiteboardShareCreateWithoutWhiteboardInput, WhiteboardShareUncheckedCreateWithoutWhiteboardInput> | WhiteboardShareCreateWithoutWhiteboardInput[] | WhiteboardShareUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutWhiteboardInput | WhiteboardShareCreateOrConnectWithoutWhiteboardInput[]
+    upsert?: WhiteboardShareUpsertWithWhereUniqueWithoutWhiteboardInput | WhiteboardShareUpsertWithWhereUniqueWithoutWhiteboardInput[]
+    createMany?: WhiteboardShareCreateManyWhiteboardInputEnvelope
+    set?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    disconnect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    delete?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    update?: WhiteboardShareUpdateWithWhereUniqueWithoutWhiteboardInput | WhiteboardShareUpdateWithWhereUniqueWithoutWhiteboardInput[]
+    updateMany?: WhiteboardShareUpdateManyWithWhereWithoutWhiteboardInput | WhiteboardShareUpdateManyWithWhereWithoutWhiteboardInput[]
+    deleteMany?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
+  }
+
+  export type DrawingUpdateManyWithoutWhiteboardNestedInput = {
+    create?: XOR<DrawingCreateWithoutWhiteboardInput, DrawingUncheckedCreateWithoutWhiteboardInput> | DrawingCreateWithoutWhiteboardInput[] | DrawingUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteboardInput | DrawingCreateOrConnectWithoutWhiteboardInput[]
+    upsert?: DrawingUpsertWithWhereUniqueWithoutWhiteboardInput | DrawingUpsertWithWhereUniqueWithoutWhiteboardInput[]
+    createMany?: DrawingCreateManyWhiteboardInputEnvelope
     set?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
     disconnect?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
     delete?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
     connect?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
-    update?: DrawingUpdateWithWhereUniqueWithoutWhiteBoardInput | DrawingUpdateWithWhereUniqueWithoutWhiteBoardInput[]
-    updateMany?: DrawingUpdateManyWithWhereWithoutWhiteBoardInput | DrawingUpdateManyWithWhereWithoutWhiteBoardInput[]
+    update?: DrawingUpdateWithWhereUniqueWithoutWhiteboardInput | DrawingUpdateWithWhereUniqueWithoutWhiteboardInput[]
+    updateMany?: DrawingUpdateManyWithWhereWithoutWhiteboardInput | DrawingUpdateManyWithWhereWithoutWhiteboardInput[]
     deleteMany?: DrawingScalarWhereInput | DrawingScalarWhereInput[]
   }
 
-  export type UserUncheckedUpdateManyWithoutWhiteBoardNestedInput = {
-    create?: XOR<UserCreateWithoutWhiteBoardInput, UserUncheckedCreateWithoutWhiteBoardInput> | UserCreateWithoutWhiteBoardInput[] | UserUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutWhiteBoardInput | UserCreateOrConnectWithoutWhiteBoardInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutWhiteBoardInput | UserUpsertWithWhereUniqueWithoutWhiteBoardInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutWhiteBoardInput | UserUpdateWithWhereUniqueWithoutWhiteBoardInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutWhiteBoardInput | UserUpdateManyWithWhereWithoutWhiteBoardInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type WhiteboardShareUncheckedUpdateManyWithoutWhiteboardNestedInput = {
+    create?: XOR<WhiteboardShareCreateWithoutWhiteboardInput, WhiteboardShareUncheckedCreateWithoutWhiteboardInput> | WhiteboardShareCreateWithoutWhiteboardInput[] | WhiteboardShareUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: WhiteboardShareCreateOrConnectWithoutWhiteboardInput | WhiteboardShareCreateOrConnectWithoutWhiteboardInput[]
+    upsert?: WhiteboardShareUpsertWithWhereUniqueWithoutWhiteboardInput | WhiteboardShareUpsertWithWhereUniqueWithoutWhiteboardInput[]
+    createMany?: WhiteboardShareCreateManyWhiteboardInputEnvelope
+    set?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    disconnect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    delete?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    connect?: WhiteboardShareWhereUniqueInput | WhiteboardShareWhereUniqueInput[]
+    update?: WhiteboardShareUpdateWithWhereUniqueWithoutWhiteboardInput | WhiteboardShareUpdateWithWhereUniqueWithoutWhiteboardInput[]
+    updateMany?: WhiteboardShareUpdateManyWithWhereWithoutWhiteboardInput | WhiteboardShareUpdateManyWithWhereWithoutWhiteboardInput[]
+    deleteMany?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
   }
 
-  export type DrawingUncheckedUpdateManyWithoutWhiteBoardNestedInput = {
-    create?: XOR<DrawingCreateWithoutWhiteBoardInput, DrawingUncheckedCreateWithoutWhiteBoardInput> | DrawingCreateWithoutWhiteBoardInput[] | DrawingUncheckedCreateWithoutWhiteBoardInput[]
-    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteBoardInput | DrawingCreateOrConnectWithoutWhiteBoardInput[]
-    upsert?: DrawingUpsertWithWhereUniqueWithoutWhiteBoardInput | DrawingUpsertWithWhereUniqueWithoutWhiteBoardInput[]
+  export type DrawingUncheckedUpdateManyWithoutWhiteboardNestedInput = {
+    create?: XOR<DrawingCreateWithoutWhiteboardInput, DrawingUncheckedCreateWithoutWhiteboardInput> | DrawingCreateWithoutWhiteboardInput[] | DrawingUncheckedCreateWithoutWhiteboardInput[]
+    connectOrCreate?: DrawingCreateOrConnectWithoutWhiteboardInput | DrawingCreateOrConnectWithoutWhiteboardInput[]
+    upsert?: DrawingUpsertWithWhereUniqueWithoutWhiteboardInput | DrawingUpsertWithWhereUniqueWithoutWhiteboardInput[]
+    createMany?: DrawingCreateManyWhiteboardInputEnvelope
     set?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
     disconnect?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
     delete?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
     connect?: DrawingWhereUniqueInput | DrawingWhereUniqueInput[]
-    update?: DrawingUpdateWithWhereUniqueWithoutWhiteBoardInput | DrawingUpdateWithWhereUniqueWithoutWhiteBoardInput[]
-    updateMany?: DrawingUpdateManyWithWhereWithoutWhiteBoardInput | DrawingUpdateManyWithWhereWithoutWhiteBoardInput[]
+    update?: DrawingUpdateWithWhereUniqueWithoutWhiteboardInput | DrawingUpdateWithWhereUniqueWithoutWhiteboardInput[]
+    updateMany?: DrawingUpdateManyWithWhereWithoutWhiteboardInput | DrawingUpdateManyWithWhereWithoutWhiteboardInput[]
     deleteMany?: DrawingScalarWhereInput | DrawingScalarWhereInput[]
   }
 
-  export type WhiteboardCreateNestedManyWithoutDrawingInput = {
-    create?: XOR<WhiteboardCreateWithoutDrawingInput, WhiteboardUncheckedCreateWithoutDrawingInput> | WhiteboardCreateWithoutDrawingInput[] | WhiteboardUncheckedCreateWithoutDrawingInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutDrawingInput | WhiteboardCreateOrConnectWithoutDrawingInput[]
-    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+  export type WhiteboardCreateNestedOneWithoutSharesInput = {
+    create?: XOR<WhiteboardCreateWithoutSharesInput, WhiteboardUncheckedCreateWithoutSharesInput>
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutSharesInput
+    connect?: WhiteboardWhereUniqueInput
   }
 
-  export type WhiteboardUncheckedCreateNestedManyWithoutDrawingInput = {
-    create?: XOR<WhiteboardCreateWithoutDrawingInput, WhiteboardUncheckedCreateWithoutDrawingInput> | WhiteboardCreateWithoutDrawingInput[] | WhiteboardUncheckedCreateWithoutDrawingInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutDrawingInput | WhiteboardCreateOrConnectWithoutDrawingInput[]
-    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+  export type UserCreateNestedOneWithoutSharedWhiteboardInput = {
+    create?: XOR<UserCreateWithoutSharedWhiteboardInput, UserUncheckedCreateWithoutSharedWhiteboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSharedWhiteboardInput
+    connect?: UserWhereUniqueInput
   }
 
-  export type WhiteboardUpdateManyWithoutDrawingNestedInput = {
-    create?: XOR<WhiteboardCreateWithoutDrawingInput, WhiteboardUncheckedCreateWithoutDrawingInput> | WhiteboardCreateWithoutDrawingInput[] | WhiteboardUncheckedCreateWithoutDrawingInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutDrawingInput | WhiteboardCreateOrConnectWithoutDrawingInput[]
-    upsert?: WhiteboardUpsertWithWhereUniqueWithoutDrawingInput | WhiteboardUpsertWithWhereUniqueWithoutDrawingInput[]
-    set?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    disconnect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    delete?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    update?: WhiteboardUpdateWithWhereUniqueWithoutDrawingInput | WhiteboardUpdateWithWhereUniqueWithoutDrawingInput[]
-    updateMany?: WhiteboardUpdateManyWithWhereWithoutDrawingInput | WhiteboardUpdateManyWithWhereWithoutDrawingInput[]
-    deleteMany?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
+  export type UserCreateNestedOneWithoutReceivedWhiteboardInput = {
+    create?: XOR<UserCreateWithoutReceivedWhiteboardInput, UserUncheckedCreateWithoutReceivedWhiteboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedWhiteboardInput
+    connect?: UserWhereUniqueInput
   }
 
-  export type WhiteboardUncheckedUpdateManyWithoutDrawingNestedInput = {
-    create?: XOR<WhiteboardCreateWithoutDrawingInput, WhiteboardUncheckedCreateWithoutDrawingInput> | WhiteboardCreateWithoutDrawingInput[] | WhiteboardUncheckedCreateWithoutDrawingInput[]
-    connectOrCreate?: WhiteboardCreateOrConnectWithoutDrawingInput | WhiteboardCreateOrConnectWithoutDrawingInput[]
-    upsert?: WhiteboardUpsertWithWhereUniqueWithoutDrawingInput | WhiteboardUpsertWithWhereUniqueWithoutDrawingInput[]
-    set?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    disconnect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    delete?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
-    update?: WhiteboardUpdateWithWhereUniqueWithoutDrawingInput | WhiteboardUpdateWithWhereUniqueWithoutDrawingInput[]
-    updateMany?: WhiteboardUpdateManyWithWhereWithoutDrawingInput | WhiteboardUpdateManyWithWhereWithoutDrawingInput[]
-    deleteMany?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type WhiteboardUpdateOneRequiredWithoutSharesNestedInput = {
+    create?: XOR<WhiteboardCreateWithoutSharesInput, WhiteboardUncheckedCreateWithoutSharesInput>
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutSharesInput
+    upsert?: WhiteboardUpsertWithoutSharesInput
+    connect?: WhiteboardWhereUniqueInput
+    update?: XOR<XOR<WhiteboardUpdateToOneWithWhereWithoutSharesInput, WhiteboardUpdateWithoutSharesInput>, WhiteboardUncheckedUpdateWithoutSharesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput = {
+    create?: XOR<UserCreateWithoutSharedWhiteboardInput, UserUncheckedCreateWithoutSharedWhiteboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSharedWhiteboardInput
+    upsert?: UserUpsertWithoutSharedWhiteboardInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSharedWhiteboardInput, UserUpdateWithoutSharedWhiteboardInput>, UserUncheckedUpdateWithoutSharedWhiteboardInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReceivedWhiteboardNestedInput = {
+    create?: XOR<UserCreateWithoutReceivedWhiteboardInput, UserUncheckedCreateWithoutReceivedWhiteboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceivedWhiteboardInput
+    upsert?: UserUpsertWithoutReceivedWhiteboardInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceivedWhiteboardInput, UserUpdateWithoutReceivedWhiteboardInput>, UserUncheckedUpdateWithoutReceivedWhiteboardInput>
+  }
+
+  export type WhiteboardCreateNestedOneWithoutDrawingsInput = {
+    create?: XOR<WhiteboardCreateWithoutDrawingsInput, WhiteboardUncheckedCreateWithoutDrawingsInput>
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutDrawingsInput
+    connect?: WhiteboardWhereUniqueInput
+  }
+
+  export type WhiteboardUpdateOneRequiredWithoutDrawingsNestedInput = {
+    create?: XOR<WhiteboardCreateWithoutDrawingsInput, WhiteboardUncheckedCreateWithoutDrawingsInput>
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutDrawingsInput
+    upsert?: WhiteboardUpsertWithoutDrawingsInput
+    connect?: WhiteboardWhereUniqueInput
+    update?: XOR<XOR<WhiteboardUpdateToOneWithWhereWithoutDrawingsInput, WhiteboardUpdateWithoutDrawingsInput>, WhiteboardUncheckedUpdateWithoutDrawingsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5043,6 +6796,44 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
   }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -5067,37 +6858,100 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type WhiteboardCreateWithoutUsersInput = {
+  export type WhiteboardCreateWithoutOwnerInput = {
     id?: string
     name: string
-    Drawing?: DrawingCreateNestedManyWithoutWhiteBoardInput
+    Shares?: WhiteboardShareCreateNestedManyWithoutWhiteboardInput
+    Drawings?: DrawingCreateNestedManyWithoutWhiteboardInput
   }
 
-  export type WhiteboardUncheckedCreateWithoutUsersInput = {
+  export type WhiteboardUncheckedCreateWithoutOwnerInput = {
     id?: string
     name: string
-    Drawing?: DrawingUncheckedCreateNestedManyWithoutWhiteBoardInput
+    Shares?: WhiteboardShareUncheckedCreateNestedManyWithoutWhiteboardInput
+    Drawings?: DrawingUncheckedCreateNestedManyWithoutWhiteboardInput
   }
 
-  export type WhiteboardCreateOrConnectWithoutUsersInput = {
+  export type WhiteboardCreateOrConnectWithoutOwnerInput = {
     where: WhiteboardWhereUniqueInput
-    create: XOR<WhiteboardCreateWithoutUsersInput, WhiteboardUncheckedCreateWithoutUsersInput>
+    create: XOR<WhiteboardCreateWithoutOwnerInput, WhiteboardUncheckedCreateWithoutOwnerInput>
   }
 
-  export type WhiteboardUpsertWithWhereUniqueWithoutUsersInput = {
+  export type WhiteboardCreateManyOwnerInputEnvelope = {
+    data: WhiteboardCreateManyOwnerInput | WhiteboardCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WhiteboardShareCreateWithoutSharedByInput = {
+    id?: string
+    name: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+    whiteboard: WhiteboardCreateNestedOneWithoutSharesInput
+    SharedWith: UserCreateNestedOneWithoutReceivedWhiteboardInput
+  }
+
+  export type WhiteboardShareUncheckedCreateWithoutSharedByInput = {
+    id?: string
+    name: string
+    WhiteboardId: string
+    ReceiverId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardShareCreateOrConnectWithoutSharedByInput = {
+    where: WhiteboardShareWhereUniqueInput
+    create: XOR<WhiteboardShareCreateWithoutSharedByInput, WhiteboardShareUncheckedCreateWithoutSharedByInput>
+  }
+
+  export type WhiteboardShareCreateManySharedByInputEnvelope = {
+    data: WhiteboardShareCreateManySharedByInput | WhiteboardShareCreateManySharedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WhiteboardShareCreateWithoutSharedWithInput = {
+    id?: string
+    name: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+    whiteboard: WhiteboardCreateNestedOneWithoutSharesInput
+    SharedBy: UserCreateNestedOneWithoutSharedWhiteboardInput
+  }
+
+  export type WhiteboardShareUncheckedCreateWithoutSharedWithInput = {
+    id?: string
+    name: string
+    WhiteboardId: string
+    SharerId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardShareCreateOrConnectWithoutSharedWithInput = {
+    where: WhiteboardShareWhereUniqueInput
+    create: XOR<WhiteboardShareCreateWithoutSharedWithInput, WhiteboardShareUncheckedCreateWithoutSharedWithInput>
+  }
+
+  export type WhiteboardShareCreateManySharedWithInputEnvelope = {
+    data: WhiteboardShareCreateManySharedWithInput | WhiteboardShareCreateManySharedWithInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WhiteboardUpsertWithWhereUniqueWithoutOwnerInput = {
     where: WhiteboardWhereUniqueInput
-    update: XOR<WhiteboardUpdateWithoutUsersInput, WhiteboardUncheckedUpdateWithoutUsersInput>
-    create: XOR<WhiteboardCreateWithoutUsersInput, WhiteboardUncheckedCreateWithoutUsersInput>
+    update: XOR<WhiteboardUpdateWithoutOwnerInput, WhiteboardUncheckedUpdateWithoutOwnerInput>
+    create: XOR<WhiteboardCreateWithoutOwnerInput, WhiteboardUncheckedCreateWithoutOwnerInput>
   }
 
-  export type WhiteboardUpdateWithWhereUniqueWithoutUsersInput = {
+  export type WhiteboardUpdateWithWhereUniqueWithoutOwnerInput = {
     where: WhiteboardWhereUniqueInput
-    data: XOR<WhiteboardUpdateWithoutUsersInput, WhiteboardUncheckedUpdateWithoutUsersInput>
+    data: XOR<WhiteboardUpdateWithoutOwnerInput, WhiteboardUncheckedUpdateWithoutOwnerInput>
   }
 
-  export type WhiteboardUpdateManyWithWhereWithoutUsersInput = {
+  export type WhiteboardUpdateManyWithWhereWithoutOwnerInput = {
     where: WhiteboardScalarWhereInput
-    data: XOR<WhiteboardUpdateManyMutationInput, WhiteboardUncheckedUpdateManyWithoutUsersInput>
+    data: XOR<WhiteboardUpdateManyMutationInput, WhiteboardUncheckedUpdateManyWithoutOwnerInput>
   }
 
   export type WhiteboardScalarWhereInput = {
@@ -5106,81 +6960,186 @@ export namespace Prisma {
     NOT?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
     id?: StringFilter<"Whiteboard"> | string
     name?: StringFilter<"Whiteboard"> | string
+    OwnerID?: StringFilter<"Whiteboard"> | string
   }
 
-  export type UserCreateWithoutWhiteBoardInput = {
+  export type WhiteboardShareUpsertWithWhereUniqueWithoutSharedByInput = {
+    where: WhiteboardShareWhereUniqueInput
+    update: XOR<WhiteboardShareUpdateWithoutSharedByInput, WhiteboardShareUncheckedUpdateWithoutSharedByInput>
+    create: XOR<WhiteboardShareCreateWithoutSharedByInput, WhiteboardShareUncheckedCreateWithoutSharedByInput>
+  }
+
+  export type WhiteboardShareUpdateWithWhereUniqueWithoutSharedByInput = {
+    where: WhiteboardShareWhereUniqueInput
+    data: XOR<WhiteboardShareUpdateWithoutSharedByInput, WhiteboardShareUncheckedUpdateWithoutSharedByInput>
+  }
+
+  export type WhiteboardShareUpdateManyWithWhereWithoutSharedByInput = {
+    where: WhiteboardShareScalarWhereInput
+    data: XOR<WhiteboardShareUpdateManyMutationInput, WhiteboardShareUncheckedUpdateManyWithoutSharedByInput>
+  }
+
+  export type WhiteboardShareScalarWhereInput = {
+    AND?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
+    OR?: WhiteboardShareScalarWhereInput[]
+    NOT?: WhiteboardShareScalarWhereInput | WhiteboardShareScalarWhereInput[]
+    id?: StringFilter<"WhiteboardShare"> | string
+    name?: StringFilter<"WhiteboardShare"> | string
+    WhiteboardId?: StringFilter<"WhiteboardShare"> | string
+    SharerId?: StringFilter<"WhiteboardShare"> | string
+    ReceiverId?: StringFilter<"WhiteboardShare"> | string
+    EditAcces?: BoolFilter<"WhiteboardShare"> | boolean
+    SharedAt?: DateTimeFilter<"WhiteboardShare"> | Date | string
+  }
+
+  export type WhiteboardShareUpsertWithWhereUniqueWithoutSharedWithInput = {
+    where: WhiteboardShareWhereUniqueInput
+    update: XOR<WhiteboardShareUpdateWithoutSharedWithInput, WhiteboardShareUncheckedUpdateWithoutSharedWithInput>
+    create: XOR<WhiteboardShareCreateWithoutSharedWithInput, WhiteboardShareUncheckedCreateWithoutSharedWithInput>
+  }
+
+  export type WhiteboardShareUpdateWithWhereUniqueWithoutSharedWithInput = {
+    where: WhiteboardShareWhereUniqueInput
+    data: XOR<WhiteboardShareUpdateWithoutSharedWithInput, WhiteboardShareUncheckedUpdateWithoutSharedWithInput>
+  }
+
+  export type WhiteboardShareUpdateManyWithWhereWithoutSharedWithInput = {
+    where: WhiteboardShareScalarWhereInput
+    data: XOR<WhiteboardShareUpdateManyMutationInput, WhiteboardShareUncheckedUpdateManyWithoutSharedWithInput>
+  }
+
+  export type UserCreateWithoutWhiteboardInput = {
     id?: string
     name: string
     password: string
+    SharedWhiteboard?: WhiteboardShareCreateNestedManyWithoutSharedByInput
+    ReceivedWhiteboard?: WhiteboardShareCreateNestedManyWithoutSharedWithInput
   }
 
-  export type UserUncheckedCreateWithoutWhiteBoardInput = {
+  export type UserUncheckedCreateWithoutWhiteboardInput = {
     id?: string
     name: string
     password: string
+    SharedWhiteboard?: WhiteboardShareUncheckedCreateNestedManyWithoutSharedByInput
+    ReceivedWhiteboard?: WhiteboardShareUncheckedCreateNestedManyWithoutSharedWithInput
   }
 
-  export type UserCreateOrConnectWithoutWhiteBoardInput = {
+  export type UserCreateOrConnectWithoutWhiteboardInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWhiteBoardInput, UserUncheckedCreateWithoutWhiteBoardInput>
+    create: XOR<UserCreateWithoutWhiteboardInput, UserUncheckedCreateWithoutWhiteboardInput>
   }
 
-  export type DrawingCreateWithoutWhiteBoardInput = {
+  export type WhiteboardShareCreateWithoutWhiteboardInput = {
+    id?: string
+    name: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+    SharedBy: UserCreateNestedOneWithoutSharedWhiteboardInput
+    SharedWith: UserCreateNestedOneWithoutReceivedWhiteboardInput
+  }
+
+  export type WhiteboardShareUncheckedCreateWithoutWhiteboardInput = {
+    id?: string
+    name: string
+    SharerId: string
+    ReceiverId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardShareCreateOrConnectWithoutWhiteboardInput = {
+    where: WhiteboardShareWhereUniqueInput
+    create: XOR<WhiteboardShareCreateWithoutWhiteboardInput, WhiteboardShareUncheckedCreateWithoutWhiteboardInput>
+  }
+
+  export type WhiteboardShareCreateManyWhiteboardInputEnvelope = {
+    data: WhiteboardShareCreateManyWhiteboardInput | WhiteboardShareCreateManyWhiteboardInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DrawingCreateWithoutWhiteboardInput = {
     id?: string
     name: string
     DrawingData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type DrawingUncheckedCreateWithoutWhiteBoardInput = {
+  export type DrawingUncheckedCreateWithoutWhiteboardInput = {
     id?: string
     name: string
     DrawingData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type DrawingCreateOrConnectWithoutWhiteBoardInput = {
+  export type DrawingCreateOrConnectWithoutWhiteboardInput = {
     where: DrawingWhereUniqueInput
-    create: XOR<DrawingCreateWithoutWhiteBoardInput, DrawingUncheckedCreateWithoutWhiteBoardInput>
+    create: XOR<DrawingCreateWithoutWhiteboardInput, DrawingUncheckedCreateWithoutWhiteboardInput>
   }
 
-  export type UserUpsertWithWhereUniqueWithoutWhiteBoardInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutWhiteBoardInput, UserUncheckedUpdateWithoutWhiteBoardInput>
-    create: XOR<UserCreateWithoutWhiteBoardInput, UserUncheckedCreateWithoutWhiteBoardInput>
+  export type DrawingCreateManyWhiteboardInputEnvelope = {
+    data: DrawingCreateManyWhiteboardInput | DrawingCreateManyWhiteboardInput[]
+    skipDuplicates?: boolean
   }
 
-  export type UserUpdateWithWhereUniqueWithoutWhiteBoardInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutWhiteBoardInput, UserUncheckedUpdateWithoutWhiteBoardInput>
+  export type UserUpsertWithoutWhiteboardInput = {
+    update: XOR<UserUpdateWithoutWhiteboardInput, UserUncheckedUpdateWithoutWhiteboardInput>
+    create: XOR<UserCreateWithoutWhiteboardInput, UserUncheckedCreateWithoutWhiteboardInput>
+    where?: UserWhereInput
   }
 
-  export type UserUpdateManyWithWhereWithoutWhiteBoardInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutWhiteBoardInput>
+  export type UserUpdateToOneWithWhereWithoutWhiteboardInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWhiteboardInput, UserUncheckedUpdateWithoutWhiteboardInput>
   }
 
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
+  export type UserUpdateWithoutWhiteboardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    SharedWhiteboard?: WhiteboardShareUpdateManyWithoutSharedByNestedInput
+    ReceivedWhiteboard?: WhiteboardShareUpdateManyWithoutSharedWithNestedInput
   }
 
-  export type DrawingUpsertWithWhereUniqueWithoutWhiteBoardInput = {
+  export type UserUncheckedUpdateWithoutWhiteboardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    SharedWhiteboard?: WhiteboardShareUncheckedUpdateManyWithoutSharedByNestedInput
+    ReceivedWhiteboard?: WhiteboardShareUncheckedUpdateManyWithoutSharedWithNestedInput
+  }
+
+  export type WhiteboardShareUpsertWithWhereUniqueWithoutWhiteboardInput = {
+    where: WhiteboardShareWhereUniqueInput
+    update: XOR<WhiteboardShareUpdateWithoutWhiteboardInput, WhiteboardShareUncheckedUpdateWithoutWhiteboardInput>
+    create: XOR<WhiteboardShareCreateWithoutWhiteboardInput, WhiteboardShareUncheckedCreateWithoutWhiteboardInput>
+  }
+
+  export type WhiteboardShareUpdateWithWhereUniqueWithoutWhiteboardInput = {
+    where: WhiteboardShareWhereUniqueInput
+    data: XOR<WhiteboardShareUpdateWithoutWhiteboardInput, WhiteboardShareUncheckedUpdateWithoutWhiteboardInput>
+  }
+
+  export type WhiteboardShareUpdateManyWithWhereWithoutWhiteboardInput = {
+    where: WhiteboardShareScalarWhereInput
+    data: XOR<WhiteboardShareUpdateManyMutationInput, WhiteboardShareUncheckedUpdateManyWithoutWhiteboardInput>
+  }
+
+  export type DrawingUpsertWithWhereUniqueWithoutWhiteboardInput = {
     where: DrawingWhereUniqueInput
-    update: XOR<DrawingUpdateWithoutWhiteBoardInput, DrawingUncheckedUpdateWithoutWhiteBoardInput>
-    create: XOR<DrawingCreateWithoutWhiteBoardInput, DrawingUncheckedCreateWithoutWhiteBoardInput>
+    update: XOR<DrawingUpdateWithoutWhiteboardInput, DrawingUncheckedUpdateWithoutWhiteboardInput>
+    create: XOR<DrawingCreateWithoutWhiteboardInput, DrawingUncheckedCreateWithoutWhiteboardInput>
   }
 
-  export type DrawingUpdateWithWhereUniqueWithoutWhiteBoardInput = {
+  export type DrawingUpdateWithWhereUniqueWithoutWhiteboardInput = {
     where: DrawingWhereUniqueInput
-    data: XOR<DrawingUpdateWithoutWhiteBoardInput, DrawingUncheckedUpdateWithoutWhiteBoardInput>
+    data: XOR<DrawingUpdateWithoutWhiteboardInput, DrawingUncheckedUpdateWithoutWhiteboardInput>
   }
 
-  export type DrawingUpdateManyWithWhereWithoutWhiteBoardInput = {
+  export type DrawingUpdateManyWithWhereWithoutWhiteboardInput = {
     where: DrawingScalarWhereInput
-    data: XOR<DrawingUpdateManyMutationInput, DrawingUncheckedUpdateManyWithoutWhiteBoardInput>
+    data: XOR<DrawingUpdateManyMutationInput, DrawingUncheckedUpdateManyWithoutWhiteboardInput>
   }
 
   export type DrawingScalarWhereInput = {
@@ -5190,109 +7149,357 @@ export namespace Prisma {
     id?: StringFilter<"Drawing"> | string
     name?: StringFilter<"Drawing"> | string
     DrawingData?: JsonFilter<"Drawing">
+    WhiteboardId?: StringFilter<"Drawing"> | string
+    createdAt?: DateTimeFilter<"Drawing"> | Date | string
+    updatedAt?: DateTimeFilter<"Drawing"> | Date | string
   }
 
-  export type WhiteboardCreateWithoutDrawingInput = {
+  export type WhiteboardCreateWithoutSharesInput = {
     id?: string
     name: string
-    Users?: UserCreateNestedManyWithoutWhiteBoardInput
+    Owner: UserCreateNestedOneWithoutWhiteboardInput
+    Drawings?: DrawingCreateNestedManyWithoutWhiteboardInput
   }
 
-  export type WhiteboardUncheckedCreateWithoutDrawingInput = {
+  export type WhiteboardUncheckedCreateWithoutSharesInput = {
     id?: string
     name: string
-    Users?: UserUncheckedCreateNestedManyWithoutWhiteBoardInput
+    OwnerID: string
+    Drawings?: DrawingUncheckedCreateNestedManyWithoutWhiteboardInput
   }
 
-  export type WhiteboardCreateOrConnectWithoutDrawingInput = {
+  export type WhiteboardCreateOrConnectWithoutSharesInput = {
     where: WhiteboardWhereUniqueInput
-    create: XOR<WhiteboardCreateWithoutDrawingInput, WhiteboardUncheckedCreateWithoutDrawingInput>
+    create: XOR<WhiteboardCreateWithoutSharesInput, WhiteboardUncheckedCreateWithoutSharesInput>
   }
 
-  export type WhiteboardUpsertWithWhereUniqueWithoutDrawingInput = {
-    where: WhiteboardWhereUniqueInput
-    update: XOR<WhiteboardUpdateWithoutDrawingInput, WhiteboardUncheckedUpdateWithoutDrawingInput>
-    create: XOR<WhiteboardCreateWithoutDrawingInput, WhiteboardUncheckedCreateWithoutDrawingInput>
+  export type UserCreateWithoutSharedWhiteboardInput = {
+    id?: string
+    name: string
+    password: string
+    Whiteboard?: WhiteboardCreateNestedManyWithoutOwnerInput
+    ReceivedWhiteboard?: WhiteboardShareCreateNestedManyWithoutSharedWithInput
   }
 
-  export type WhiteboardUpdateWithWhereUniqueWithoutDrawingInput = {
-    where: WhiteboardWhereUniqueInput
-    data: XOR<WhiteboardUpdateWithoutDrawingInput, WhiteboardUncheckedUpdateWithoutDrawingInput>
+  export type UserUncheckedCreateWithoutSharedWhiteboardInput = {
+    id?: string
+    name: string
+    password: string
+    Whiteboard?: WhiteboardUncheckedCreateNestedManyWithoutOwnerInput
+    ReceivedWhiteboard?: WhiteboardShareUncheckedCreateNestedManyWithoutSharedWithInput
   }
 
-  export type WhiteboardUpdateManyWithWhereWithoutDrawingInput = {
-    where: WhiteboardScalarWhereInput
-    data: XOR<WhiteboardUpdateManyMutationInput, WhiteboardUncheckedUpdateManyWithoutDrawingInput>
+  export type UserCreateOrConnectWithoutSharedWhiteboardInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSharedWhiteboardInput, UserUncheckedCreateWithoutSharedWhiteboardInput>
   }
 
-  export type WhiteboardUpdateWithoutUsersInput = {
+  export type UserCreateWithoutReceivedWhiteboardInput = {
+    id?: string
+    name: string
+    password: string
+    Whiteboard?: WhiteboardCreateNestedManyWithoutOwnerInput
+    SharedWhiteboard?: WhiteboardShareCreateNestedManyWithoutSharedByInput
+  }
+
+  export type UserUncheckedCreateWithoutReceivedWhiteboardInput = {
+    id?: string
+    name: string
+    password: string
+    Whiteboard?: WhiteboardUncheckedCreateNestedManyWithoutOwnerInput
+    SharedWhiteboard?: WhiteboardShareUncheckedCreateNestedManyWithoutSharedByInput
+  }
+
+  export type UserCreateOrConnectWithoutReceivedWhiteboardInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReceivedWhiteboardInput, UserUncheckedCreateWithoutReceivedWhiteboardInput>
+  }
+
+  export type WhiteboardUpsertWithoutSharesInput = {
+    update: XOR<WhiteboardUpdateWithoutSharesInput, WhiteboardUncheckedUpdateWithoutSharesInput>
+    create: XOR<WhiteboardCreateWithoutSharesInput, WhiteboardUncheckedCreateWithoutSharesInput>
+    where?: WhiteboardWhereInput
+  }
+
+  export type WhiteboardUpdateToOneWithWhereWithoutSharesInput = {
+    where?: WhiteboardWhereInput
+    data: XOR<WhiteboardUpdateWithoutSharesInput, WhiteboardUncheckedUpdateWithoutSharesInput>
+  }
+
+  export type WhiteboardUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    Drawing?: DrawingUpdateManyWithoutWhiteBoardNestedInput
+    Owner?: UserUpdateOneRequiredWithoutWhiteboardNestedInput
+    Drawings?: DrawingUpdateManyWithoutWhiteboardNestedInput
   }
 
-  export type WhiteboardUncheckedUpdateWithoutUsersInput = {
+  export type WhiteboardUncheckedUpdateWithoutSharesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    Drawing?: DrawingUncheckedUpdateManyWithoutWhiteBoardNestedInput
+    OwnerID?: StringFieldUpdateOperationsInput | string
+    Drawings?: DrawingUncheckedUpdateManyWithoutWhiteboardNestedInput
   }
 
-  export type WhiteboardUncheckedUpdateManyWithoutUsersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+  export type UserUpsertWithoutSharedWhiteboardInput = {
+    update: XOR<UserUpdateWithoutSharedWhiteboardInput, UserUncheckedUpdateWithoutSharedWhiteboardInput>
+    create: XOR<UserCreateWithoutSharedWhiteboardInput, UserUncheckedCreateWithoutSharedWhiteboardInput>
+    where?: UserWhereInput
   }
 
-  export type UserUpdateWithoutWhiteBoardInput = {
+  export type UserUpdateToOneWithWhereWithoutSharedWhiteboardInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSharedWhiteboardInput, UserUncheckedUpdateWithoutSharedWhiteboardInput>
+  }
+
+  export type UserUpdateWithoutSharedWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    Whiteboard?: WhiteboardUpdateManyWithoutOwnerNestedInput
+    ReceivedWhiteboard?: WhiteboardShareUpdateManyWithoutSharedWithNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutWhiteBoardInput = {
+  export type UserUncheckedUpdateWithoutSharedWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    Whiteboard?: WhiteboardUncheckedUpdateManyWithoutOwnerNestedInput
+    ReceivedWhiteboard?: WhiteboardShareUncheckedUpdateManyWithoutSharedWithNestedInput
   }
 
-  export type UserUncheckedUpdateManyWithoutWhiteBoardInput = {
+  export type UserUpsertWithoutReceivedWhiteboardInput = {
+    update: XOR<UserUpdateWithoutReceivedWhiteboardInput, UserUncheckedUpdateWithoutReceivedWhiteboardInput>
+    create: XOR<UserCreateWithoutReceivedWhiteboardInput, UserUncheckedCreateWithoutReceivedWhiteboardInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReceivedWhiteboardInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReceivedWhiteboardInput, UserUncheckedUpdateWithoutReceivedWhiteboardInput>
+  }
+
+  export type UserUpdateWithoutReceivedWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    Whiteboard?: WhiteboardUpdateManyWithoutOwnerNestedInput
+    SharedWhiteboard?: WhiteboardShareUpdateManyWithoutSharedByNestedInput
   }
 
-  export type DrawingUpdateWithoutWhiteBoardInput = {
+  export type UserUncheckedUpdateWithoutReceivedWhiteboardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    Whiteboard?: WhiteboardUncheckedUpdateManyWithoutOwnerNestedInput
+    SharedWhiteboard?: WhiteboardShareUncheckedUpdateManyWithoutSharedByNestedInput
+  }
+
+  export type WhiteboardCreateWithoutDrawingsInput = {
+    id?: string
+    name: string
+    Owner: UserCreateNestedOneWithoutWhiteboardInput
+    Shares?: WhiteboardShareCreateNestedManyWithoutWhiteboardInput
+  }
+
+  export type WhiteboardUncheckedCreateWithoutDrawingsInput = {
+    id?: string
+    name: string
+    OwnerID: string
+    Shares?: WhiteboardShareUncheckedCreateNestedManyWithoutWhiteboardInput
+  }
+
+  export type WhiteboardCreateOrConnectWithoutDrawingsInput = {
+    where: WhiteboardWhereUniqueInput
+    create: XOR<WhiteboardCreateWithoutDrawingsInput, WhiteboardUncheckedCreateWithoutDrawingsInput>
+  }
+
+  export type WhiteboardUpsertWithoutDrawingsInput = {
+    update: XOR<WhiteboardUpdateWithoutDrawingsInput, WhiteboardUncheckedUpdateWithoutDrawingsInput>
+    create: XOR<WhiteboardCreateWithoutDrawingsInput, WhiteboardUncheckedCreateWithoutDrawingsInput>
+    where?: WhiteboardWhereInput
+  }
+
+  export type WhiteboardUpdateToOneWithWhereWithoutDrawingsInput = {
+    where?: WhiteboardWhereInput
+    data: XOR<WhiteboardUpdateWithoutDrawingsInput, WhiteboardUncheckedUpdateWithoutDrawingsInput>
+  }
+
+  export type WhiteboardUpdateWithoutDrawingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    Owner?: UserUpdateOneRequiredWithoutWhiteboardNestedInput
+    Shares?: WhiteboardShareUpdateManyWithoutWhiteboardNestedInput
+  }
+
+  export type WhiteboardUncheckedUpdateWithoutDrawingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    OwnerID?: StringFieldUpdateOperationsInput | string
+    Shares?: WhiteboardShareUncheckedUpdateManyWithoutWhiteboardNestedInput
+  }
+
+  export type WhiteboardCreateManyOwnerInput = {
+    id?: string
+    name: string
+  }
+
+  export type WhiteboardShareCreateManySharedByInput = {
+    id?: string
+    name: string
+    WhiteboardId: string
+    ReceiverId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardShareCreateManySharedWithInput = {
+    id?: string
+    name: string
+    WhiteboardId: string
+    SharerId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type WhiteboardUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    Shares?: WhiteboardShareUpdateManyWithoutWhiteboardNestedInput
+    Drawings?: DrawingUpdateManyWithoutWhiteboardNestedInput
+  }
+
+  export type WhiteboardUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    Shares?: WhiteboardShareUncheckedUpdateManyWithoutWhiteboardNestedInput
+    Drawings?: DrawingUncheckedUpdateManyWithoutWhiteboardNestedInput
+  }
+
+  export type WhiteboardUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WhiteboardShareUpdateWithoutSharedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whiteboard?: WhiteboardUpdateOneRequiredWithoutSharesNestedInput
+    SharedWith?: UserUpdateOneRequiredWithoutReceivedWhiteboardNestedInput
+  }
+
+  export type WhiteboardShareUncheckedUpdateWithoutSharedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    ReceiverId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareUncheckedUpdateManyWithoutSharedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    ReceiverId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareUpdateWithoutSharedWithInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whiteboard?: WhiteboardUpdateOneRequiredWithoutSharesNestedInput
+    SharedBy?: UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput
+  }
+
+  export type WhiteboardShareUncheckedUpdateWithoutSharedWithInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    SharerId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareUncheckedUpdateManyWithoutSharedWithInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    WhiteboardId?: StringFieldUpdateOperationsInput | string
+    SharerId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareCreateManyWhiteboardInput = {
+    id?: string
+    name: string
+    SharerId: string
+    ReceiverId: string
+    EditAcces?: boolean
+    SharedAt?: Date | string
+  }
+
+  export type DrawingCreateManyWhiteboardInput = {
+    id?: string
+    name: string
+    DrawingData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhiteboardShareUpdateWithoutWhiteboardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    SharedBy?: UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput
+    SharedWith?: UserUpdateOneRequiredWithoutReceivedWhiteboardNestedInput
+  }
+
+  export type WhiteboardShareUncheckedUpdateWithoutWhiteboardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    SharerId?: StringFieldUpdateOperationsInput | string
+    ReceiverId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardShareUncheckedUpdateManyWithoutWhiteboardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    SharerId?: StringFieldUpdateOperationsInput | string
+    ReceiverId?: StringFieldUpdateOperationsInput | string
+    EditAcces?: BoolFieldUpdateOperationsInput | boolean
+    SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DrawingUpdateWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DrawingUncheckedUpdateWithoutWhiteBoardInput = {
+  export type DrawingUncheckedUpdateWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DrawingUncheckedUpdateManyWithoutWhiteBoardInput = {
+  export type DrawingUncheckedUpdateManyWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
-  }
-
-  export type WhiteboardUpdateWithoutDrawingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    Users?: UserUpdateManyWithoutWhiteBoardNestedInput
-  }
-
-  export type WhiteboardUncheckedUpdateWithoutDrawingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    Users?: UserUncheckedUpdateManyWithoutWhiteBoardNestedInput
-  }
-
-  export type WhiteboardUncheckedUpdateManyWithoutDrawingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

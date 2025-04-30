@@ -18,17 +18,36 @@ model User{
   id String @id @default(uuid())
   name String
   password String
-  WhiteBoard Whiteboard[] @relation("OwnedWhiteboards")
+  Whiteboard Whiteboard[] 
+  SharedWhiteboard WhiteboardShare[] @relation("SharedWhiteboards")
+  ReceivedWhiteboard WhiteboardShare[] @relation("ReceivedWhiteboards")
 }
 model Whiteboard{
   id String @id @default(uuid())
-  name String
-  Users User[] @relation("OwnedWhiteboards")
-  Drawing Drawing[] @relation("OwnedDrawings")
+  name String 
+  OwnerID String
+  Owner User @relation(fields: [OwnerID], references: [id])
+  Shares WhiteboardShare[]
+  Drawings Drawing[]
+}
+model WhiteboardShare{
+  id String @id @default(uuid())
+  name String 
+  WhiteboardId String
+  whiteboard Whiteboard @relation(fields: [WhiteboardId], references: [id])
+  SharedBy User @relation("SharedWhiteboards", fields: [SharerId], references: [id])
+  SharerId String
+  SharedWith User @relation("ReceivedWhiteboards", fields: [ReceiverId], references: [id])
+  ReceiverId String
+  EditAcces Boolean @default(false)
+  SharedAt DateTime @default(now())
 }
 model Drawing{
   id String @id @default(uuid())
   name String
   DrawingData Json //For storing, well, data sent between users for drawings
-  WhiteBoard Whiteboard[] @relation("OwnedDrawings")
+  WhiteboardId String
+  Whiteboard  Whiteboard  @relation(fields: [WhiteboardId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -128,13 +128,27 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.WhiteboardScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  OwnerID: 'OwnerID'
+};
+
+exports.Prisma.WhiteboardShareScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  WhiteboardId: 'WhiteboardId',
+  SharerId: 'SharerId',
+  ReceiverId: 'ReceiverId',
+  EditAcces: 'EditAcces',
+  SharedAt: 'SharedAt'
 };
 
 exports.Prisma.DrawingScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  DrawingData: 'DrawingData'
+  DrawingData: 'DrawingData',
+  WhiteboardId: 'WhiteboardId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -161,6 +175,7 @@ exports.Prisma.JsonNullValueFilter = {
 exports.Prisma.ModelName = {
   User: 'User',
   Whiteboard: 'Whiteboard',
+  WhiteboardShare: 'WhiteboardShare',
   Drawing: 'Drawing'
 };
 
