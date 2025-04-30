@@ -1,0 +1,11 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+export const createUser = async (name: string, hashedPassword: string) => {
+    return await prisma.User.create({
+        data: {
+            name: name.toLowerCase(),
+            password: hashedPassword
+        }
+    })
+}
