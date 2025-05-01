@@ -9,8 +9,12 @@
   "dependencies": {
     "@prisma/client": "^6.7.0",
     "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "passport-strategy": "^1.0.0",
     "redis": "^5.0.0"
   },
@@ -19,7 +23,6 @@
   },
   "scripts": {
     "migrate": "prisma migrate dev",
-    "migrateStatus": "prisma migrate status",
-    "backendStart": "node app.js"
+    "migrateStatus": "prisma migrate status"
   }
 }

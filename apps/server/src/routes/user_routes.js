@@ -1,4 +1,5 @@
-const db = require("../prisma_queries/queries.ts")
+const db = require("../prisma_queries/queries.js")
 const express = require('express')
 
-const router = express.router();
+const router = express.Router();
+module.exports = router;

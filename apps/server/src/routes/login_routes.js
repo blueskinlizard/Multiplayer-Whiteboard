@@ -1,8 +1,8 @@
-const db = require("../prisma_queries/queries.ts")
+const db = require("../prisma_queries/queries.js")
 const express = require('express')
 const passport = require('../authentication/passport_login.js')
 
-const router = express.router();
+const router = express.Router();
 
 router.post("/login", async(req, res, next)=>{
     try{
