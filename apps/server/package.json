@@ -19,7 +19,7 @@
   },
   "scripts": {
     "migrate": "prisma migrate dev",
-    "migrateStatus": "npx prisma migrate status",
+    "migrateStatus": "prisma migrate status",
     "backendStart": "node app.js"
   }
 }
