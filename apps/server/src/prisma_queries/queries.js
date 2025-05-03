@@ -50,3 +50,13 @@ export const findUserWhiteboards = async(paramUser) =>{
         }
     })
 }
+export const findDrawingData = async(drawingKeyParam) =>{
+    return await prisma.drawing.findUnique({
+        where:{
+            id: drawingKeyParam
+        },
+        select:{
+            DrawingData: true
+        }
+    })
+}

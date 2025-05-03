@@ -38,4 +38,25 @@ router.get("/allwhiteboards", async(req, res) =>{
     }
 })
 
+router.get("/newdrawing", async(req,res) =>{
+    const { drawingKey } = req.body;
+    try{
+        const cachedDrawingStr = await cache.get(drawingKey) //Check cache for drawing key
+        if(cachedDrawing){ //When found
+            const cachedDrawing = JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
+            console.log(`DrawingKey: ${drawingKey} reterieved from cache`);
+            return res.status(200).json({drawingData: cachedDrawing})
+        }else{
+            const fetchedDrawingData = await db.findDrawingData(drawingKey);
+            if(!fetchedDrawingData){
+                return res.status(404).json({message: "Drawing does not exist"})
+            }
+            return res.status(200).json({drawingData: fetchedDrawingData})
+        }
+    }catch(err){
+        return res.status(500).json({message: `Internal server error: ${err}`})
+    }
+    
+})
+
 module.exports = router;
