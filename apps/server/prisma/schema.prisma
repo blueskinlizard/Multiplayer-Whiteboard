@@ -44,7 +44,7 @@ model WhiteboardShare{
 }
 //Literal drawings on the whiteboards are going to be stored here, like a line, or even a circle
 model Drawing{
-  id String @id @default(uuid())
+  id String @id @default(uuid()) 
   name String
   DrawingData Json //For storing, well, data sent between users for drawings
   WhiteboardId String

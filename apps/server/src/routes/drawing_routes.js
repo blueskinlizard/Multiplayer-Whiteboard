@@ -4,6 +4,10 @@ const redis = require('redis')
 
 const cache = redis.createClient();
 const router = express.Router();
+cache.connect().catch(err => {
+    console.error('Redis connection error:', err);
+});
+
 
 router.post("/newwhiteboard", async(req, res) =>{
     const { whiteboardName } = req.body;
@@ -18,7 +22,7 @@ router.post("/newwhiteboard", async(req, res) =>{
         })
         //One - time thing, no need for Redis cache optimization
     }catch(err){
-        return res.status(500).json({ message: "error in adding whiteboard to user: "+err})
+        return res.status(500).json({ message: "Internal server error while adding whiteboard to user: "+err})
     }
 })
 router.get("/allwhiteboards", async(req, res) =>{
@@ -34,29 +38,48 @@ router.get("/allwhiteboards", async(req, res) =>{
         })
 
     }catch(err){
-
+        return res.status(500).json({message: `Internal server error while getting all whiteboards: ${err}`})
     }
 })
 
-router.get("/newdrawing", async(req,res) =>{
+router.get("/getdrawing", async(req,res) =>{
     const { drawingKey } = req.body;
+    if (!drawingKey) {
+        return res.status(400).json({ message: "Drawing key is required" });
+    }
     try{
-        const cachedDrawingStr = await cache.get(drawingKey) //Check cache for drawing key
-        if(cachedDrawing){ //When found
+        const cachedDrawingStr = await cache.hget(drawingKey) //Check cache for drawing key
+        if(cachedDrawingStr){ //When found
             const cachedDrawing = JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
-            console.log(`DrawingKey: ${drawingKey} reterieved from cache`);
+            console.log(`DrawingKey: ${drawingKey} retrieved from cache`);
             return res.status(200).json({drawingData: cachedDrawing})
         }else{
             const fetchedDrawingData = await db.findDrawingData(drawingKey);
             if(!fetchedDrawingData){
                 return res.status(404).json({message: "Drawing does not exist"})
             }
+            await cache.hset(drawingKey, JSON.stringify(fetchedDrawingData), { 
+                //Adds to cache, hset syntax given the kvp structure for hash
+                EX: 3600 
+            });
             return res.status(200).json({drawingData: fetchedDrawingData})
         }
     }catch(err){
-        return res.status(500).json({message: `Internal server error: ${err}`})
+        return res.status(500).json({message: `Internal server error while retrieving drawing: ${err}`})
     }
     
+})
+
+router.post("/deletedrawing", async(req, res) =>{
+    const { drawingKeyDelete, whiteboardFromId } = req.body;
+    //whiteboardFromId is solely a naming convention, for easier kvp notation
+    try{
+        await cache.hDel(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`)
+        //remove from cache 
+    }catch(err){
+        return res.status(500).json({message: `Internal server error while deleting drawing`})
+    }
+
 })
 
 module.exports = router;

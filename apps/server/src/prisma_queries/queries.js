@@ -14,18 +14,12 @@ export const findUserByName = async(paramName) =>{
         where: {
             name: paramName.toLowerCase()
         },
-        select: {
-            //Still deciding what goes here
-        }
     })
 }
 export const findUserById = async(paramId) =>{
     return await prisma.user.findUnique({
         where: {
             id: paramId
-        },
-        select: {
-            //Still deciding what goes here
         }
     })
 }
@@ -57,6 +51,13 @@ export const findDrawingData = async(drawingKeyParam) =>{
         },
         select:{
             DrawingData: true
+        }
+    })
+}
+export const deleteDrawing = async(drawingKeyParam) =>{
+    return await prisma.drawing.delete({
+        where:{
+            id: drawingKeyParam
         }
     })
 }
