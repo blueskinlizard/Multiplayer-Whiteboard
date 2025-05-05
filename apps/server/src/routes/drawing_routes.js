@@ -74,13 +74,13 @@ router.post("/deletedrawing", async(req, res) =>{
     const { drawingKeyDelete, whiteboardFromId } = req.body;
     //whiteboardFromId is solely a naming convention, for easier kvp notation
     try{
-        const cachedDrawingData = await cache.hget(`WHiteboard${whiteboardFromId}:${drawingKeyDelete}`)
+        const cachedDrawingData = await cache.hget(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`)
         if(cachedDrawingData){
             await cache.hDel(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`) //remove from cache 
             await db.deleteDrawing()
         }
     }catch(err){
-        return res.status(500).json({message: `Internal server error while deleting drawing`})
+        return res.status(500).json({message: `Internal server error while deleting drawing: ${err}`})
     }
 
 })
@@ -88,11 +88,13 @@ router.post("/deletedrawing", async(req, res) =>{
 router.post("/newdrawing", async(req, res) =>{
     const { drawingKeyAdd, drawingData, whiteboardToAdd} = req.body;
     try{
-        await cache.hSet(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, {
-            data: drawingData
-        })
+        await db.createDrawing(drawingData, whiteboardToAdd) //Add to database first
+        //Might want to add a verification fetch to make sure we don't add null to cache,
+        //And make everything go bonkers
+        await cache.hSet(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`) //Set cache
+        return res.status(200).json({message: `Successfully added ${drawingKeyAdd} to database, on whiteboard ${whiteboardToAdd}`})
     }catch(err){
-
+        return res.status(500).json({message: `Internal server error while adding drawing: ${err}`})
     }
 })
 
