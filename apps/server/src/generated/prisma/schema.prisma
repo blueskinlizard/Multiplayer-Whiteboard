@@ -18,7 +18,7 @@ model User {
   id                 String            @id @default(uuid())
   name               String
   password           String
-  Whiteboard         Whiteboard[]
+  Whiteboard         Whiteboard[] //Owned whiteboards
   SharedWhiteboard   WhiteboardShare[] @relation("SharedWhiteboards")
   ReceivedWhiteboard WhiteboardShare[] @relation("ReceivedWhiteboards")
 }
@@ -45,6 +45,7 @@ model WhiteboardShare {
   SharedAt     DateTime   @default(now())
 }
 
+//Literal drawings on the whiteboards are going to be stored here, like a line, or even a circle
 model Drawing {
   id           String     @id @default(uuid())
   name         String

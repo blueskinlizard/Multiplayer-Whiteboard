@@ -43,12 +43,12 @@ router.get("/allwhiteboards", async(req, res) =>{
 })
 
 router.get("/getdrawing", async(req,res) =>{
-    const { drawingKey } = req.body;
+    const { drawingKey, whiteboardToSearch } = req.body;
     if (!drawingKey) {
         return res.status(400).json({ message: "Drawing key is required" });
     }
     try{
-        const cachedDrawingStr = await cache.hget(drawingKey) //Check cache for drawing key
+        const cachedDrawingStr = await cache.hget(`Whiteboard${whiteboardToSearch}:${drawingKey}`) //Check cache for drawing key
         if(cachedDrawingStr){ //When found
             const cachedDrawing = JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
             console.log(`DrawingKey: ${drawingKey} retrieved from cache`);
@@ -74,12 +74,26 @@ router.post("/deletedrawing", async(req, res) =>{
     const { drawingKeyDelete, whiteboardFromId } = req.body;
     //whiteboardFromId is solely a naming convention, for easier kvp notation
     try{
-        await cache.hDel(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`)
-        //remove from cache 
+        const cachedDrawingData = await cache.hget(`WHiteboard${whiteboardFromId}:${drawingKeyDelete}`)
+        if(cachedDrawingData){
+            await cache.hDel(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`) //remove from cache 
+            await db.deleteDrawing()
+        }
     }catch(err){
         return res.status(500).json({message: `Internal server error while deleting drawing`})
     }
 
+})
+
+router.post("/newdrawing", async(req, res) =>{
+    const { drawingKeyAdd, drawingData, whiteboardToAdd} = req.body;
+    try{
+        await cache.hSet(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, {
+            data: drawingData
+        })
+    }catch(err){
+
+    }
 })
 
 module.exports = router;
