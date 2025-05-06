@@ -2,9 +2,10 @@ import SignUp from "../Pages/Signup"
 import SharePage from "../Pages/SharePage"
 import Home from "../Pages/Home"
 import WhiteboardPage from "../Pages/WhiteboardPage"
+import App from "../App"
 const routes = [
     {
-        path: '/',
+        path: '/home',
         element: <Home/>
     },
     {
@@ -18,6 +19,10 @@ const routes = [
     {
         path: '/share',
         element: <SharePage />
+    },
+    {
+        path: '/',
+        element: <App />
     }
 ]
 export default routes

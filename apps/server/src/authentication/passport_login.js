@@ -11,6 +11,7 @@ passport.use('local-signin', new LocalStrategy(
     },
     async (username, password, done) => {
         try {
+            console.log("username" +username)
             const user = await db.findUserByName(username);
             if(!user){
                 return done(null, false, { message: 'Incorrect or missing username' });
