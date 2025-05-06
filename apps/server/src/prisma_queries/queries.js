@@ -57,8 +57,8 @@ export const findDrawingData = async(drawingKeyParam) =>{
 export const deleteDrawing = async(drawingKeyParam) =>{
     return await prisma.drawing.delete({
         //Given how fast Redis is, I'm not worried about
-        //Optimizing by searching through a specific whiteboard, 
-        //Rather than the whole Db
+        //Optimizing by searching through a specific whiteboard rather than
+        //via the whole db
         where:{
             id: drawingKeyParam
         }
@@ -68,6 +68,10 @@ export const deleteWhiteboard = async(whiteboardKeyParam) =>{
     return await prisma.whiteboard.delete({
         where:{
             id: whiteboardKeyParam
+        },
+        select:{
+            id:true
+            //Ran to set variable, just to confirm query went through 
         }
     })
 }
@@ -77,5 +81,23 @@ export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
             Whiteboard: { connect: { id: whiteboardIdParam} },
             DrawingData: drawingKeyParamData,
         },
+        select: {
+            id: true
+            //Return ID to set up a /getdrawing call if needed
+        }
+    })
+}
+export const findWhiteboardDrawings = async(whiteboardID) =>{
+    return await prisma.whiteboard.findUnique({
+        where:{
+            id: whiteboardID
+        },
+        select:{
+            Drawings:{
+                select:{
+                    id: true
+                }
+            }
+        }
     })
 }

@@ -8,6 +8,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.7.0",
+    "@tanstack/react-query": "^5.75.4",
     "bcryptjs": "^3.0.2",
     "connect-redis": "^8.0.3",
     "cors": "^2.8.5",
@@ -17,7 +18,8 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-strategy": "^1.0.0",
-    "redis": "^5.0.0"
+    "redis": "^5.0.0",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "prisma": "^6.7.0"
