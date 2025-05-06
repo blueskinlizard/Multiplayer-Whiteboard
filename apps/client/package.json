@@ -14,7 +14,8 @@
     "@tanstack/router": "^0.0.1-beta.53",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-konva": "^19.0.3"
+    "react-konva": "^19.0.3",
+    "react-router-dom": "^7.5.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

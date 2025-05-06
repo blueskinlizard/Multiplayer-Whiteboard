@@ -71,10 +71,11 @@ export const deleteWhiteboard = async(whiteboardKeyParam) =>{
         }
     })
 }
-export const addWhiteboard = async(drawingKeyParam, whiteboardIdParam) =>{
+export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
     return await prisma.drawing.create({
         data:{
             Whiteboard: { connect: { id: whiteboardIdParam} },
-        }
+            DrawingData: drawingKeyParamData,
+        },
     })
 }
