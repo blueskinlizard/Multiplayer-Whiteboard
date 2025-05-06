@@ -70,7 +70,7 @@ router.get("/getdrawing", async(req,res) =>{
             const cachedDrawing = JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
             console.log(`DrawingKey: ${drawingKey} retrieved from cache`);
             return res.status(200).json({drawingData: cachedDrawing})
-        }else{
+        }else{ //Cache returned nothing, fetching from DB instead
             const fetchedDrawingData = await db.findDrawingData(drawingKey);
             if(!fetchedDrawingData){
                 return res.status(404).json({message: "Drawing does not exist"})
