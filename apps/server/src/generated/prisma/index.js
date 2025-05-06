@@ -162,7 +162,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Adrian\\Coding\\Projects\\Multiplayer-Whiteboard\\apps\\server\\src\\generated\\prisma",
+      "value": "/home/radiant/Programming/Projects/Multiplayer-Whiteboard/apps/server/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -171,12 +171,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "rhel-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Adrian\\Coding\\Projects\\Multiplayer-Whiteboard\\apps\\server\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/radiant/Programming/Projects/Multiplayer-Whiteboard/apps/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -199,8 +199,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 String            @id @default(uuid())\n  name               String\n  password           String\n  Whiteboard         Whiteboard[]\n  SharedWhiteboard   WhiteboardShare[] @relation(\"SharedWhiteboards\")\n  ReceivedWhiteboard WhiteboardShare[] @relation(\"ReceivedWhiteboards\")\n}\n\nmodel Whiteboard {\n  id       String            @id @default(uuid())\n  name     String\n  OwnerID  String\n  Owner    User              @relation(fields: [OwnerID], references: [id])\n  Shares   WhiteboardShare[]\n  Drawings Drawing[]\n}\n\nmodel WhiteboardShare {\n  id           String     @id @default(uuid())\n  name         String\n  WhiteboardId String\n  whiteboard   Whiteboard @relation(fields: [WhiteboardId], references: [id])\n  SharedBy     User       @relation(\"SharedWhiteboards\", fields: [SharerId], references: [id])\n  SharerId     String\n  SharedWith   User       @relation(\"ReceivedWhiteboards\", fields: [ReceiverId], references: [id])\n  ReceiverId   String\n  EditAcces    Boolean    @default(false)\n  SharedAt     DateTime   @default(now())\n}\n\nmodel Drawing {\n  id           String     @id @default(uuid())\n  name         String\n  DrawingData  Json //For storing, well, data sent between users for drawings\n  WhiteboardId String\n  Whiteboard   Whiteboard @relation(fields: [WhiteboardId], references: [id])\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n",
-  "inlineSchemaHash": "12da35f335a1e08befc85b5ff329ee3bb3161ebd75f322dc31809e33bd59d9dc",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 String            @id @default(uuid())\n  name               String\n  password           String\n  Whiteboard         Whiteboard[] //Owned whiteboards\n  SharedWhiteboard   WhiteboardShare[] @relation(\"SharedWhiteboards\")\n  ReceivedWhiteboard WhiteboardShare[] @relation(\"ReceivedWhiteboards\")\n}\n\nmodel Whiteboard {\n  id       String            @id @default(uuid())\n  name     String\n  OwnerID  String\n  Owner    User              @relation(fields: [OwnerID], references: [id])\n  Shares   WhiteboardShare[]\n  Drawings Drawing[]\n}\n\nmodel WhiteboardShare {\n  id           String     @id @default(uuid())\n  name         String\n  WhiteboardId String\n  whiteboard   Whiteboard @relation(fields: [WhiteboardId], references: [id])\n  SharedBy     User       @relation(\"SharedWhiteboards\", fields: [SharerId], references: [id])\n  SharerId     String\n  SharedWith   User       @relation(\"ReceivedWhiteboards\", fields: [ReceiverId], references: [id])\n  ReceiverId   String\n  EditAcces    Boolean    @default(false)\n  SharedAt     DateTime   @default(now())\n}\n\n//Literal drawings on the whiteboards are going to be stored here, like a line, or even a circle\nmodel Drawing {\n  id           String     @id @default(uuid())\n  name         String\n  DrawingData  Json //For storing, well, data sent between users for drawings\n  WhiteboardId String\n  Whiteboard   Whiteboard @relation(fields: [WhiteboardId], references: [id])\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n",
+  "inlineSchemaHash": "d61de9993b4245de4bd8b33fc28bdcbc16499b83c2f70e75ae0096422458fd2d",
   "copyEngine": true
 }
 
@@ -239,8 +239,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
