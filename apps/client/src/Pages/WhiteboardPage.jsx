@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
 export default function WhiteboardPage(){
     const [currentUser, setCurrentUser] = useState(null);
     //I dislike context + state managers, why not just fetch user data from Redis??
     const [whiteboardState, setWhiteboardState] = useState(null);
+    const [drawing, setDrawing] = useState(false);
     const whiteboardID = useNavigate();
     const canvasRef = useRef(null);
     const [currentStroke, setCurrentStroke] = useState([]);
@@ -44,14 +45,17 @@ export default function WhiteboardPage(){
       const handleMouseUp = () => {
         setDrawing(false);
         if (currentStroke.length > 1) {
-          onDrawComplete(currentStroke);
+          
         }
         setCurrentStroke([]);
       };
     
     return(
         <div>
-            <canvas></canvas>
+            <canvas ref={canvasRef} style={{ border: '1px solid black', cursor: 'crosshair' }} 
+            onMouseDown={handleMouseDown} 
+            onMouseUp={handleMouseUp} 
+            onMouseMove={handleMouseMove}></canvas>
         </div>
     )
 }

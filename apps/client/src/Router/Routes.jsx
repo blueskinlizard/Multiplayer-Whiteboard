@@ -9,7 +9,8 @@ const routes = [
         element: <Home/>
     },
     {
-        path: '/whiteboard/:id',
+        path: '/whiteboard',
+        //removed id for debugging, MAKE SURE TO REENEABLE /whiteboard/:id
         element: <WhiteboardPage />
     },
     {
@@ -23,6 +24,6 @@ const routes = [
     {
         path: '/',
         element: <App />
-    }
+    },
 ]
 export default routes
