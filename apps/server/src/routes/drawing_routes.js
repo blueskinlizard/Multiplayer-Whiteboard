@@ -69,15 +69,16 @@ router.get("/getdrawing", async(req,res) =>{
         if(cachedDrawingStr){ //When found
             const cachedDrawing =await JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
             console.log(`DrawingKey: ${drawingKey} retrieved from cache`);
-            return res.status(200).json({drawingData: cachedDrawing})
+            return res.status(200).json({drawingObject: cachedDrawing})
         }else{ //Cache returned nothing, fetching from DB instead
             const fetchedDrawingData = await db.findDrawingData(drawingKey);
+            //Literally returns the whole drawing object
             if(!fetchedDrawingData){
                 return res.status(404).json({message: "Drawing does not exist"})
             }
             await cache.hset(`Whiteboard${whiteboardToSearch}:${drawingKey}`, JSON.stringify(fetchedDrawingData));
             await cache.expire(`Whiteboard${whiteboardToSearch}:${drawingKey}`, 3600);
-            return res.status(200).json({drawingData: fetchedDrawingData})
+            return res.status(200).json({drawingObject: fetchedDrawingData})
         }
     }catch(err){
         return res.status(500).json({message: `Internal server error while retrieving drawing: ${err}`})
@@ -114,7 +115,7 @@ router.post("/newdrawing", async(req, res) =>{
         //And make everything go bonkers
         await cache.hset(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, JSON.stringify(drawingData)) //Set cache
         await cache.expire(`Whiteboard${whiteboardToAdd}:${drawingKey}`, 3600);
-        return res.status(200).json({message: `Successfully added ${drawingKeyAdd} to database, on whiteboard ${whiteboardToAdd}`})
+        return res.status(200).json({drawingObject: drawingKeyAdd})
     }catch(err){
         return res.status(500).json({message: `Internal server error while adding drawing: ${err}`})
     }

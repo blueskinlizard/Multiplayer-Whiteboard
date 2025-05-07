@@ -6,8 +6,8 @@ module.exports = (io) => {
   
       socket.on("new-drawing", (drawingData, whiteboardToAdd) => {
         socket.to(whiteboardToAdd).emit("receive-message", {
-          drawingData,
-          whiteboardToAdd,
+          drawingData: drawingData,
+          whiteboardToAdd: whiteboardToAdd,
         });
       });
   

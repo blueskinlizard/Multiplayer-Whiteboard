@@ -21,8 +21,7 @@ export default function WhiteboardPage(){
             const currentUserData = await fetchedCurrentUserData.json();
             const fetchedWhiteboardOwner = await fetch(`/findwhiteboardowner/${whiteboardID}`)
             if(currentUserData.name !== fetchedWhiteboardOwner.name){
-                //If statement for shared whiteboard logic goes here
-                //For now it will just redirect
+                //If statement for shared whiteboard logic goes here, for now it will just redirect
                 redirect("/home");
             }
             setCurrentUser(currentUserData)
@@ -102,21 +101,29 @@ export default function WhiteboardPage(){
         setDrawing(false);
         if (currentStroke.length > 1) {
             //Actual drawing creation post logic after mouse lifted(drawing process ceased, causing storage + websocket emission)
-            socket.emit('new-drawing', {drawingData: currentStroke, whiteboardToAdd: whiteboardID})
-            await fetch(`http://localhost:8080/api/newdrawing`, {
+            //The reason we store createdDrawing as a variable is for ID retrieval
+            const storedDrawingData = {
+                strokeData: currentStroke,
+            }
+            //A little useless obj declaration but I like it
+            const createdDrawing = await fetch(`http://localhost:8080/api/newdrawing`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
-                body: JSON.stringify({ drawingData: currentStroke, whiteboardToAdd: whiteboardID})
+                body: JSON.stringify({ drawingData: storedDrawingData, whiteboardToAdd: whiteboardID})
             })
+            const drawingObject = await createdDrawing.json();
+
+            socket.emit('new-drawing', {drawingData: drawingObject, whiteboardToAdd: whiteboardID})
+            
         }
         setCurrentStroke([]);
       };
     //I don't think I'm just supposed to leave this w/o a method, I'll probably change the position of socket receptions in general
-    socket.on("receive-drawing", (drawingData, drawingKey) =>{
-
+    socket.on("receive-drawing", async(drawingData, drawingKey) =>{
+        
     })
     return(
         <div>

@@ -49,9 +49,7 @@ export const findDrawingData = async(drawingKeyParam) =>{
         where:{
             id: drawingKeyParam
         },
-        select:{
-            DrawingData: true
-        }
+        //Retrieve all primitive obj. data
     })
 }
 export const deleteDrawing = async(drawingKeyParam) =>{
@@ -79,7 +77,9 @@ export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
     return await prisma.drawing.create({
         data:{
             Whiteboard: { connect: { id: whiteboardIdParam} },
-            DrawingData: drawingKeyParamData,
+            DrawingData: drawingKeyParamData.strokeData,
+            ...(drawingKeyParamData.id && { id: drawingKeyParamData.id }),
+            //Sets drawing id based on UUID if not present, and based off params if so
         },
         select: {
             id: true
