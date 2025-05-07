@@ -70,7 +70,7 @@ export const deleteWhiteboard = async(whiteboardKeyParam) =>{
             id: whiteboardKeyParam
         },
         select:{
-            id:true
+            id: true
             //Ran to set variable, just to confirm query went through 
         }
     })
@@ -83,7 +83,7 @@ export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
         },
         select: {
             id: true
-            //Return ID to set up a /getdrawing call if needed
+            //Return ID to set up a /getdrawing AND call if needed
         }
     })
 }

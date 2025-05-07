@@ -42,8 +42,8 @@ router.get("/allwhiteboards", async(req, res) =>{
     }
 })
 
-router.post("/getalldrawingidswhiteboard", async(req, res) =>{
-    const { whiteboardID } = req.body;
+router.get("/getalldrawingidswhiteboard/:whiteboardID", async(req, res) =>{
+    const { whiteboardID } = req.params;
     try{
         if(!whiteboardID){
             return res.status(400).json({ message: "Whiteboard ID required"})
@@ -106,9 +106,10 @@ router.post("/deletedrawing", async(req, res) =>{
 })
 
 router.post("/newdrawing", async(req, res) =>{
-    const { drawingKeyAdd, drawingData, whiteboardToAdd} = req.body;
+    const { drawingData, whiteboardToAdd} = req.body;
     try{
-        await db.createDrawing(drawingData, whiteboardToAdd) //Add to database first
+        const drawingKeyAdd = await db.createDrawing(drawingData, whiteboardToAdd) //Add to database first
+        //Given that we return the Id of the drawing after creation, we can set drawingKeyAdd to this outputted value
         //Might want to add a verification fetch to make sure we don't add null to cache,
         //And make everything go bonkers
         await cache.hset(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, JSON.stringify(drawingData)) //Set cache

@@ -11,8 +11,8 @@ router.get("/currentuser", async(req, res) =>{
         return res.status(500).json({message: `Internal server error while getting current user, error: ${err}`})
     }
 })
-router.get("/fetchwhiteboardusers", async(req, res) =>{
-    const { whiteboardToSearch } = req.body;
+router.get("/findwhiteboardowner/:whiteboardToSearch", async(req, res) =>{
+    const { whiteboardToSearch } = req.params;
     try{
         const whiteboardOwner = await db.findWhiteboardOwner(whiteboardToSearch);
         if(!whiteboardOwner){

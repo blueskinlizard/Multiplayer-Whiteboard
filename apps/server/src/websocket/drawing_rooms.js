@@ -1,4 +1,4 @@
-const socket = require('socket.io');
+const io = require('socket.io')(8080);
 const cache = require('redis');
 const express = require('express');
 const http = require('http')
