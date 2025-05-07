@@ -87,10 +87,10 @@ export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
         }
     })
 }
-export const findWhiteboardDrawings = async(whiteboardID) =>{
+export const findWhiteboardDrawings = async(whiteboardIdParam) =>{
     return await prisma.whiteboard.findUnique({
         where:{
-            id: whiteboardID
+            id: whiteboardIdParam
         },
         select:{
             Drawings:{
@@ -98,6 +98,16 @@ export const findWhiteboardDrawings = async(whiteboardID) =>{
                     id: true
                 }
             }
+        }
+    })
+}
+export const findWhiteboardOwner = async(whiteboardIdParam) =>{
+    return await prisma.whiteboard.findFirst({
+        where:{
+            id: whiteboardIdParam
+        },
+        select:{
+            Owner: true
         }
     })
 }

@@ -7,4 +7,3 @@ socket.on("connect", () =>{
     console.log("User connected to whiteboard");
     socket.emit('Connection to whiteboard', {status: connected})
 })
-

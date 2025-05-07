@@ -6,11 +6,23 @@ export default function WhiteboardPage(){
     //I dislike context + state managers, why not just fetch user data from Redis??
     const [whiteboardState, setWhiteboardState] = useState(null);
     const [drawing, setDrawing] = useState(false);
-    const whiteboardID = useNavigate();
+    const whiteboardID = useParams();
     const canvasRef = useRef(null);
     const [currentStroke, setCurrentStroke] = useState([]);
+    const redirect = useNavigate();
 
     useEffect(() =>{
+        const fetchUserValues = async() =>{
+            const fetchedCurrentUserData = await fetch('http://localhost:8080/api/currentuser')
+            if(!fetchedCurrentUserData){
+                redirect("/home")
+            }
+            
+        }
+
+
+
+
         const canvas = canvasRef.current;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -42,10 +54,12 @@ export default function WhiteboardPage(){
         //stores point in stroke state
         setCurrentStroke((prev) => [...prev, newPoint]);
       };
-      const handleMouseUp = () => {
+      const handleMouseUp = async () => {
         setDrawing(false);
         if (currentStroke.length > 1) {
-          
+          await fetch(``, {
+
+          })
         }
         setCurrentStroke([]);
       };

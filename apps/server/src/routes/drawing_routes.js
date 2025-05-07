@@ -67,7 +67,7 @@ router.get("/getdrawing", async(req,res) =>{
     try{
         const cachedDrawingStr = await cache.hget(`Whiteboard${whiteboardToSearch}:${drawingKey}`) //Check cache for drawing key
         if(cachedDrawingStr){ //When found
-            const cachedDrawing = JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
+            const cachedDrawing =await JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
             console.log(`DrawingKey: ${drawingKey} retrieved from cache`);
             return res.status(200).json({drawingData: cachedDrawing})
         }else{ //Cache returned nothing, fetching from DB instead
