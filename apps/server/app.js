@@ -9,11 +9,15 @@ const login_routes = require("./src/routes/login_routes");
 const sharing_routes = require("./src/routes/sharing_routes");
 const user_routes = require("./src/routes/user_routes");
 
+const { Server } = require("socket.io");
+const socketHandler = require("./src/websocket/drawing_rooms");
 
 dotenv.config();
 
 const app = express();
 const PORT = 8080;
+
+socketHandler(io);
 
 app.use(session({
     secret: process.env.SECRET_PASSWORD || "default secret",

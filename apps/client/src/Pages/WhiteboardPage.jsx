@@ -6,7 +6,7 @@ export default function WhiteboardPage(){
     //I dislike context + state managers, why not just fetch user data from Redis??
     const [whiteboardState, setWhiteboardState] = useState(null);
     const [drawing, setDrawing] = useState(false);
-    const whiteboardID = useParams();
+    const whiteboardID = useParams(null);
     const canvasRef = useRef(null);
     const [currentStroke, setCurrentStroke] = useState([]);
     const redirect = useNavigate();
@@ -32,6 +32,7 @@ export default function WhiteboardPage(){
             socket.on('connect', () =>{
                 setWhiteboardStatus("Connected to whiteboard successfully");
             })
+            if(whiteboardID){ socket.emit('join-room', {whiteboardJoined: whiteboardID}); }
         }
         const fetchAllDrawings = async() =>{
             const fetchedDrawingIds = await fetch(`http://localhost:8080/api/getalldrawingidswhiteboard/${whiteboardID}`);
@@ -59,6 +60,8 @@ export default function WhiteboardPage(){
         context.lineCap = 'round';
         context.lineWidth = 2;
         context.strokeStyle = '#000';
+
+        //Connection methods for useffect
         fetchUserValues();
         websocketConfiguration();
         fetchAllDrawings();
@@ -99,8 +102,7 @@ export default function WhiteboardPage(){
         setDrawing(false);
         if (currentStroke.length > 1) {
             //Actual drawing creation post logic after mouse lifted(drawing process ceased, causing storage + websocket emission)
-            
-
+            socket.emit('new-drawing', {drawingData: currentStroke, whiteboardToAdd: whiteboardID})
             await fetch(`http://localhost:8080/api/newdrawing`, {
                 method: 'POST',
                 headers: {
