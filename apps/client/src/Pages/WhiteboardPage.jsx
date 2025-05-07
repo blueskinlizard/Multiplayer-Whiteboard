@@ -18,14 +18,14 @@ export default function WhiteboardPage(){
             if(!fetchedCurrentUserData){
                 redirect("/home")
             }
-            const currenUserData = await fetchedCurrentUserData.json();
+            const currentUserData = await fetchedCurrentUserData.json();
             const fetchedWhiteboardOwner = await fetch(`/findwhiteboardowner/${whiteboardID}`)
             if(currentUserData.name !== fetchedWhiteboardOwner.name){
                 //If statement for shared whiteboard logic goes here
                 //For now it will just redirect
                 redirect("/home");
             }
-            setCurrentUser(currenUserData)
+            setCurrentUser(currentUserData)
         }
         const websocketConfiguration = async() =>{
             const socket = new WebSocket("ws://localhost:3000");
@@ -36,8 +36,18 @@ export default function WhiteboardPage(){
         const fetchAllDrawings = async() =>{
             const fetchedDrawingIds = await fetch(`http://localhost:8080/api/getalldrawingidswhiteboard/${whiteboardID}`);
             const drawingIds = await fetchedDrawingIds.json();
-            drawingIds.forEach(id => {
+            drawingIds.forEach(async id => {
                 //Render drawings based off fetches into render methods
+                const fetchedDrawingData = await fetch(`http://localhost:8080/api/getdrawing`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ drawingKey: id, whiteboardToSearch: whiteboardID})
+                })
+                const drawingData = await fetchedDrawingData.json();
+                renderDrawingCoordinates(drawingData);
             });
         }
         //Whiteboard presets
@@ -49,6 +59,9 @@ export default function WhiteboardPage(){
         context.lineCap = 'round';
         context.lineWidth = 2;
         context.strokeStyle = '#000';
+        fetchUserValues();
+        websocketConfiguration();
+        fetchAllDrawings();
     }, [])
     const handleMouseDown = (e) => {
         setDrawing(true);
@@ -72,11 +85,22 @@ export default function WhiteboardPage(){
         //stores point in stroke state
         setCurrentStroke((prev) => [...prev, newPoint]);
       };
+      const renderDrawingCoordinates = (matrix) =>{
+        //Takes in set of points to redraw
+        if(!matrix){ return }
+        ctx.beginPath();
+        ctx.moveTo(matrix[0].x, matrix[0].y);
+        for (let i = 1; i < matrix.length; i++) {
+          ctx.lineTo(matrix[i].x, matrix[i].y);
+        }
+        ctx.stroke();
+      }
       const handleMouseUp = async () => {
         setDrawing(false);
         if (currentStroke.length > 1) {
             //Actual drawing creation post logic after mouse lifted(drawing process ceased, causing storage + websocket emission)
             
+
             await fetch(`http://localhost:8080/api/newdrawing`, {
                 method: 'POST',
                 headers: {
