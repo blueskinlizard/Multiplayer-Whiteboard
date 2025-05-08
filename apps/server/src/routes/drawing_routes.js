@@ -18,14 +18,14 @@ router.post("/newwhiteboard", async(req, res) =>{
         const createdWhiteboard = await db.createWhiteboard(currentUser, whiteboardName);
         //Returns selected id as specified in query
         return res.status(200).json({
-            id: createdWhiteboard
+            id: createdWhiteboard.id
         })
         //One - time thing, no need for Redis cache optimization
     }catch(err){
         return res.status(500).json({ message: "Internal server error while adding whiteboard to user: "+err})
     }
 })
-router.get("/allwhiteboards", async(req, res) =>{
+router.post("/allwhiteboards", async(req, res) =>{
     const { inputtedUser } = req.body;
     if(!inputtedUser){return res.status(401).json({ message: "username parameter not provided"})}
     try{

@@ -1,3 +1,4 @@
+//NEED TO ADD REDIS HIT LIST
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
@@ -122,8 +123,9 @@ export default function WhiteboardPage(){
         setCurrentStroke([]);
       };
     //I don't think I'm just supposed to leave this w/o a method, I'll probably change the position of socket receptions in general
-    socket.on("receive-drawing", async(drawingData, drawingKey) =>{
-        
+    socket.on("receive-drawing", async(drawingObject, drawingKey) =>{
+        renderDrawingCoordinates(drawingObject.strokeData);
+        //Renders matrix of values for receiver
     })
     return(
         <div>
