@@ -7,7 +7,7 @@ export default function WhiteboardPage(){
     //I dislike context + state managers, why not just fetch user data from Redis??
     const [whiteboardState, setWhiteboardState] = useState(null);
     const [drawing, setDrawing] = useState(false);
-    const whiteboardID = useParams(null);
+    const whiteboardID = useParams();
     const canvasRef = useRef(null);
     const [currentStroke, setCurrentStroke] = useState([]);
     const redirect = useNavigate();
@@ -20,10 +20,26 @@ export default function WhiteboardPage(){
                 redirect("/home")
             }
             const currentUserData = await fetchedCurrentUserData.json();
-            const fetchedWhiteboardOwner = await fetch(`/findwhiteboardowner/${whiteboardID}`)
-            if(currentUserData.name !== fetchedWhiteboardOwner.name){
+            const fetchedWhiteboardOwner = await fetch(`http://localhost:8080/api/findwhiteboardowner/${whiteboardID}`)
+
+            //Find people user has shared this whiteboard with
+            
+
+            if(currentUserData.id !== fetchedWhiteboardOwner.id ){
+                const fetchSharedUsers = await fetch(`http://localhost:8080/api/findsharedwhiteboards/`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ userToSearch: currentUserData.name, whiteboardToSearch: whiteboardID})
+                })
+                //Fetch shared whiteboards table, specified via the whiteboardToSearch, checking if our requested user has been shared to
+                const sharedUsers = fetchSharedUsers.json();
+                if (currentUserData.id !== sharedUsers.ReceiverId){
+                    redirect("/home");
+                }
                 //If statement for shared whiteboard logic goes here, for now it will just redirect
-                redirect("/home");
             }
             setCurrentUser(currentUserData)
         }

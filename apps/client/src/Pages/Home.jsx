@@ -28,6 +28,15 @@ export default function Home(){
             setOwnedWhiteboards(userWhiteboards);
         }
         const findSharedWhiteboards = async() =>{
+            const fetchedSharedWhiteboards = await fetch(`http://localhost:8080/api/findsharedwhiteboards`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ userToSearch: currentUser})
+                //Risky state inclusion due to async
+            })
             //INITIAL FETCH OF SHARED BOARDS, NOT A TANSTACK FETCH
         }
     }, [])
