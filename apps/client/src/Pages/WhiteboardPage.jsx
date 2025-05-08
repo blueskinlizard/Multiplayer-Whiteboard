@@ -93,7 +93,7 @@ export default function WhiteboardPage(){
         })
         return () => {
             if (socketRef.current) {
-                socketRef.current.disconnect();
+            socketRef.current.disconnect();
             }
         };
     }, [whiteboardID]);

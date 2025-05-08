@@ -34,9 +34,13 @@ export default function Home(){
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
-                body: JSON.stringify({ userToSearch: currentUser})
+                body: JSON.stringify({ userToSearch: currentUser.id})
                 //Risky state inclusion due to async
             })
+            const sharedWhiteboards = fetchedSharedWhiteboards.json();
+            //Reason we dont use (prev) =>[...prev, newthing] is because in this useffect we are not dynamically changing our state, 
+            // but rather doing it once
+            setSharedWhiteboards(sharedWhiteboards);
             //INITIAL FETCH OF SHARED BOARDS, NOT A TANSTACK FETCH
         }
     }, [])
