@@ -111,3 +111,13 @@ export const findWhiteboardOwner = async(whiteboardIdParam) =>{
         }
     })
 }
+export const findSharedWhiteboards = async(userIdParam, whiteboardIdParam) =>{
+    return await prisma.whiteboardShare.findMany({
+        where: {
+            SharerId: userIdParam,
+            ...(whiteboardIdParam && { WhiteboardId: whiteboardIdParam }) 
+            //When we want to verify if a user is shared to a specific whiteboard, then we may want to search via a whiteboardID
+            //This will allow us to return the raw data in a more streamlined way, allowing us to see who it was shared with easier. 
+        }
+    })
+}
