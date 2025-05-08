@@ -1,70 +1,67 @@
-//NEED TO ADD REDIS HIT LIST
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"
+import { io } from "socket.io-client";;
 export default function WhiteboardPage(){
     const [currentUser, setCurrentUser] = useState(null);
     //I dislike context + state managers, why not just fetch user data from Redis??
-    const [whiteboardState, setWhiteboardState] = useState(null);
     const [drawing, setDrawing] = useState(false);
-    const whiteboardID = useParams();
+    const { whiteboardID } = useParams();
     const canvasRef = useRef(null);
     const [currentStroke, setCurrentStroke] = useState([]);
     const redirect = useNavigate();
     const [whiteboardStatus, setWhiteboardStatus] = useState();
+    const socketRef = useRef(null); //Websocket reference
 
     useEffect(() =>{
+        
         const fetchUserValues = async() =>{
             const fetchedCurrentUserData = await fetch('http://localhost:8080/api/currentuser')
-            if(!fetchedCurrentUserData){
+            if(!fetchedCurrentUserData.ok){
                 redirect("/home")
             }
             const currentUserData = await fetchedCurrentUserData.json();
             const fetchedWhiteboardOwner = await fetch(`http://localhost:8080/api/findwhiteboardowner/${whiteboardID}`)
 
             //Find people user has shared this whiteboard with
-            
 
             if(currentUserData.id !== fetchedWhiteboardOwner.id ){
-                const fetchSharedUsers = await fetch(`http://localhost:8080/api/findsharedwhiteboards/`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({ userToSearch: currentUserData.name, whiteboardToSearch: whiteboardID})
-                })
+                try{
+                    const fetchSharedUsers = await fetch(`http://localhost:8080/api/findsharedwhiteboards/`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({ userToSearch: currentUserData.name, whiteboardToSearch: whiteboardID})
+                    })
+                    const sharedUsers = await fetchSharedUsers.json();
+                    if (currentUserData.id !== sharedUsers.ReceiverId){
+                        redirect("/");
+                    }
+                }catch(err){ console.log(`Error caught while fetchingSharedUsers during login, specifically: ${err}`); redirect("/home"); return;}
                 //Fetch shared whiteboards table, specified via the whiteboardToSearch, checking if our requested user has been shared to
-                const sharedUsers = fetchSharedUsers.json();
-                if (currentUserData.id !== sharedUsers.ReceiverId){
-                    redirect("/home");
-                }
-                //If statement for shared whiteboard logic goes here, for now it will just redirect
             }
             setCurrentUser(currentUserData)
         }
-        const websocketConfiguration = async() =>{
-            const socket = new WebSocket("ws://localhost:3000");
-            socket.on('connect', () =>{
-                setWhiteboardStatus("Connected to whiteboard successfully");
-            })
-            if(whiteboardID){ socket.emit('join-room', {whiteboardJoined: whiteboardID}); }
-        }
         const fetchAllDrawings = async() =>{
+
             const fetchedDrawingIds = await fetch(`http://localhost:8080/api/getalldrawingidswhiteboard/${whiteboardID}`);
             const drawingIds = await fetchedDrawingIds.json();
             drawingIds.forEach(async id => {
                 //Render drawings based off fetches into render methods
-                const fetchedDrawingData = await fetch(`http://localhost:8080/api/getdrawing`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({ drawingKey: id, whiteboardToSearch: whiteboardID})
-                })
-                const drawingData = await fetchedDrawingData.json();
-                renderDrawingCoordinates(drawingData);
+                try{
+                    const fetchedDrawingData = await fetch(`http://localhost:8080/api/getdrawing`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({ drawingKey: id, whiteboardToSearch: whiteboardID})
+                    })
+                    const drawingData = await fetchedDrawingData.json();
+                    renderDrawingCoordinates(drawingData);
+                }catch(err){ console.log(`Error while fetching drawingdata of whiteboard ${whiteboardID}`); return}
             });
         }
         //Whiteboard presets
@@ -79,9 +76,27 @@ export default function WhiteboardPage(){
 
         //Connection methods for useffect
         fetchUserValues();
-        websocketConfiguration();
         fetchAllDrawings();
-    }, [])
+
+    }, []);
+    useEffect(() => {
+        const socket = io("http://localhost:3000"); //Declaration
+        socketRef.current = socket;
+        socketRef.current.on('connect', () => {
+            setWhiteboardStatus("Connected to whiteboard successfully");
+        });
+        if (whiteboardID) {
+            socketRef.current.emit('join-room', { whiteboardJoined: whiteboardID });
+        }
+        socketRef.current.on("receive-drawing", async (drawingObject, drawingKey) => {
+            renderDrawingCoordinates(drawingObject.strokeData);
+        })
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+            }
+        };
+    }, [whiteboardID]);
     const handleMouseDown = (e) => {
         setDrawing(true);
         const { offsetX, offsetY } = e.nativeEvent;
@@ -106,6 +121,8 @@ export default function WhiteboardPage(){
       };
       const renderDrawingCoordinates = (matrix) =>{
         //Takes in set of points to redraw
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
         if(!matrix){ return }
         ctx.beginPath();
         ctx.moveTo(matrix[0].x, matrix[0].y);
@@ -123,26 +140,22 @@ export default function WhiteboardPage(){
                 strokeData: currentStroke,
             }
             //A little useless obj declaration but I like it
-            const createdDrawing = await fetch(`http://localhost:8080/api/newdrawing`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({ drawingData: storedDrawingData, whiteboardToAdd: whiteboardID})
-            })
-            const drawingObject = await createdDrawing.json();
-
-            socket.emit('new-drawing', {drawingData: drawingObject, whiteboardToAdd: whiteboardID})
-            
+            try{
+                const createdDrawing = await fetch(`http://localhost:8080/api/newdrawing`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ drawingData: storedDrawingData, whiteboardToAdd: whiteboardID})
+                    
+                })
+                const drawingObject = await createdDrawing.json();
+                socketRef.current.emit('new-drawing', {drawingData: drawingObject, whiteboardToAdd: whiteboardID})
+            }catch(err){ console.log(`Error caught while creating drawing, specifically: ${err}`); return}
         }
         setCurrentStroke([]);
       };
-    //I don't think I'm just supposed to leave this w/o a method, I'll probably change the position of socket receptions in general
-    socket.on("receive-drawing", async(drawingObject, drawingKey) =>{
-        renderDrawingCoordinates(drawingObject.strokeData);
-        //Renders matrix of values for receiver
-    })
     return(
         <div>
             <canvas ref={canvasRef} style={{ border: '1px solid black', cursor: 'crosshair' }} 
