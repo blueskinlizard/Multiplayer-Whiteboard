@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function createdWhiteboard(){
-    const [currentUser, setCurrentUser] = useState();
     const redirect = useNavigate();
     useEffect(()=>{
         const fetchUserData = async() =>{
             const fetchedCurrentUser = await fetch('http://localhost:8080/api/currentuser');
+            //Given that the only purpose of fetching our current user is to redirect our user or not,
+            //No more logic really needs to be added, as long as they exist, the cookies will do the rest. 
             if(!fetchedCurrentUser){ redirect("/"); }
-            const user = await fetchedCurrentUser.json();
-            setCurrentUser(user);
         }
         
         fetchUserData();
@@ -21,7 +20,7 @@ export default function createdWhiteboard(){
         formLogic(whiteboardName);
     }
     const formLogic = async(whiteboardTitle) =>{
-        const createdWhiteboard = await fetch(`http://localhost:8080/api/newwhiteboard`, {
+        await fetch(`http://localhost:8080/api/newwhiteboard`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             credentials: "include",

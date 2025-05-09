@@ -25,15 +25,17 @@ export default function Home(){
                 });
                 const owned = await fetchedOwnedWhiteboards.json();
                 setOwnedWhiteboards(owned);
+                console.log("Owned response:", owned);
 
                 const fetchSharedWhiteboards = await fetch('http://localhost:8080/api/findsharedwhiteboards', {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",
-                    body: JSON.stringify({ userToSearch: user.id })
+                    body: JSON.stringify({ userToSearch: user })
                 });
                 const shared = await fetchSharedWhiteboards.json();
                 setSharedWhiteboards(shared);
+                
             } catch (err) {
                 console.error("Error fetching data:", err);
             }

@@ -27,11 +27,9 @@ router.post("/newwhiteboard", async(req, res) =>{
 })
 router.post("/allwhiteboards", async(req, res) =>{
     const { inputtedUser } = req.body;
-    if(!inputtedUser){return res.status(401).json({ message: "username parameter not provided"})}
+    //This will be an object
+    if(!inputtedUser){return res.status(401).json({ message: "user parameter not provided"})}
     try{
-        const fetchedUser = await db.findUserByName(inputtedUser);
-        
-        if(!fetchedUser){ return res.status(404).json({message: "user does not exist"})}
         const fetchedWhiteboards = await db.findUserWhiteboards(inputtedUser);
         return res.status(200).json({
             ownedWhiteboards: fetchedWhiteboards.Whiteboard

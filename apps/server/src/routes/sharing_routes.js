@@ -1,6 +1,8 @@
 //Whenever a user shares or requests collaboration, refer here
 const db = require("../prisma_queries/queries.js")
 const express = require('express')
+const router = express.Router();
+
 
 router.post(`findsharedwhiteboards`, async(req, res)=>{
     const { userToSearch, whiteboardToSearch } = req.body;
@@ -19,5 +21,4 @@ router.post(`findsharedwhiteboards`, async(req, res)=>{
 })
 
 
-const router = express.Router();
 module.exports = router;
