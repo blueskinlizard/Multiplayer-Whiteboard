@@ -41,13 +41,8 @@ export default function Home(){
             //Reason we dont use (prev) =>[...prev, newthing] is because in this useffect we are not dynamically changing our state, 
             // but rather doing it once
             setSharedWhiteboards(sharedWhiteboards);
-            //INITIAL FETCH OF SHARED BOARDS, NOT A TANSTACK FETCH
         }
     }, [])
-    
-    const refreshSharedWhiteboards = async() =>{
-        
-    }
     return(
         <div>
             <h1>Homepage!</h1>
