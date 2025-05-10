@@ -80,7 +80,7 @@ export default function WhiteboardPage(){
         context.lineJoin = 'round';
         context.lineCap = 'round';
         context.lineWidth = 2;
-        context.strokeStyle = '#000';
+        context.strokeStyle = '#FFFFFF';
 
         //Connection methods for useffect
         fetchUserValues();

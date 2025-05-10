@@ -1,4 +1,5 @@
 import { PrismaClient } from '../generated/prisma/index.js'; 
+import { connect, param } from '../routes/sharing_routes.js';
 const prisma = new PrismaClient();
 
 export const createUser = async (name, hashedPassword) => {
@@ -18,6 +19,13 @@ export const findUserByName = async(paramName) =>{
 }
 export const findUserById = async(paramId) =>{
     return await prisma.user.findUnique({
+        where: {
+            id: paramId
+        }
+    })
+}
+export const findWhiteboardById = async(paramId) =>{
+    return await prisma.whiteboard.findUnique({
         where: {
             id: paramId
         }
@@ -49,7 +57,8 @@ export const findUserWhiteboards = async(userId) =>{
       } catch (err) {
         console.error("Error in findUserWhiteboards:", err);
         return { Whiteboard: [] };
-      }
+      }        formLogic(whiteboardName);
+
 }
 export const findDrawingData = async(drawingKeyParam) =>{
     return await prisma.drawing.findUnique({
@@ -119,13 +128,28 @@ export const findWhiteboardOwner = async(whiteboardIdParam) =>{
         }
     })
 }
-export const findSharedWhiteboards = async(userIdParam, receiverIdParam) =>{
+export const findSharedWhiteboards = async(receiverIdParam) =>{
     return await prisma.whiteboardShare.findMany({
         where: {
-            SharerId: userIdParam,
-            ...(receiverIdParam && { receiverIdParam: receiverIdParam }) 
+            receiverId: receiverIdParam
             //When we want to verify if a user is shared to a specific whiteboard, then we may want to search via a whiteboardID
             //This will allow us to return the raw data in a more streamlined way, allowing us to see who it was shared with easier. 
+        }
+    })
+}
+export const addSharedWhiteboard = async(senderObjectParam, receiverObjectParam, whiteboardObjectParam) =>{
+    return await prisma.whiteboardShare.create({
+        data: {
+            whiteboard: {
+                connect: {id: whiteboardObjectParam.id}
+            },
+            SharedBy: {
+                connect: {id: senderObjectParam.id},
+            },
+            SharedWith: {
+                connect: {id: receiverObjectParam.id}
+            },
+            name: whiteboardObjectParam.name,
         }
     })
 }

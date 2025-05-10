@@ -20,5 +20,29 @@ router.post(`findsharedwhiteboards`, async(req, res)=>{
     }
 })
 
+router.post(`sharenewboard`, async(req, res)=>{
+    const {receiverName, whiteboardId} = req.body;
+    try{
+        const senderObject = req.user;
+        if(!senderObject){
+            return res.status(404).json({message: "User not signed in, sender object not found while sharing"})
+        }
+        const receiverObject = await db.findUserByName(receiverName);
+        if(!receiverObject){
+            return res.status(404).json({message: `Recipient with Name: ${receiverName} not found while sharing whiteboard`})
+        }
+        const whiteboardObject = await db.findWhiteboardById(whiteboardId);
+        if(!whiteboardObject){
+            return res.status(404).json({message: `Whiteboard with ID: ${whiteboardId} not found while sharing whiteboard`})
+        }
+        if (whiteboardObject.OwnerID !== senderObject.id) {
+            return res.status(403).json({ message: `User with ID: ${req.user.id} and Name: ${req.user.name} does not own this whiteboard, sharing aborted` });
+        }
+        await db.addSharedWhiteboard(senderObject, receiverObject, whiteboardObject)
+        return res.status(200).json({message: `Whiteboard with ID: ${whiteboardId} shared successfully to recipient: ${receiverName} by sender: ${req.user.name}`})
+    }catch(err){
+        return res.status(500).json({message: `General error while creating new shared whiteboard, error: ${err}`})
+    }
+})
 
 module.exports = router;

@@ -16,7 +16,7 @@ datasource db {
 
 model User {
   id                 String            @id @default(uuid())
-  name               String
+  name               String            @unique
   password           String
   Whiteboard         Whiteboard[] //Owned whiteboards
   SharedWhiteboard   WhiteboardShare[] @relation("SharedWhiteboards")
@@ -41,7 +41,6 @@ model WhiteboardShare {
   SharerId     String
   SharedWith   User       @relation("ReceivedWhiteboards", fields: [ReceiverId], references: [id])
   ReceiverId   String
-  EditAcces    Boolean    @default(false)
   SharedAt     DateTime   @default(now())
 }
 

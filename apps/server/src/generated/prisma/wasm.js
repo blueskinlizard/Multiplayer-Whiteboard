@@ -138,7 +138,6 @@ exports.Prisma.WhiteboardShareScalarFieldEnum = {
   WhiteboardId: 'WhiteboardId',
   SharerId: 'SharerId',
   ReceiverId: 'ReceiverId',
-  EditAcces: 'EditAcces',
   SharedAt: 'SharedAt'
 };
 

@@ -3436,7 +3436,6 @@ export namespace Prisma {
     WhiteboardId: string | null
     SharerId: string | null
     ReceiverId: string | null
-    EditAcces: boolean | null
     SharedAt: Date | null
   }
 
@@ -3446,7 +3445,6 @@ export namespace Prisma {
     WhiteboardId: string | null
     SharerId: string | null
     ReceiverId: string | null
-    EditAcces: boolean | null
     SharedAt: Date | null
   }
 
@@ -3456,7 +3454,6 @@ export namespace Prisma {
     WhiteboardId: number
     SharerId: number
     ReceiverId: number
-    EditAcces: number
     SharedAt: number
     _all: number
   }
@@ -3468,7 +3465,6 @@ export namespace Prisma {
     WhiteboardId?: true
     SharerId?: true
     ReceiverId?: true
-    EditAcces?: true
     SharedAt?: true
   }
 
@@ -3478,7 +3474,6 @@ export namespace Prisma {
     WhiteboardId?: true
     SharerId?: true
     ReceiverId?: true
-    EditAcces?: true
     SharedAt?: true
   }
 
@@ -3488,7 +3483,6 @@ export namespace Prisma {
     WhiteboardId?: true
     SharerId?: true
     ReceiverId?: true
-    EditAcces?: true
     SharedAt?: true
     _all?: true
   }
@@ -3571,7 +3565,6 @@ export namespace Prisma {
     WhiteboardId: string
     SharerId: string
     ReceiverId: string
-    EditAcces: boolean
     SharedAt: Date
     _count: WhiteboardShareCountAggregateOutputType | null
     _min: WhiteboardShareMinAggregateOutputType | null
@@ -3598,7 +3591,6 @@ export namespace Prisma {
     WhiteboardId?: boolean
     SharerId?: boolean
     ReceiverId?: boolean
-    EditAcces?: boolean
     SharedAt?: boolean
     whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
     SharedBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3611,7 +3603,6 @@ export namespace Prisma {
     WhiteboardId?: boolean
     SharerId?: boolean
     ReceiverId?: boolean
-    EditAcces?: boolean
     SharedAt?: boolean
     whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
     SharedBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3624,7 +3615,6 @@ export namespace Prisma {
     WhiteboardId?: boolean
     SharerId?: boolean
     ReceiverId?: boolean
-    EditAcces?: boolean
     SharedAt?: boolean
     whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
     SharedBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3637,11 +3627,10 @@ export namespace Prisma {
     WhiteboardId?: boolean
     SharerId?: boolean
     ReceiverId?: boolean
-    EditAcces?: boolean
     SharedAt?: boolean
   }
 
-  export type WhiteboardShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "WhiteboardId" | "SharerId" | "ReceiverId" | "EditAcces" | "SharedAt", ExtArgs["result"]["whiteboardShare"]>
+  export type WhiteboardShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "WhiteboardId" | "SharerId" | "ReceiverId" | "SharedAt", ExtArgs["result"]["whiteboardShare"]>
   export type WhiteboardShareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
     SharedBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3671,7 +3660,6 @@ export namespace Prisma {
       WhiteboardId: string
       SharerId: string
       ReceiverId: string
-      EditAcces: boolean
       SharedAt: Date
     }, ExtArgs["result"]["whiteboardShare"]>
     composites: {}
@@ -4104,7 +4092,6 @@ export namespace Prisma {
     readonly WhiteboardId: FieldRef<"WhiteboardShare", 'String'>
     readonly SharerId: FieldRef<"WhiteboardShare", 'String'>
     readonly ReceiverId: FieldRef<"WhiteboardShare", 'String'>
-    readonly EditAcces: FieldRef<"WhiteboardShare", 'Boolean'>
     readonly SharedAt: FieldRef<"WhiteboardShare", 'DateTime'>
   }
     
@@ -5612,7 +5599,6 @@ export namespace Prisma {
     WhiteboardId: 'WhiteboardId',
     SharerId: 'SharerId',
     ReceiverId: 'ReceiverId',
-    EditAcces: 'EditAcces',
     SharedAt: 'SharedAt'
   };
 
@@ -5678,13 +5664,6 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -5756,15 +5735,15 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     Whiteboard?: WhiteboardListRelationFilter
     SharedWhiteboard?: WhiteboardShareListRelationFilter
     ReceivedWhiteboard?: WhiteboardShareListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -5844,7 +5823,6 @@ export namespace Prisma {
     WhiteboardId?: StringFilter<"WhiteboardShare"> | string
     SharerId?: StringFilter<"WhiteboardShare"> | string
     ReceiverId?: StringFilter<"WhiteboardShare"> | string
-    EditAcces?: BoolFilter<"WhiteboardShare"> | boolean
     SharedAt?: DateTimeFilter<"WhiteboardShare"> | Date | string
     whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
     SharedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5857,7 +5835,6 @@ export namespace Prisma {
     WhiteboardId?: SortOrder
     SharerId?: SortOrder
     ReceiverId?: SortOrder
-    EditAcces?: SortOrder
     SharedAt?: SortOrder
     whiteboard?: WhiteboardOrderByWithRelationInput
     SharedBy?: UserOrderByWithRelationInput
@@ -5873,7 +5850,6 @@ export namespace Prisma {
     WhiteboardId?: StringFilter<"WhiteboardShare"> | string
     SharerId?: StringFilter<"WhiteboardShare"> | string
     ReceiverId?: StringFilter<"WhiteboardShare"> | string
-    EditAcces?: BoolFilter<"WhiteboardShare"> | boolean
     SharedAt?: DateTimeFilter<"WhiteboardShare"> | Date | string
     whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
     SharedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5886,7 +5862,6 @@ export namespace Prisma {
     WhiteboardId?: SortOrder
     SharerId?: SortOrder
     ReceiverId?: SortOrder
-    EditAcces?: SortOrder
     SharedAt?: SortOrder
     _count?: WhiteboardShareCountOrderByAggregateInput
     _max?: WhiteboardShareMaxOrderByAggregateInput
@@ -5902,7 +5877,6 @@ export namespace Prisma {
     WhiteboardId?: StringWithAggregatesFilter<"WhiteboardShare"> | string
     SharerId?: StringWithAggregatesFilter<"WhiteboardShare"> | string
     ReceiverId?: StringWithAggregatesFilter<"WhiteboardShare"> | string
-    EditAcces?: BoolWithAggregatesFilter<"WhiteboardShare"> | boolean
     SharedAt?: DateTimeWithAggregatesFilter<"WhiteboardShare"> | Date | string
   }
 
@@ -6067,7 +6041,6 @@ export namespace Prisma {
   export type WhiteboardShareCreateInput = {
     id?: string
     name: string
-    EditAcces?: boolean
     SharedAt?: Date | string
     whiteboard: WhiteboardCreateNestedOneWithoutSharesInput
     SharedBy: UserCreateNestedOneWithoutSharedWhiteboardInput
@@ -6080,14 +6053,12 @@ export namespace Prisma {
     WhiteboardId: string
     SharerId: string
     ReceiverId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
   export type WhiteboardShareUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whiteboard?: WhiteboardUpdateOneRequiredWithoutSharesNestedInput
     SharedBy?: UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput
@@ -6100,7 +6071,6 @@ export namespace Prisma {
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     SharerId?: StringFieldUpdateOperationsInput | string
     ReceiverId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6110,14 +6080,12 @@ export namespace Prisma {
     WhiteboardId: string
     SharerId: string
     ReceiverId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
   export type WhiteboardShareUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6127,7 +6095,6 @@ export namespace Prisma {
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     SharerId?: StringFieldUpdateOperationsInput | string
     ReceiverId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6290,11 +6257,6 @@ export namespace Prisma {
     OwnerID?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -6317,7 +6279,6 @@ export namespace Prisma {
     WhiteboardId?: SortOrder
     SharerId?: SortOrder
     ReceiverId?: SortOrder
-    EditAcces?: SortOrder
     SharedAt?: SortOrder
   }
 
@@ -6327,7 +6288,6 @@ export namespace Prisma {
     WhiteboardId?: SortOrder
     SharerId?: SortOrder
     ReceiverId?: SortOrder
-    EditAcces?: SortOrder
     SharedAt?: SortOrder
   }
 
@@ -6337,16 +6297,7 @@ export namespace Prisma {
     WhiteboardId?: SortOrder
     SharerId?: SortOrder
     ReceiverId?: SortOrder
-    EditAcces?: SortOrder
     SharedAt?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -6680,10 +6631,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -6768,11 +6715,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -6782,14 +6724,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -6856,7 +6790,6 @@ export namespace Prisma {
   export type WhiteboardShareCreateWithoutSharedByInput = {
     id?: string
     name: string
-    EditAcces?: boolean
     SharedAt?: Date | string
     whiteboard: WhiteboardCreateNestedOneWithoutSharesInput
     SharedWith: UserCreateNestedOneWithoutReceivedWhiteboardInput
@@ -6867,7 +6800,6 @@ export namespace Prisma {
     name: string
     WhiteboardId: string
     ReceiverId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
@@ -6884,7 +6816,6 @@ export namespace Prisma {
   export type WhiteboardShareCreateWithoutSharedWithInput = {
     id?: string
     name: string
-    EditAcces?: boolean
     SharedAt?: Date | string
     whiteboard: WhiteboardCreateNestedOneWithoutSharesInput
     SharedBy: UserCreateNestedOneWithoutSharedWhiteboardInput
@@ -6895,7 +6826,6 @@ export namespace Prisma {
     name: string
     WhiteboardId: string
     SharerId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
@@ -6959,7 +6889,6 @@ export namespace Prisma {
     WhiteboardId?: StringFilter<"WhiteboardShare"> | string
     SharerId?: StringFilter<"WhiteboardShare"> | string
     ReceiverId?: StringFilter<"WhiteboardShare"> | string
-    EditAcces?: BoolFilter<"WhiteboardShare"> | boolean
     SharedAt?: DateTimeFilter<"WhiteboardShare"> | Date | string
   }
 
@@ -7003,7 +6932,6 @@ export namespace Prisma {
   export type WhiteboardShareCreateWithoutWhiteboardInput = {
     id?: string
     name: string
-    EditAcces?: boolean
     SharedAt?: Date | string
     SharedBy: UserCreateNestedOneWithoutSharedWhiteboardInput
     SharedWith: UserCreateNestedOneWithoutReceivedWhiteboardInput
@@ -7014,7 +6942,6 @@ export namespace Prisma {
     name: string
     SharerId: string
     ReceiverId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
@@ -7316,7 +7243,6 @@ export namespace Prisma {
     name: string
     WhiteboardId: string
     ReceiverId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
@@ -7325,7 +7251,6 @@ export namespace Prisma {
     name: string
     WhiteboardId: string
     SharerId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
@@ -7351,7 +7276,6 @@ export namespace Prisma {
   export type WhiteboardShareUpdateWithoutSharedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whiteboard?: WhiteboardUpdateOneRequiredWithoutSharesNestedInput
     SharedWith?: UserUpdateOneRequiredWithoutReceivedWhiteboardNestedInput
@@ -7362,7 +7286,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     ReceiverId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7371,14 +7294,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     ReceiverId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WhiteboardShareUpdateWithoutSharedWithInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     whiteboard?: WhiteboardUpdateOneRequiredWithoutSharesNestedInput
     SharedBy?: UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput
@@ -7389,7 +7310,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     SharerId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7398,7 +7318,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     SharerId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7407,7 +7326,6 @@ export namespace Prisma {
     name: string
     SharerId: string
     ReceiverId: string
-    EditAcces?: boolean
     SharedAt?: Date | string
   }
 
@@ -7421,7 +7339,6 @@ export namespace Prisma {
   export type WhiteboardShareUpdateWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     SharedBy?: UserUpdateOneRequiredWithoutSharedWhiteboardNestedInput
     SharedWith?: UserUpdateOneRequiredWithoutReceivedWhiteboardNestedInput
@@ -7432,7 +7349,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     SharerId?: StringFieldUpdateOperationsInput | string
     ReceiverId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7441,7 +7357,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     SharerId?: StringFieldUpdateOperationsInput | string
     ReceiverId?: StringFieldUpdateOperationsInput | string
-    EditAcces?: BoolFieldUpdateOperationsInput | boolean
     SharedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
