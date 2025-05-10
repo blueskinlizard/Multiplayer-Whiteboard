@@ -28,9 +28,11 @@ router.post("/newwhiteboard", async(req, res) =>{
 router.post("/allwhiteboards", async(req, res) =>{
     const { inputtedUser } = req.body;
     //This will be an object
-    if(!inputtedUser){return res.status(401).json({ message: "user parameter not provided"})}
+    if (!inputtedUser || !inputtedUser.id) {
+        return res.status(401).json({ message: "Valid user parameter not provided" });
+        }
     try{
-        const fetchedWhiteboards = await db.findUserWhiteboards(inputtedUser);
+        const fetchedWhiteboards = await db.findUserWhiteboards(inputtedUser.id);
         return res.status(200).json({
             ownedWhiteboards: fetchedWhiteboards.Whiteboard
         })
@@ -50,7 +52,10 @@ router.get("/getalldrawingidswhiteboard/:whiteboardID", async(req, res) =>{
         if(!fetchedDrawings){
             return res.status(404).json({ message: `No drawings found in whiteboard w/ id of: ${whiteboardID}`})
         }
-        return res.status(200).json({whiteboardIds: fetchedDrawings})
+
+        const drawingIds = fetchedDrawings.Drawings.map(drawing => drawing.id);
+        return res.status(200).json({whiteboardIds: drawingIds}) 
+        //Return data as prisma gives us, already encapsulated in separate object, adding more is making frontend annoying
     }catch(err){
         return res.status(500).json({ message: `Internal server error while getting all whiteboard drawings: ${err}`})
     }
@@ -106,17 +111,18 @@ router.post("/deletedrawing", async(req, res) =>{
 
 router.post("/newdrawing", async(req, res) =>{
     const { drawingData, whiteboardToAdd} = req.body;
-    try{
-        const drawingKeyAdd = await db.createDrawing(drawingData, whiteboardToAdd) //Add to database first
+    const drawingKeyAdd = await db.createDrawing(drawingData, whiteboardToAdd) //Add to database first
         //Given that we return the Id of the drawing after creation, we can set drawingKeyAdd to this outputted value
         //Might want to add a verification fetch to make sure we don't add null to cache,
         //And make everything go bonkers
         await cache.hset(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, JSON.stringify(drawingData)) //Set cache
         await cache.expire(`Whiteboard${whiteboardToAdd}:${drawingKey}`, 3600);
         return res.status(200).json({drawingObject: drawingKeyAdd})
-    }catch(err){
-        return res.status(500).json({message: `Internal server error while adding drawing: ${err}`})
-    }
+    // try{
+        
+    // }catch(err){
+    //     return res.status(500).json({message: `Internal server error while adding drawing: ${err}`})
+    // }
 })
 
 module.exports = router;

@@ -4532,7 +4532,6 @@ export namespace Prisma {
 
   export type DrawingMinAggregateOutputType = {
     id: string | null
-    name: string | null
     WhiteboardId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4540,7 +4539,6 @@ export namespace Prisma {
 
   export type DrawingMaxAggregateOutputType = {
     id: string | null
-    name: string | null
     WhiteboardId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4548,7 +4546,6 @@ export namespace Prisma {
 
   export type DrawingCountAggregateOutputType = {
     id: number
-    name: number
     DrawingData: number
     WhiteboardId: number
     createdAt: number
@@ -4559,7 +4556,6 @@ export namespace Prisma {
 
   export type DrawingMinAggregateInputType = {
     id?: true
-    name?: true
     WhiteboardId?: true
     createdAt?: true
     updatedAt?: true
@@ -4567,7 +4563,6 @@ export namespace Prisma {
 
   export type DrawingMaxAggregateInputType = {
     id?: true
-    name?: true
     WhiteboardId?: true
     createdAt?: true
     updatedAt?: true
@@ -4575,7 +4570,6 @@ export namespace Prisma {
 
   export type DrawingCountAggregateInputType = {
     id?: true
-    name?: true
     DrawingData?: true
     WhiteboardId?: true
     createdAt?: true
@@ -4657,7 +4651,6 @@ export namespace Prisma {
 
   export type DrawingGroupByOutputType = {
     id: string
-    name: string
     DrawingData: JsonValue
     WhiteboardId: string
     createdAt: Date
@@ -4683,7 +4676,6 @@ export namespace Prisma {
 
   export type DrawingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     DrawingData?: boolean
     WhiteboardId?: boolean
     createdAt?: boolean
@@ -4693,7 +4685,6 @@ export namespace Prisma {
 
   export type DrawingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     DrawingData?: boolean
     WhiteboardId?: boolean
     createdAt?: boolean
@@ -4703,7 +4694,6 @@ export namespace Prisma {
 
   export type DrawingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     DrawingData?: boolean
     WhiteboardId?: boolean
     createdAt?: boolean
@@ -4713,14 +4703,13 @@ export namespace Prisma {
 
   export type DrawingSelectScalar = {
     id?: boolean
-    name?: boolean
     DrawingData?: boolean
     WhiteboardId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DrawingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "DrawingData" | "WhiteboardId" | "createdAt" | "updatedAt", ExtArgs["result"]["drawing"]>
+  export type DrawingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "DrawingData" | "WhiteboardId" | "createdAt" | "updatedAt", ExtArgs["result"]["drawing"]>
   export type DrawingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Whiteboard?: boolean | WhiteboardDefaultArgs<ExtArgs>
   }
@@ -4738,7 +4727,6 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      name: string
       DrawingData: Prisma.JsonValue
       WhiteboardId: string
       createdAt: Date
@@ -5168,7 +5156,6 @@ export namespace Prisma {
    */
   interface DrawingFieldRefs {
     readonly id: FieldRef<"Drawing", 'String'>
-    readonly name: FieldRef<"Drawing", 'String'>
     readonly DrawingData: FieldRef<"Drawing", 'Json'>
     readonly WhiteboardId: FieldRef<"Drawing", 'String'>
     readonly createdAt: FieldRef<"Drawing", 'DateTime'>
@@ -5634,7 +5621,6 @@ export namespace Prisma {
 
   export const DrawingScalarFieldEnum: {
     id: 'id',
-    name: 'name',
     DrawingData: 'DrawingData',
     WhiteboardId: 'WhiteboardId',
     createdAt: 'createdAt',
@@ -5925,7 +5911,6 @@ export namespace Prisma {
     OR?: DrawingWhereInput[]
     NOT?: DrawingWhereInput | DrawingWhereInput[]
     id?: StringFilter<"Drawing"> | string
-    name?: StringFilter<"Drawing"> | string
     DrawingData?: JsonFilter<"Drawing">
     WhiteboardId?: StringFilter<"Drawing"> | string
     createdAt?: DateTimeFilter<"Drawing"> | Date | string
@@ -5935,7 +5920,6 @@ export namespace Prisma {
 
   export type DrawingOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
     DrawingData?: SortOrder
     WhiteboardId?: SortOrder
     createdAt?: SortOrder
@@ -5948,17 +5932,15 @@ export namespace Prisma {
     AND?: DrawingWhereInput | DrawingWhereInput[]
     OR?: DrawingWhereInput[]
     NOT?: DrawingWhereInput | DrawingWhereInput[]
-    name?: StringFilter<"Drawing"> | string
     DrawingData?: JsonFilter<"Drawing">
     WhiteboardId?: StringFilter<"Drawing"> | string
     createdAt?: DateTimeFilter<"Drawing"> | Date | string
     updatedAt?: DateTimeFilter<"Drawing"> | Date | string
     Whiteboard?: XOR<WhiteboardScalarRelationFilter, WhiteboardWhereInput>
-  }, "id">
+  }, "id" | "id">
 
   export type DrawingOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
     DrawingData?: SortOrder
     WhiteboardId?: SortOrder
     createdAt?: SortOrder
@@ -5973,7 +5955,6 @@ export namespace Prisma {
     OR?: DrawingScalarWhereWithAggregatesInput[]
     NOT?: DrawingScalarWhereWithAggregatesInput | DrawingScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Drawing"> | string
-    name?: StringWithAggregatesFilter<"Drawing"> | string
     DrawingData?: JsonWithAggregatesFilter<"Drawing">
     WhiteboardId?: StringWithAggregatesFilter<"Drawing"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Drawing"> | Date | string
@@ -6152,7 +6133,6 @@ export namespace Prisma {
 
   export type DrawingCreateInput = {
     id?: string
-    name: string
     DrawingData: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6161,7 +6141,6 @@ export namespace Prisma {
 
   export type DrawingUncheckedCreateInput = {
     id?: string
-    name: string
     DrawingData: JsonNullValueInput | InputJsonValue
     WhiteboardId: string
     createdAt?: Date | string
@@ -6170,7 +6149,6 @@ export namespace Prisma {
 
   export type DrawingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6179,7 +6157,6 @@ export namespace Prisma {
 
   export type DrawingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6188,7 +6165,6 @@ export namespace Prisma {
 
   export type DrawingCreateManyInput = {
     id?: string
-    name: string
     DrawingData: JsonNullValueInput | InputJsonValue
     WhiteboardId: string
     createdAt?: Date | string
@@ -6197,7 +6173,6 @@ export namespace Prisma {
 
   export type DrawingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6205,7 +6180,6 @@ export namespace Prisma {
 
   export type DrawingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     WhiteboardId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6414,7 +6388,6 @@ export namespace Prisma {
 
   export type DrawingCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     DrawingData?: SortOrder
     WhiteboardId?: SortOrder
     createdAt?: SortOrder
@@ -6423,7 +6396,6 @@ export namespace Prisma {
 
   export type DrawingMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     WhiteboardId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6431,7 +6403,6 @@ export namespace Prisma {
 
   export type DrawingMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     WhiteboardId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7059,7 +7030,6 @@ export namespace Prisma {
 
   export type DrawingCreateWithoutWhiteboardInput = {
     id?: string
-    name: string
     DrawingData: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7067,7 +7037,6 @@ export namespace Prisma {
 
   export type DrawingUncheckedCreateWithoutWhiteboardInput = {
     id?: string
-    name: string
     DrawingData: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7147,7 +7116,6 @@ export namespace Prisma {
     OR?: DrawingScalarWhereInput[]
     NOT?: DrawingScalarWhereInput | DrawingScalarWhereInput[]
     id?: StringFilter<"Drawing"> | string
-    name?: StringFilter<"Drawing"> | string
     DrawingData?: JsonFilter<"Drawing">
     WhiteboardId?: StringFilter<"Drawing"> | string
     createdAt?: DateTimeFilter<"Drawing"> | Date | string
@@ -7445,7 +7413,6 @@ export namespace Prisma {
 
   export type DrawingCreateManyWhiteboardInput = {
     id?: string
-    name: string
     DrawingData: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7480,7 +7447,6 @@ export namespace Prisma {
 
   export type DrawingUpdateWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7488,7 +7454,6 @@ export namespace Prisma {
 
   export type DrawingUncheckedUpdateWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7496,7 +7461,6 @@ export namespace Prisma {
 
   export type DrawingUncheckedUpdateManyWithoutWhiteboardInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
     DrawingData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

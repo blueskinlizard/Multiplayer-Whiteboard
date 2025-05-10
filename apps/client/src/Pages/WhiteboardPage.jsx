@@ -14,7 +14,7 @@ export default function WhiteboardPage(){
     const socketRef = useRef(null); //Websocket reference
 
     useEffect(() =>{
-        
+        console.log("Current whiteboard: "+whiteboardID)
         const fetchUserValues = async() =>{
             const fetchedCurrentUserData = await fetch('http://localhost:8080/api/currentuser')
             if(!fetchedCurrentUserData.ok){
@@ -48,7 +48,12 @@ export default function WhiteboardPage(){
 
             const fetchedDrawingIds = await fetch(`http://localhost:8080/api/getalldrawingidswhiteboard/${whiteboardID}`);
             const drawingIds = await fetchedDrawingIds.json();
-            drawingIds.forEach(async id => {
+            console.log("Drawing Ids: "+drawingIds.whiteboardIds)
+            if (!fetchedDrawingIds.ok) {
+                console.error("Failed to fetch drawing IDs");
+                return;
+            }
+            drawingIds.whiteboardIds.forEach(async id => {
                 //Render drawings based off fetches into render methods
                 try{
                     const fetchedDrawingData = await fetch(`http://localhost:8080/api/getdrawing`, {
@@ -78,9 +83,9 @@ export default function WhiteboardPage(){
         fetchUserValues();
         fetchAllDrawings();
 
-    }, []);
+    }, [whiteboardID]);
     useEffect(() => {
-        const socket = io("http://localhost:3000"); //Declaration
+        const socket = io("http://localhost:8080", {withCredentials: true,}); //Declaration
         socketRef.current = socket;
         socketRef.current.on('connect', () => {
             setWhiteboardStatus("Connected to whiteboard successfully");

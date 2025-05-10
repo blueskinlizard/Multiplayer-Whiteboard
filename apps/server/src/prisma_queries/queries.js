@@ -34,15 +34,22 @@ export const createWhiteboard = async(paramUser, paramName) =>{
         }
     })
 }
-export const findUserWhiteboards = async(paramUser) =>{
-    return await prisma.user.findFirst({
-        where: {
-            id: paramUser.id
-        },
-        select: {
-            Whiteboard: true,
-        }
-    })
+export const findUserWhiteboards = async(userId) =>{
+    try {
+        const userWithWhiteboards = await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+          include: {
+            Whiteboard: true, // Include owned whiteboards
+          },
+        });
+        
+        return userWithWhiteboards || { Whiteboard: [] };
+      } catch (err) {
+        console.error("Error in findUserWhiteboards:", err);
+        return { Whiteboard: [] };
+      }
 }
 export const findDrawingData = async(drawingKeyParam) =>{
     return await prisma.drawing.findUnique({
@@ -74,6 +81,7 @@ export const deleteWhiteboard = async(whiteboardKeyParam) =>{
     })
 }
 export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
+    console.log("Creating drawing with:", drawingKeyParamData);
     return await prisma.drawing.create({
         data:{
             Whiteboard: { connect: { id: whiteboardIdParam} },

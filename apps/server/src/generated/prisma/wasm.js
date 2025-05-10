@@ -144,7 +144,6 @@ exports.Prisma.WhiteboardShareScalarFieldEnum = {
 
 exports.Prisma.DrawingScalarFieldEnum = {
   id: 'id',
-  name: 'name',
   DrawingData: 'DrawingData',
   WhiteboardId: 'WhiteboardId',
   createdAt: 'createdAt',

@@ -10,7 +10,7 @@ const routes = [
         element: <Home/>
     },
     {
-        path: '/whiteboard',
+        path: '/whiteboard/:whiteboardID',
         //removed id for debugging, MAKE SURE TO REENEABLE /whiteboard/:id
         element: <WhiteboardPage />
     },
