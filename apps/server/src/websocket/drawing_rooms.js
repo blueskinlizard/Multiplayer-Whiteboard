@@ -13,7 +13,7 @@ module.exports = (io) => {
   
       socket.on("join-room", (whiteboardJoined) => {
         socket.join(whiteboardJoined);
-        console.log(`User joined room: ${whiteboardJoined}`);
+        console.log(`User joined room: ${JSON.stringify(whiteboardJoined)}`);
       });
     });
   };

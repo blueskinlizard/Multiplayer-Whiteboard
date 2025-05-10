@@ -65,7 +65,10 @@ export default function WhiteboardPage(){
                         body: JSON.stringify({ drawingKey: id, whiteboardToSearch: whiteboardID})
                     })
                     const drawingData = await fetchedDrawingData.json();
-                    renderDrawingCoordinates(drawingData);
+                    if(!fetchedDrawingData.ok){ console.log("Fetched for: "+drawingData.fetchedFor); return}
+                    renderDrawingCoordinates(drawingData.drawingObject.drawingData);
+                    console.log("Drawing rendered?");
+                    console.log("Drawing data: "+drawingData.drawingObject);
                 }catch(err){ console.log(`Error while fetching drawingdata of whiteboard ${whiteboardID}`); return}
             });
         }
@@ -126,6 +129,7 @@ export default function WhiteboardPage(){
       };
       const renderDrawingCoordinates = (matrix) =>{
         //Takes in set of points to redraw
+        console.log("Rendering drawing:", matrix);
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         if(!matrix){ return }

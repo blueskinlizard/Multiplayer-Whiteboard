@@ -60,7 +60,7 @@ router.get("/getalldrawingidswhiteboard/:whiteboardID", async(req, res) =>{
         return res.status(500).json({ message: `Internal server error while getting all whiteboard drawings: ${err}`})
     }
 })
-router.get("/getdrawing", async(req,res) =>{
+router.post("/getdrawing", async(req,res) =>{
     //Purpose of this is when a whiteboard is landed on, and when all Drawing IDs have been fetched,
     //To fetch all of the drawings themselves
     const { drawingKey, whiteboardToSearch } = req.body;
@@ -68,18 +68,19 @@ router.get("/getdrawing", async(req,res) =>{
         return res.status(400).json({ message: "Drawing key is required" });
     }
     try{
-        const cachedDrawingStr = await cache.hget(`Whiteboard${whiteboardToSearch}:${drawingKey}`) //Check cache for drawing key
+        const cachedDrawingStr = await cache.hGet(`Whiteboard${whiteboardToSearch}:${drawingKey}`, "data") //Check cache for drawing key
         if(cachedDrawingStr){ //When found
             const cachedDrawing =await JSON.parse(cachedDrawingStr) //Parse and then return data associated w/ key
             console.log(`DrawingKey: ${drawingKey} retrieved from cache`);
+            console.log(`DrawingKey DrawingData:\n${JSON.stringify(cachedDrawing, null, 2)}`);
             return res.status(200).json({drawingObject: cachedDrawing})
         }else{ //Cache returned nothing, fetching from DB instead
             const fetchedDrawingData = await db.findDrawingData(drawingKey);
             //Literally returns the whole drawing object
             if(!fetchedDrawingData){
-                return res.status(404).json({message: "Drawing does not exist"})
+                return res.status(404).json({message: "Drawing does not exist", fetchedFor: `Drawing: ${drawingKey}`})
             }
-            await cache.hset(`Whiteboard${whiteboardToSearch}:${drawingKey}`, JSON.stringify(fetchedDrawingData));
+            await cache.hSet(`Whiteboard${whiteboardToSearch}:${drawingKey}`, "data", JSON.stringify(fetchedDrawingData));
             await cache.expire(`Whiteboard${whiteboardToSearch}:${drawingKey}`, 3600);
             return res.status(200).json({drawingObject: fetchedDrawingData})
         }
@@ -93,7 +94,7 @@ router.post("/deletedrawing", async(req, res) =>{
     const { drawingKeyDelete, whiteboardFromId } = req.body;
     //whiteboardFromId is solely a naming convention, for easier kvp notation
     try{
-        const cachedDrawingData = await cache.hget(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`)
+        const cachedDrawingData = await cache.hGet(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`, "data")
         if(cachedDrawingData){
             await cache.del(`Whiteboard${whiteboardFromId}:${drawingKeyDelete}`) //remove from cache 
             const deletedDrawing = await db.deleteDrawing(drawingKeyDelete);
@@ -115,8 +116,8 @@ router.post("/newdrawing", async(req, res) =>{
         //Given that we return the Id of the drawing after creation, we can set drawingKeyAdd to this outputted value
         //Might want to add a verification fetch to make sure we don't add null to cache,
         //And make everything go bonkers
-        await cache.hset(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, JSON.stringify(drawingData)) //Set cache
-        await cache.expire(`Whiteboard${whiteboardToAdd}:${drawingKey}`, 3600);
+        await cache.hSet(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, "data", JSON.stringify(drawingData)) //Set cache
+        await cache.expire(`Whiteboard${whiteboardToAdd}:${drawingKeyAdd}`, 3600);
         return res.status(200).json({drawingObject: drawingKeyAdd})
     // try{
         
