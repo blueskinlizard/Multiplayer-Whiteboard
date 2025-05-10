@@ -97,10 +97,6 @@ export const createDrawing = async(drawingKeyParamData, whiteboardIdParam) =>{
             ...(drawingKeyParamData.id && { id: drawingKeyParamData.id }),
             //Sets drawing id based on UUID if not present, and based off params if so
         },
-        select: {
-            id: true
-            //Return ID to set up a /getdrawing AND call if needed
-        }
     })
 }
 export const findWhiteboardDrawings = async(whiteboardIdParam) =>{

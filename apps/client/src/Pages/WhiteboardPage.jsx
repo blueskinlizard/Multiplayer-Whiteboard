@@ -96,8 +96,10 @@ export default function WhiteboardPage(){
         if (whiteboardID) {
             socketRef.current.emit('join-room', { whiteboardJoined: whiteboardID });
         }
-        socketRef.current.on("receive-drawing", async (drawingObject, drawingKey) => {
-            renderDrawingCoordinates(drawingObject.strokeData);
+        socketRef.current.on("receive-drawing", async (drawingObject) => {
+            console.log("Received drawing, starting to render:")
+            console.log("Received drawing object: "+JSON.stringify(drawingObject));
+            renderDrawingCoordinates(drawingObject.drawingObject.DrawingData);
         })
         return () => {
             if (socketRef.current) {
@@ -160,6 +162,7 @@ export default function WhiteboardPage(){
                     
                 })
                 const drawingObject = await createdDrawing.json();
+                console.log(`Sending drawing object: ${JSON.stringify(drawingObject)}`);
                 socketRef.current.emit('new-drawing', {drawingData: drawingObject, whiteboardToAdd: whiteboardID})
             }catch(err){ console.log(`Error caught while creating drawing, specifically: ${err}`); return}
         }

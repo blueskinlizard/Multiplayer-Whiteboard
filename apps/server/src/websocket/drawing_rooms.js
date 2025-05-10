@@ -4,16 +4,17 @@ module.exports = (io) => {
   
       socket.emit("Connection to whiteboard", { status: "connected" });
   
-      socket.on("new-drawing", (drawingData, whiteboardToAdd) => {
-        socket.to(whiteboardToAdd).emit("receive-message", {
-          drawingData: drawingData,
-          whiteboardToAdd: whiteboardToAdd,
-        });
+      socket.on("new-drawing", (data) => {
+        const {drawingData, whiteboardToAdd} = data;
+        socket.to(whiteboardToAdd).emit("receive-drawing", drawingData);
       });
   
-      socket.on("join-room", (whiteboardJoined) => {
-        socket.join(whiteboardJoined);
-        console.log(`User joined room: ${JSON.stringify(whiteboardJoined)}`);
+      socket.on("join-room", (data) => {
+        socket.join(data.whiteboardJoined);
+        console.log(`User joined room: ${JSON.stringify(data.whiteboardJoined)}`);
+      });
+      socket.on("disconnect", () => {
+        console.log("User disconnected from whiteboard");
       });
     });
   };
