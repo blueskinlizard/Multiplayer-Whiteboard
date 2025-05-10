@@ -4,13 +4,13 @@ const express = require('express')
 const router = express.Router();
 
 
-router.post(`findsharedwhiteboards`, async(req, res)=>{
-    const { userToSearch, whiteboardToSearch } = req.body;
+router.post(`/findsharedwhiteboards`, async(req, res)=>{
+    const { userToSearch} = req.body;
     //userToSearch is not an object, but rather a standalone id variable
     //whiteboardToSearch is meant to verify users
     
     try{
-        const fetchedSharedWhiteboards = await db.findsharedwhiteboards(userToSearch, whiteboardToSearch);
+        const fetchedSharedWhiteboards = await db.findSharedWhiteboards(userToSearch.id);
         if(!fetchedSharedWhiteboards){
             return res.status(404).json({ message: `No shared whiteboards found, status 404`})
         }
@@ -20,7 +20,7 @@ router.post(`findsharedwhiteboards`, async(req, res)=>{
     }
 })
 
-router.post(`sharenewboard`, async(req, res)=>{
+router.post(`/sharenewboard`, async(req, res)=>{
     const {receiverName, whiteboardId} = req.body;
     try{
         const senderObject = req.user;

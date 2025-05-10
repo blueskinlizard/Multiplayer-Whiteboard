@@ -50,7 +50,7 @@ export default function Home(){
                     body: JSON.stringify({ userToSearch: user })
                 });
                 const shared = await fetchSharedWhiteboards.json();
-                setSharedWhiteboards(shared);
+                setSharedWhiteboards(shared?.sharedWhiteboardData);
                 console.log("Shared response:", shared);
 
                 
@@ -83,6 +83,7 @@ export default function Home(){
             {console.log("currentUser: "+currentUser)}
             {console.log("currentUserId: "+currentUser.id)}
             {console.log("currentUserName: "+currentUser.name)}
+
             {Array.isArray(ownedWhiteboards) && ownedWhiteboards.length > 0 ? (
             ownedWhiteboards.map((value, index) => (
                 <WhiteboardCard key={`OwnedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.id}/>
