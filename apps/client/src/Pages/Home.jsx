@@ -95,7 +95,7 @@ export default function Home(){
             <h3 id="SharedWhiteboardTitle">Shared with you:</h3>
             {Array.isArray(sharedWhiteboards) && sharedWhiteboards.length > 0 ? (
             sharedWhiteboards.map((value, index) => (
-                <WhiteboardCard key={`SharedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.id} />
+                <WhiteboardCard key={`SharedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.WhiteboardId} />
             ))
             ) : (
                 <p>No shared whiteboards found.</p>
