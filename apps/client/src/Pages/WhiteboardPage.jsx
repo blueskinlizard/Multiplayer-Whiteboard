@@ -66,7 +66,7 @@ export default function WhiteboardPage(){
                     })
                     const drawingData = await fetchedDrawingData.json();
                     if(!fetchedDrawingData.ok){ console.log("Fetched for: "+drawingData.fetchedFor); return}
-                    renderDrawingCoordinates(drawingData.drawingObject.drawingData);
+                    renderDrawingCoordinates(drawingData.drawingObject.DrawingData);
                     console.log("Drawing rendered?");
                     console.log("Drawing data: "+drawingData.drawingObject);
                 }catch(err){ console.log(`Error while fetching drawingdata of whiteboard ${whiteboardID}`); return}
