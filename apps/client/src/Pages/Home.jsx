@@ -24,7 +24,7 @@ export default function Home(){
                     body: JSON.stringify({ inputtedUser: user })
                 });
                 const owned = await fetchedOwnedWhiteboards.json();
-                setOwnedWhiteboards(owned);
+                setOwnedWhiteboards(owned.ownedWhiteboards);
                 console.log("Owned response:", owned);
 
                 const fetchSharedWhiteboards = await fetch('http://localhost:8080/api/findsharedwhiteboards', {
@@ -45,20 +45,27 @@ export default function Home(){
         //if it isn't declared in a linear manner, so this useffect has been changed to do so. 
     }, [])
 
-    const AddNewWhiteboard = async() =>{
-        redirect("http://localhost:5173/createNew")
-    }
     return(
         <div>
             <h1>Homepage!</h1>
             <h3 id="OwnedWhiteboardTitle">Owned whiteboards:</h3>
-            {ownedWhiteboards.map((value, index)=>{
-                return <WhiteboardCard key={`OwnedWhiteboardCard:${index}`} whiteboardTitle={value.name}/>
-            })}
+            {console.log("Render length" + ownedWhiteboards.length)}
+            {Array.isArray(ownedWhiteboards) && ownedWhiteboards.length > 0 ? (
+            ownedWhiteboards.map((value, index) => (
+                <WhiteboardCard key={`OwnedWhiteboardCard:${index}`} whiteboardTitle={value.name} />
+            ))
+            ) : (
+                <p>No owned whiteboards found.</p>
+            )}
+
             <h3 id="SharedWhiteboardTitle">Shared with you:</h3>
-            {sharedWhiteboards.map((value, index) =>{
-                return <WhiteboardCard key={`SharedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.id}/>
-            })}
-        </div>
+            {Array.isArray(sharedWhiteboards) && sharedWhiteboards.length > 0 ? (
+            sharedWhiteboards.map((value, index) => (
+                <WhiteboardCard key={`SharedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.id} />
+            ))
+            ) : (
+                <p>No shared whiteboards found.</p>
+            )}
+    </div>
     )
 }

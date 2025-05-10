@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-export default function createdWhiteboard(){
+export default function CreateWhiteboard(){
     const redirect = useNavigate();
     useEffect(()=>{
         const fetchUserData = async() =>{
@@ -26,6 +26,7 @@ export default function createdWhiteboard(){
             credentials: "include",
             body: JSON.stringify({ whiteboardName: whiteboardTitle})
         })
+        redirect("/home");
     }
     return(
         <div className="CreateWhiteboardWrapper">

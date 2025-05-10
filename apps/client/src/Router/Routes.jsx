@@ -3,6 +3,7 @@ import SharePage from "../Pages/SharePage"
 import Home from "../Pages/Home"
 import WhiteboardPage from "../Pages/WhiteboardPage"
 import App from "../App"
+import CreateWhiteboard from "../Pages/CreateWhiteboard"
 const routes = [
     {
         path: '/home',
@@ -25,5 +26,9 @@ const routes = [
         path: '/',
         element: <App />
     },
+    {
+        path: '/create',
+        element: <CreateWhiteboard />
+    }
 ]
 export default routes
