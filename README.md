@@ -34,7 +34,7 @@ A full-stack real-time collaborative whiteboard application built with modern te
 -  User search functionality with live filtering
 - Fully responsive UI with MUI components
 - Persistent session handling with PostgreSQL
-- Planned: Real-time collaboration using WebSockets or Redis pub/sub
+- REAL-TIME collaboration using WebSockets!
 - Planned: Versioning and canvas history via PostgreSQL snapshots
 
 ---
