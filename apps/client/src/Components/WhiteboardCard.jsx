@@ -11,11 +11,18 @@ export default function WhiteboardCard(props){
                 //As we utilize this component for displaying both owned & shared drawings, we do not need to fetch
                 //Anything when our whiteboardId isn't specified, signifying that we are using this component for ownedwhiteboards
                 try{
-                    const fetchedSharerObject = await fetch(`/findwhiteboardowner/${props.whiteboardId}`);
+                    
+                    const fetchedSharerObject = await fetch(`http://localhost:8080/api/findwhiteboardowner/${props.whiteboardId}`);
+                    if (!fetchedSharerObject.ok) {
+                        const text = await fetchedSharerObject.text();
+                        console.log(`Failed to fetch. Status: ${fetchedSharerObject.status}. Response text: ${text}`);
+                        return;
+                    }
                     const sharerObject = await fetchedSharerObject.json();
-                    setSharedName(sharerObject.name);
+                    console.log("Sharer Object: "+sharerObject.whiteboardOwner.name);
+                    setSharedName(sharerObject.whiteboardOwner.name);
                 }catch(err){
-                    console.log("No sharers found");
+                    console.log("No sharers found:" +err);
                 }
             }
         }
