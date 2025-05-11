@@ -18,11 +18,9 @@ A full-stack real-time collaborative whiteboard application built with modern te
 - **bcryptjs** – Password hashing
 
 ### Other Features
-- **Room IDs** – Shareable and unique drawing sessions
-- **User Search** – Search for users in real-time
+- **Room IDs** – Shareable and unique drawing sessions between two users
+- **User Search** – Search for & share with users
 - **Authentication** – Session-based login/register/logout
-- **Canvas Syncing** – Real-time updates (planned)
-
 ---
 
 ## ✨ Features
@@ -31,7 +29,6 @@ A full-stack real-time collaborative whiteboard application built with modern te
 - Unique whiteboard rooms with shareable URLs
 - Drawing and canvas updates (Base64 or pixel-level)
 - RESTful API architecture for user and board interaction
--  User search functionality with live filtering
 - Fully responsive UI with MUI components
 - Persistent session handling with PostgreSQL
 - REAL-TIME collaboration using WebSockets!
