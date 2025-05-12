@@ -27,6 +27,7 @@
   },
   "scripts": {
     "migrate": "prisma migrate dev",
-    "migrateStatus": "prisma migrate status"
+    "migrateStatus": "prisma migrate status",
+    "start": "node app.js"
   }
 }

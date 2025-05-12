@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Button from '@mui/material/Button';
 
 export default function SignUp(){
     const navigate = useNavigate(); 
@@ -43,7 +44,7 @@ export default function SignUp(){
                 <h1>{formType === true ? "Sign up" : "Sign in"}</h1>
                 <input type="text" id="usernameInput" placeholder="Username" name="username"></input>
                 <input type="password" id="passwordInput" placeholder="Password" name="password"></input>
-                <button type="submit">{formType === true ? "Sign Up" : "Sign In"}</button>
+                <Button type="submit" variant="outlined">{formType === true ? "Sign Up" : "Sign In"}</Button>
             </form>
         <p onClick={() =>{setFormType(!formType)}}>{formType === true ? "Or, sign in instead" : "Or, sign up instead"}</p>
         <p className="statusMessage">{signUpStatus}</p>

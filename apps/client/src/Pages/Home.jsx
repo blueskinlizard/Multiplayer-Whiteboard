@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import WhiteboardCard from "../Components/WhiteboardCard"
 import { useNavigate } from "react-router-dom"
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 export default function Home(){
     //Page will display owned whiteboards, shared whiteboards, and offer user to create new ones of each
     const [ownedWhiteboards, setOwnedWhiteboards] = useState([])
@@ -18,8 +20,6 @@ export default function Home(){
                 const userData = await fetchedCurrentUser.json();
 
                 const user = userData.currentUser
-
-                setCurrentUser(user);
                 if (!user || !user.id) {
                     console.error("Invalid user object received:", user);
                     setError("Invalid user data received");
@@ -27,6 +27,8 @@ export default function Home(){
                     redirect("/");
                     return;
                 }
+                setCurrentUser(user);
+                
 
                 const fetchedOwnedWhiteboards = await fetch('http://localhost:8080/api/allwhiteboards', {
                     method: 'POST',
@@ -83,15 +85,16 @@ export default function Home(){
             {console.log("currentUser: "+currentUser)}
             {console.log("currentUserId: "+currentUser.id)}
             {console.log("currentUserName: "+currentUser.name)}
-
-            {Array.isArray(ownedWhiteboards) && ownedWhiteboards.length > 0 ? (
-            ownedWhiteboards.map((value, index) => (
-                <WhiteboardCard key={`OwnedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.id}/>
-            ))
-            ) : (
-                <p>No owned whiteboards found.</p>
-            )}
-
+            <Box component="section" sx={{width: 400, backgroundColor: 'white', p: 2, borderRadius: 8}}>
+                {Array.isArray(ownedWhiteboards) && ownedWhiteboards.length > 0 ? (
+                ownedWhiteboards.map((value, index) => (
+                    <WhiteboardCard key={`OwnedWhiteboardCard:${index}`} whiteboardTitle={value.name} whiteboardId={value.id}/>
+                ))
+                ) : (
+                    <p>No owned whiteboards found.</p>
+                )}
+            </Box>
+            
             <h3 id="SharedWhiteboardTitle">Shared with you:</h3>
             {Array.isArray(sharedWhiteboards) && sharedWhiteboards.length > 0 ? (
             sharedWhiteboards.map((value, index) => (

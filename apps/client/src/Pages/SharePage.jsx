@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 export default function SharePage(){
     const redirect = useNavigate();
     const [currentUser, setCurrentUser] = useState();
