@@ -1,0 +1,36 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    networks:
+      - app-network
+  
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:13  
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user  
+      POSTGRES_PASSWORD: password  
+      POSTGRES_DB: mydatabase  
+    ports:
+      - "5432:5432"  
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

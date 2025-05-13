@@ -2,7 +2,9 @@ const db = require("../prisma_queries/queries.js")
 const express = require('express')
 const redis = require('redis')
 
-const cache = redis.createClient();
+const cache = redis.createClient({
+    url: `redis://${process.env.REDIS_HOST || 'redis'}:${process.env.REDIS_PORT || 6379}`
+});
 const router = express.Router();
 cache.connect().catch(err => {
     console.error('Redis connection error:', err);

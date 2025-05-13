@@ -56,7 +56,7 @@ export const findUserWhiteboards = async(userId) =>{
       } catch (err) {
         console.error("Error in findUserWhiteboards:", err);
         return { Whiteboard: [] };
-      }        formLogic(whiteboardName);
+      }        
 
 }
 export const findDrawingData = async(drawingKeyParam) =>{
