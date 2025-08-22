@@ -2,7 +2,7 @@
 
 A full-stack real-time collaborative whiteboard application built with modern technologies. Users can join rooms, draw together, interact, and search for other users. Features secure authentication, persistent session handling, and optimized performance via caching and structured databases.
 
-## 🔧 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React** – UI Framework
@@ -23,15 +23,15 @@ A full-stack real-time collaborative whiteboard application built with modern te
 - **Authentication** – Session-based login/register/logout
 ---
 
-## ✨ Features
+## Features
 
 - User registration and secure login using Passport and `bcryptjs`
 - Unique whiteboard rooms with shareable URLs
 - Drawing and canvas updates (Base64 or pixel-level)
-- RESTful API architecture for user and board interaction
+- REST APIs for user and board interaction
 - Fully responsive UI with MUI components
 - Persistent session handling with PostgreSQL
-- REAL-TIME collaboration using WebSockets!
+- REAL-TIME collaboration using WebSockets (This was a challenge)!
 - Planned: Versioning and canvas history via PostgreSQL snapshots
 
 ---
